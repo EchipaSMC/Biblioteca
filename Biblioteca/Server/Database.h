@@ -13,7 +13,7 @@ class Database
 {
 public:
 	Database(const char* name);
-	statement create_statement(sqlite3* db, const std::string& sql);
+	//statement create_statement(sqlite3* db, const std::string& sql);
 	void run(sqlite3_stmt* stmt, stmt_callback callback = stmt_callback());
 	bool dumpCurrentRow(sqlite3_stmt* stmt);
 private:
