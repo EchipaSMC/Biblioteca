@@ -10,9 +10,9 @@ public:
 	int GetUserId() const;
 	int GetRating() const;
 
-	void SetBookId();
-	void SetUserId();
-	void SetRating();
+	void SetBookId(int bookId);
+	void SetUserId(int userId);
+	void SetRating(int rating);
 
 private:
 	int bookId;
