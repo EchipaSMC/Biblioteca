@@ -2,12 +2,19 @@
 
 Book::Book()
 {
-
 	this->BookID = 0;
 	this->original_title = '\0';
 	this->author = '\0';
-	this->ISBN = 0;
+	this->ISBN = '\0';
 
+}
+
+Book::Book(long long id, std::string title, std::string auth, std::string ISBNcode)
+{
+	this->BookID = id;
+	this->original_title = title;
+	this->author = auth;
+	this->ISBN = ISBNcode;
 }
 
 Book::Book(const Book& B)
@@ -18,12 +25,13 @@ Book::Book(const Book& B)
 	this->original_title = B.original_title;
 }
 
+
 long long Book::getBookID() const
 {
 	return BookID;
 }
 
-long long Book::getISBN() const
+std::string Book::getISBN() const
 {
 	return ISBN;
 }
