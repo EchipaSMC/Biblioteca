@@ -15,4 +15,5 @@ class InvertedIndex {
 	std::map<std::string, std::vector<wordPosition>> Dictionary;
 public:
 	void addFile(const std::string&);
+	void search(std::string word);
 };
