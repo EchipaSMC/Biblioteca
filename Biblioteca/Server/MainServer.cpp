@@ -1,7 +1,7 @@
 #include <iostream>
+#include "Database.h"
 
 int main()
 {
-	std::cout << "Hello World!";
-	return 0;
+	Database db("dbCarti.db");
 }
