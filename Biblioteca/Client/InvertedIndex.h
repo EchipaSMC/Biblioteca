@@ -5,7 +5,7 @@
 #include <iostream>
 #include <vector>
 #include <fstream>
-
+#include <algorithm>
 struct wordPosition {
 	int line;
 	int index;
@@ -16,4 +16,6 @@ class InvertedIndex {
 public:
 	void addFile(const std::string&);
 	void search(std::string word);
+	int LevenshteinDistance(const std::string&, const std::string&);
+
 };
