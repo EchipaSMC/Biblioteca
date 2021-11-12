@@ -1,11 +1,16 @@
 #pragma once
 #include <iostream>
+#include <string>
+#include <sstream>
 
 class BookTags
 {
 public:
 	BookTags();
+	BookTags(std::string queryResult);
 	BookTags(int goodReadsBookId, int tagId, int count);
+	std::string GetTags(const int& bestBookId)const;
+
 	void SetGoodReadsBookId(int goodReadsBookId);
 	void SetTagId(int tagId);
 	void SetCount(int count);
