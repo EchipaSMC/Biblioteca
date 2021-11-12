@@ -1,7 +1,7 @@
 #include <iostream>
-#include "Database.h"
-
+#include "Server.h"
 int main()
 {
-	Database db("dbCarti.db");
+	//Database db("dbCarti.db");
+	Server server;
 }

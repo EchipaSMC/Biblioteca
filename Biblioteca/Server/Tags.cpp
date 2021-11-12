@@ -3,10 +3,10 @@
 Tags::Tags()
 {
 	tagId = -1;
-	tagName = nullptr;
+	tagName ="";
 }
 
-Tags::Tags(const int& tagId, const int& tagName)
+Tags::Tags(const int& tagId, const std::string& tagName)
 {
 	this->tagId = tagId;
 	this->tagName = tagName;

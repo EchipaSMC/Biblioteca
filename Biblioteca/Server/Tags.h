@@ -4,7 +4,7 @@ class Tags
 {
 public:
 	Tags();
-	Tags(const int& tagId, const int& tagName);
+	Tags(const int& tagId, const std::string& tagName);
 
 	int GetTagId();
 	std::string GetTagName();
