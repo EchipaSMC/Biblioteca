@@ -29,6 +29,78 @@ Books::Books(int id, int bookId, int bestBookId, int workId, int booksCount, std
 
 Books::Books(std::string queryResult)
 {
+	std::string word;
+	std::stringstream result;
+	result << queryResult;
+
+	result >> word;
+	id = std::stoi(word);
+
+	result >> word;
+	bookId = std::stoi(word);
+
+	result >> word;
+	bestBookId = std::stoi(word);
+
+	result >> word;
+	workId = std::stoi(word);
+
+	result >> word;
+	booksCount = std::stoi(word);
+
+	result >> word;
+	isbn = word;
+
+	result >> word;
+	isbn13 = word;
+
+	result >> word;
+	authors = word;
+
+	result >> word;
+	originalPublicationYear = word;
+
+	result >> word;
+	originalTitle = word;
+
+	result >> word;
+	title = word;
+
+	result >> word;
+	languageCode = word;
+
+	result >> word;
+	averageRating = std::stod(word);
+
+	result >> word;
+	ratingsCount = std::stoi(word);
+
+	result >> word;
+	workRatingsCount = std::stoi(word);
+
+	result >> word;
+	workTextReviewsCount = std::stoi(word);
+
+	result >> word;
+	ratings1 = std::stoi(word);
+
+	result >> word;
+	ratings2 = std::stoi(word);
+
+	result >> word;
+	ratings3 = std::stoi(word);
+
+	result >> word;
+	ratings4 = std::stoi(word);
+
+	result >> word;
+	ratings5 = std::stoi(word);
+
+	result >> word;
+	imageUrl = word;
+
+	result >> word;
+	smallImageUrl = word;
 }
 
 std::string Books::BookSearch(const std::string& searchInput) const
