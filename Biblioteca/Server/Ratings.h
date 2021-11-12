@@ -1,10 +1,16 @@
 #pragma once
+#include <iostream>
+#include <string>
+#include <sstream>
+
 class Ratings
 {
 public:
 
 	Ratings();
+	Ratings(std::string queryResult);
 	Ratings(const int& bookId, const int& userId, const int& rating);
+	std::string GetRatings(const int& bestBookId)const;
 
 	int GetBookId() const;
 	int GetUserId() const;
