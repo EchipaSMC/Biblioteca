@@ -60,7 +60,7 @@ bool Database::DumpCurrentRow(sqlite3_stmt* stmt)
 			{
 				std::cout << sqlite3_column_double(stmt, i);
 			}
-			else if (columntype = SQLITE_TEXT)
+			else if (columntype == SQLITE_TEXT)
 			{
 				auto first = sqlite3_column_text(stmt, i);
 				std::size_t s = sqlite3_column_bytes(stmt, i);
