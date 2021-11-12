@@ -22,6 +22,23 @@ statement Database::CreateStatement(sqlite3* db, const std::string& sql)
 
 void Database::Run(sqlite3_stmt* stmt, stmt_callback callback)
 {
+	if (stmt)
+	{
+		using reset_guard = std::unique_ptr<sqlite3_stmt, decltype(&sqlite3_reset)>;
+		auto reset = reset_guard(stmt, &sqlite3_reset);
+		auto next_step = [&](int rc) {
+			if (rc == SQLITE_OK || rc == SQLITE_DONE)
+			{
+				return false;
+			}
+			else if (rc == SQLITE_ROW)
+			{
+				if (callback) return callback(stmt);
+			}
+			return false;
+		};
+		while (next_step(sqlite3_step(stmt)));
+	}
 }
 
 bool Database::DumpCurrentRow(sqlite3_stmt* stmt)
