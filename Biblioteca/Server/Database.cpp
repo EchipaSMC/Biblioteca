@@ -2,10 +2,10 @@
 
 Database::Database(const char* name)
 {
-	openDatabase(name);
+	OpenDatabase(name);
 }
 
-statement Database::create_statement(sqlite3* db, const std::string& sql)
+statement Database::CreateStatement(sqlite3* db, const std::string& sql)
 {
 	if (db)
 	{
@@ -20,16 +20,47 @@ statement Database::create_statement(sqlite3* db, const std::string& sql)
 	}
 }
 
-void Database::run(sqlite3_stmt* stmt, stmt_callback callback)
+void Database::Run(sqlite3_stmt* stmt, stmt_callback callback)
 {
 }
 
-bool Database::dumpCurrentRow(sqlite3_stmt* stmt)
+bool Database::DumpCurrentRow(sqlite3_stmt* stmt)
 {
-	return false;
+	if (stmt)
+	{
+		for (int i = 0; i < sqlite3_column_count(stmt); ++i)
+		{
+			auto columntype = sqlite3_column_type(stmt, i);
+			if (columntype == SQLITE_NULL)
+			{
+				std::cout << "<NULL>";
+			}
+			else if (columntype == SQLITE_INTEGER)
+			{
+				std::cout << sqlite3_column_int64(stmt, i);
+			}
+			else if (columntype == SQLITE_FLOAT)
+			{
+				std::cout << sqlite3_column_double(stmt, i);
+			}
+			else if (columntype = SQLITE_TEXT)
+			{
+				auto first = sqlite3_column_text(stmt, i);
+				std::size_t s = sqlite3_column_bytes(stmt, i);
+				std::cout << "'" << (s > 0 ? std::string((const char*)first, s) : "") << "'";
+			}
+			else if (columntype == SQLITE_BLOB)
+			{
+				std::cout << "<BLOOOB>";
+			}
+			std::cout << "|";
+		}
+		std::cout << std::endl;
+		return true;
+	}
 }
 
-database Database::openDatabase(const char* name)
+database Database::OpenDatabase(const char* name)
 {
 	sqlite3* db = nullptr;
 	auto rc = sqlite3_open(name, &db);

@@ -149,12 +149,14 @@
     <ClCompile Include="Database.cpp" />
     <ClCompile Include="MainServer.cpp" />
     <ClCompile Include="Ratings.cpp" />
+    <ClCompile Include="Tags.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Books.h" />
     <ClInclude Include="BookTags.h" />
     <ClInclude Include="Database.h" />
     <ClInclude Include="Ratings.h" />
+    <ClInclude Include="Tags.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
