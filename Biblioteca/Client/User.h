@@ -15,13 +15,14 @@ private:
 	std::string returningDay;
 
 public:
-	User() = default;
+	User();
 	User(std::string, std::list<Book>);
 	User(const User&);
 	std::string GetUsername() const;
 	std::list<Book> GetBorrowedBooks() const;
-	void ShowBorrowedBooks(const User&);
+	void ShowBorrowedBooks();
 	void Borrowing(std::string&);
 	void returningDate(tm* currentDate, int days);
+	void bookReturn();
 	bool search(std::string word);
 };

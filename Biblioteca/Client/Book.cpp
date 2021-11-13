@@ -7,16 +7,14 @@ Book::Book()
 	this->author = '\0';
 	this->ISBN = '\0';
 	this->borrowed = false;
-	this->status = "available";
 }
 
-Book::Book(long long id, std::string title, std::string auth, std::string ISBNcode,std::string status, bool borrowed)
+Book::Book(long long id, std::string title, std::string auth, std::string ISBNcode, bool borrowed)
 {
 	this->BookID = id;
 	this->original_title = title;
 	this->author = auth;
 	this->ISBN = ISBNcode;
-	this->status = status;
 	this->borrowed = borrowed;
 }
 
@@ -27,7 +25,6 @@ Book::Book(const Book& B)
 	this->ISBN = B.ISBN;
 	this->original_title = B.original_title;
 	this->borrowed = B.borrowed;
-	this->status = B.status;
 }
 
 
@@ -49,6 +46,11 @@ std::string Book::getTitle() const
 std::string Book::getAuthor() const
 {
 	return author;
+}
+
+void Book::setIfBorrow(bool option)
+{
+	this->borrowed = option;
 }
 
 bool Book::isBorrowed()const

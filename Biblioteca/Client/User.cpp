@@ -1,6 +1,14 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include "User.h"
 
+User::User()
+{
+	this->username = "\0";
+	time_t now = time(0);
+	whenBorrowed = localtime(&now);
+	this->returningDay="\0";
+}
+
 User::User(std::string nickname, std::list<Book> borrowedB)
 {
 	this->username = nickname;
@@ -26,10 +34,10 @@ std::list<Book> User::GetBorrowedBooks() const
 	return borrowedBooks;
 }
 
-void User::ShowBorrowedBooks(const User& user)
+void User::ShowBorrowedBooks()
 {
-	std::cout << "User :" << user.username << "borrowed next books: " << std::endl;
-	for (auto& elem : user.borrowedBooks)
+	std::cout << "User :" << this->username << "borrowed next books: " << std::endl;
+	for (auto& elem : this->borrowedBooks)
 	{
 		std::cout << elem.getBookID() << ". " << elem.getTitle() <<" - " << returningDay << std::endl;
 	}
@@ -54,6 +62,26 @@ void User::returningDate(tm* currentDate, int days)
 
 	*currentDate = *localtime(&date_seconds); 
 }
+
+void User::bookReturn()
+{
+	ShowBorrowedBooks();
+	for (auto elem : borrowedBooks)
+	{
+		std::cout << "Select?(y/n)";
+		char opt;
+		std::cin >> opt;
+	
+		if (opt == 'y' || opt == 'Y') {
+			borrowedBooks.remove(elem);
+			std::cout << "You have returned the book succesfully. The book is now available in library.";
+			elem.setIfBorrow(opt);
+			returningDay = '\0';
+		}
+	}
+}
+
+
 
 bool User::search(std::string searchKeyword)
 {
