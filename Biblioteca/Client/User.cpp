@@ -144,4 +144,32 @@ void User::BookReturnSpecific(int IdBook)
 	}
 }
 
+void User::ReadBook()
+{
+	ShowBorrowedBooks();
+	std::cout << "Input the id of the book you want to read: ";
+	int IdBook;
+	std::cin >> IdBook;
+	for (auto elem : borrowedBooks)
+	{
+		if (IdBook == elem.getBookID())
+		{
+			//afisare continut carte
+			break;
+		}
+	}
+	char opt, opt2;
+	std::cout << "Have you finished the book?(y/n)";
+	std::cin >> opt;
+	if (opt == 'y' || opt == 'Y')
+	{
+		std::cout << "Do you want to return the book?(y/n)";
+		std::cin >> opt2;
+		if (opt2 == 'y' || opt2 == 'Y')
+		{
+			BookReturnSpecific(IdBook);
+		}
+	}
+}
+
 
