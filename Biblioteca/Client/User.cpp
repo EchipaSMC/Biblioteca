@@ -34,12 +34,27 @@ std::list<Book> User::GetBorrowedBooks() const
 	return borrowedBooks;
 }
 
+//tm* User::GetReturnDate()
+//{
+//	return this->whenBorrowed;
+//}
+
 void User::ShowBorrowedBooks()
 {
 	std::cout << "User :" << this->username << "borrowed next books: " << std::endl;
 	for (auto& elem : this->borrowedBooks)
 	{
 		std::cout << elem.getBookID() << ". " << elem.getTitle() <<" - " << returningDay << std::endl;
+		std::cout << "Do you want to prolong the returning date?(y/n)";
+		char opt;
+		std::cin >> opt;
+		if (opt == 'y' || opt == 'Y')
+		{
+			std::cout << "Please input the number of days:";
+			int days;
+			std::cin >> days;
+			ProlongBorrowDate(whenBorrowed, days);
+		}
 	}
 }
 
@@ -63,24 +78,13 @@ void User::returningDate(tm* currentDate, int days)
 	*currentDate = *localtime(&date_seconds); 
 }
 
-void User::bookReturn()
+void User::ProlongBorrowDate(tm* retDate, int days)
 {
-	ShowBorrowedBooks();
-	for (auto elem : borrowedBooks)
-	{
-		std::cout << "Select?(y/n)";
-		char opt;
-		std::cin >> opt;
-	
-		if (opt == 'y' || opt == 'Y') {
-			borrowedBooks.remove(elem);
-			std::cout << "You have returned the book succesfully. The book is now available in library.";
-			elem.setIfBorrow(opt);
-			returningDay = '\0';
-		}
-	}
-}
+	const time_t one_day = 24 * 60 * 60;
+	time_t date_seconds = mktime(retDate) + (days * one_day);
 
+	*retDate = *localtime(&date_seconds);
+}
 
 
 bool User::search(std::string searchKeyword)
@@ -101,3 +105,23 @@ bool User::search(std::string searchKeyword)
 	}
 	return true;
 }
+
+void User::bookReturn()
+{
+	ShowBorrowedBooks();
+	for (auto elem : borrowedBooks)
+	{
+		std::cout << "Select?(y/n)";
+		char opt;
+		std::cin >> opt;
+
+		if (opt == 'y' || opt == 'Y') {
+			borrowedBooks.remove(elem);
+			std::cout << "You have returned the book succesfully. The book is now available in library.";
+			elem.setIfBorrow(opt);
+			returningDay = '\0';
+		}
+	}
+}
+
+
