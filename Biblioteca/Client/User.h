@@ -1,11 +1,11 @@
 #pragma once
 #include <string>
 #include <vector>
-#include "Book.h"
 #include <iostream>
 #include <list>
 #include <ctime>
 #include "InvertedIndex.h"
+#include "Book.h"
 
 class User {
 private:
@@ -16,6 +16,7 @@ private:
 
 public:
 	User();
+	~User();
 	User(std::string, std::list<Book>);
 	User(const User&);
 	std::string GetUsername() const;

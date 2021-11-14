@@ -48,6 +48,17 @@ std::string Book::getAuthor() const
 	return author;
 }
 
+void Book::printBookInfo(const Book& book)
+{
+	std::cout << book;
+	if (book.borrowed == false)
+	{
+		std::cout << " Status: available";
+	}
+	else
+		std::cout << " Status: unavailable";
+}
+
 void Book::setIfBorrow(bool option)
 {
 	this->borrowed = option;
@@ -59,4 +70,8 @@ bool Book::isBorrowed()const
 
 }
 
-
+std::ostream& operator<<(std::ostream& fo, const Book& book)
+{
+	std::cout << book.getBookID() << ". " << book.getTitle() << ", " << book.getAuthor() << " | " << book.getISBN();
+	return fo;
+}

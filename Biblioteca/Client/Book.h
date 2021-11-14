@@ -19,6 +19,8 @@ public:
 	std::string getISBN() const;
 	std::string getTitle() const;
 	std::string getAuthor() const;
+	friend std::ostream& operator<<(std::ostream& fo, const Book& book);
+	void printBookInfo(const Book& book);
 	void setIfBorrow(bool option);
 	bool isBorrowed() const;
 

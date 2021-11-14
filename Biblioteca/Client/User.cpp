@@ -9,6 +9,11 @@ User::User()
 	this->returningDay="\0";
 }
 
+User::~User()
+{
+	delete[] whenBorrowed;
+}
+
 User::User(std::string nickname, std::list<Book> borrowedB)
 {
 	this->username = nickname;
@@ -44,7 +49,7 @@ void User::ShowBorrowedBooks()
 	std::cout << "User :" << this->username << "borrowed next books: " << std::endl;
 	for (auto& elem : this->borrowedBooks)
 	{
-		std::cout << elem.getBookID() << ". " << elem.getTitle() <<" - " << returningDay << std::endl;
+		std::cout << elem.getBookID() << ". " << elem.getTitle() << " - " << returningDay << std::endl;
 		std::cout << "Do you want to prolong the returning date?(y/n)";
 		char opt;
 		std::cin >> opt;
@@ -57,6 +62,7 @@ void User::ShowBorrowedBooks()
 		}
 	}
 }
+
 
 void User::Borrowing(std::string& keyword)
 {
@@ -137,4 +143,5 @@ void User::BookReturnSpecific(int IdBook)
 		}
 	}
 }
+
 
