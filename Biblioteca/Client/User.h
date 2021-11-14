@@ -28,4 +28,5 @@ public:
 	void bookReturn();
 	bool search(std::string word);
 	void ProlongBorrowDate(tm* retDate, int days);
+	void BookReturnSpecific(int IdBook);
 };

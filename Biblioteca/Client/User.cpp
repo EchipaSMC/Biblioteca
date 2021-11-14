@@ -124,4 +124,17 @@ void User::bookReturn()
 	}
 }
 
+void User::BookReturnSpecific(int IdBook)
+{
+	for (auto elem : borrowedBooks)
+	{
+		if (IdBook == elem.getBookID())
+		{
+			borrowedBooks.remove(elem);
+			std::cout << "You have returned the book succesfully. The book is now available in library.";
+			//elem.setIfBorrow(opt);
+			returningDay = '\0';
+		}
+	}
+}
 
