@@ -6,7 +6,7 @@ User::User()
 	this->username = "\0";
 	time_t now = time(0);
 	whenBorrowed = localtime(&now);
-	this->returningDay="\0";
+	this->returningDay = "\0";
 }
 
 User::~User()
@@ -81,7 +81,7 @@ void User::returningDate(tm* currentDate, int days)
 	const time_t one_day = 24 * 60 * 60;
 	time_t date_seconds = mktime(currentDate) + (days * one_day);
 
-	*currentDate = *localtime(&date_seconds); 
+	*currentDate = *localtime(&date_seconds);
 }
 
 void User::ProlongBorrowDate(tm* retDate, int days)
@@ -172,4 +172,39 @@ void User::ReadBook()
 	}
 }
 
+
+void User::LoginRegisterMenu()
+{
+	std::cout << "Are you already registered?(y/n)";
+	char opt;
+	std::cin >> opt;
+	while (opt != 'y' || opt != 'Y' || opt != ' n' || opt != 'N')
+	{
+		std::cout << "Invalid option, please repeat.";
+		std::cin >> opt;
+	}
+	if (opt == 'y' || opt == 'Y')
+	{
+		LoginMenu();
+	}
+	else if (opt == 'n' || opt == 'N')
+	{
+		RegisterMenu();
+	}
+}
+
+
+//1 casuta user
+//1 casuta parola
+//1 casuta confirm password
+//1 functie verificare parola + confirm parola
+//functie afisare meniu
+//selectare optiune 
+//-> ai deja cont? -> logare 
+// -> inregistrare cont
+//in functie de optiune mergi pe ramura specifica
+// functie inregistrare cont
+//-----------------------------------------
+//Login/register menu : opt:da/nu -> loginmenu/ registermenu 
+//loginmenu ->  show menu
 

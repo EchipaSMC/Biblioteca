@@ -31,4 +31,8 @@ public:
 	void ProlongBorrowDate(tm* retDate, int days);
 	void BookReturnSpecific(int IdBook);
 	void ReadBook();
+	void LoginMenu();
+	void ShowMenu();
+	void RegisterMenu();
+	void LoginRegisterMenu();
 };
