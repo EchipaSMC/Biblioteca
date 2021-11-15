@@ -242,14 +242,50 @@ void User::RegisterMenu()
 	std::cin >> cpw;
 	if (pw == cpw)
 	{
-		//functie care verifica daca parola indeplineste toate conditiile
-		//in cazul in care indeplineste, se apeleaza constructor
+		if (PasswordRequirements(pw))
+		{
+			User(username, pw);
+			ShowMenu();
+		}
+		else
+		{
+			std::cout << "Password doesn't match the requirements, please repeat.";
+			RegisterMenu();
+		}
 	}
 	else
 	{
 		std::cout << "Password and confirm pawword do not match, pelase repeat.";
 		RegisterMenu();
 	}
+}
+
+bool User::PasswordRequirements(std::string pw)
+{
+	bool UpperLetter=false;
+	bool isDigit = false;
+	if (pw.size() < 8)
+		return false;
+	for (int i = 0; i < pw.length(); i++)
+	{
+		if (isupper(pw[i]))
+		{
+			UpperLetter = true;
+		}
+	}
+	if (UpperLetter == false)
+		return false;
+
+	for (int i = 0; i < pw.length(); i++)
+	{
+		if (isdigit(pw[i]))
+		{
+			isDigit = true;
+		}
+	}
+	if (isDigit == false)
+		return false;
+	return true;
 }
 
 
