@@ -211,7 +211,6 @@ void User::LoginMenu()
 	}
 }
 
-
 void User::LoginRegisterMenu()
 {
 	std::cout << "Are you already registered?(y/n)";
@@ -228,6 +227,27 @@ void User::LoginRegisterMenu()
 	}
 	else if (opt == 'n' || opt == 'N')
 	{
+		RegisterMenu();
+	}
+}
+
+void User::RegisterMenu()
+{
+	std::string username, pw, cpw;
+	std::cout << "Username: ";
+	std::cin >> username;
+	std::cout << "Password: ";
+	std::cin >> pw;
+	std::cout << "Confirm password: ";
+	std::cin >> cpw;
+	if (pw == cpw)
+	{
+		//functie care verifica daca parola indeplineste toate conditiile
+		//in cazul in care indeplineste, se apeleaza constructor
+	}
+	else
+	{
+		std::cout << "Password and confirm pawword do not match, pelase repeat.";
 		RegisterMenu();
 	}
 }
