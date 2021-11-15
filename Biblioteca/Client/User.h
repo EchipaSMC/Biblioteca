@@ -39,6 +39,7 @@ public:
 	void LoginRegisterMenu();
 	void RegisterMenu();
 	void ShowMenu();
+	void ChangePassword();
 	void MenuList();
 	bool PasswordRequirements(std::string pw);
 };

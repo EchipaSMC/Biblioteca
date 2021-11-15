@@ -249,13 +249,13 @@ void User::RegisterMenu()
 		}
 		else
 		{
-			std::cout << "Password doesn't match the requirements, please repeat.";
+			std::cout << "\nPassword doesn't match the requirements, please repeat.";
 			RegisterMenu();
 		}
 	}
 	else
 	{
-		std::cout << "Password and confirm pawword do not match, pelase repeat.";
+		std::cout << "\nPassword and confirm pawword do not match, pelase repeat.";
 		RegisterMenu();
 	}
 }
@@ -271,23 +271,23 @@ void User::ShowMenu()
 		std::cin >> opt;
 		while (opt < 1 || opt>8)
 		{
-			std::cout << "Invalid option, please try again (1-8).";
+			std::cout << "\nInvalid option, please try again (1-8).";
 			std::cin >> opt;
 		}
 		std::string keyword;
 		switch (opt)
 		{
 		case 1:
-			std::cout << "Please introduce the title/author/ISBN of the book you would like to borrow: ";
+			std::cout << "\nPlease introduce the title/author/ISBN of the book you would like to borrow: ";
 			std::cin >> keyword;
 			Borrowing(keyword);
-		
+
 			break;
 		case 2:
 			ShowBorrowedBooks();
 			break;
 		case 3:
-			std::cout << "Introduce the title/author/ISBN of the book you would like to look for: ";
+			std::cout << "\nIntroduce the title/author/ISBN of the book you would like to look for: ";
 			std::cin >> keyword;
 			search(keyword);
 			break;
@@ -295,7 +295,7 @@ void User::ShowMenu()
 			ReadBook();
 			break;
 		case 5:
-			//ch pw
+			ChangePassword();
 			break;
 		case 6:
 			LoginRegisterMenu();
@@ -317,8 +317,51 @@ void User::ShowMenu()
 	}
 }
 
+void User::ChangePassword()
+{
+	std::string newPassword, password;
+	std::cout << "Input old password: ";
+	std::cin >> password;
+	if (this->password == password)
+	{
+		std::cout << "Input new password: ";
+		std::cin >> newPassword;
+		if (PasswordRequirements(newPassword))
+			this->password = newPassword;
+		else
+		{
+			std::cout << "The new password doesn't meet the requirements.\n";
+			char opt;
+			std::cout << "Do you still want to change your password? (y/n)";
+			std::cin >> opt;
+
+			while (opt == 'y' || opt == 'Y' || opt == 'n' || opt == 'N')
+			{
+				std::cout << "\nInvalid option, please try again. ";
+				std::cin >> opt;
+			}
+
+			if (opt == 'y' || opt == 'Y')
+				ChangePassword();
+			else if (opt == 'n' || opt == 'N')
+				return;
+		}
+	}
+}
+
 void User::MenuList()
 {
+	std::cout << "\n---------------------------------------------------------\n";
+	std::cout << "Hello " << this->username << "! Please select an option: ";
+	std::cout << "\n1. Borrow a book. ";
+	std::cout << "\n2. Show borrowed books. ";
+	std::cout << "\n3. Search a book. ";
+	std::cout << "\n4. Read book. ";
+	std::cout << "\n5. Change password. ";
+	std::cout << "\n6. Log out. ";
+	std::cout << "\n7. Delete account. ";
+	std::cout << "\n8. Exit.";
+	std::cout << "\n---------------------------------------------------------\n";
 }
 
 bool User::PasswordRequirements(std::string pw)
