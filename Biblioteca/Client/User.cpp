@@ -234,7 +234,7 @@ void User::LoginRegisterMenu()
 void User::RegisterMenu()
 {
 	std::string username, pw, cpw;
-	std::cout << "Username: ";
+	std::cout << "\nUsername: ";
 	std::cin >> username;
 	std::cout << "Password: ";
 	std::cin >> pw;
@@ -260,9 +260,70 @@ void User::RegisterMenu()
 	}
 }
 
+
+void User::ShowMenu()
+{
+	int opt = 1;
+
+	while (opt)
+	{
+		MenuList();
+		std::cin >> opt;
+		while (opt < 1 || opt>8)
+		{
+			std::cout << "Invalid option, please try again (1-8).";
+			std::cin >> opt;
+		}
+		std::string keyword;
+		switch (opt)
+		{
+		case 1:
+			std::cout << "Please introduce the title/author/ISBN of the book you would like to borrow: ";
+			std::cin >> keyword;
+			Borrowing(keyword);
+		
+			break;
+		case 2:
+			ShowBorrowedBooks();
+			break;
+		case 3:
+			std::cout << "Introduce the title/author/ISBN of the book you would like to look for: ";
+			std::cin >> keyword;
+			search(keyword);
+			break;
+		case 4:
+			ReadBook();
+			break;
+		case 5:
+			//ch pw
+			break;
+		case 6:
+			LoginRegisterMenu();
+			break;
+		case 7:
+			this->username = '\0';
+			this->password = '\0';
+			this->borrowedBooks.resize(0);
+			std::cout << "\nYour account has been deleted.";
+			LoginRegisterMenu();
+			break;
+		case 8:
+			return;
+			break;
+		default:
+			break;
+		}
+
+	}
+}
+
+void User::MenuList()
+{
+}
+
 bool User::PasswordRequirements(std::string pw)
 {
-	bool UpperLetter=false;
+	bool UpperLetter = false;
 	bool isDigit = false;
 	if (pw.size() < 8)
 		return false;
