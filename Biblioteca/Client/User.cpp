@@ -7,6 +7,7 @@ User::User()
 	time_t now = time(0);
 	whenBorrowed = localtime(&now);
 	this->returningDay = "\0";
+	this->password = '\0';
 }
 
 User::~User()
@@ -14,12 +15,23 @@ User::~User()
 	delete[] whenBorrowed;
 }
 
-User::User(std::string nickname, std::list<Book> borrowedB)
+User::User(std::string nickname, std::list<Book> borrowedB, std::string password)
 {
 	this->username = nickname;
 	this->borrowedBooks = borrowedB;
 	time_t now = time(0);
 	this->whenBorrowed = localtime(&now);
+	this->password = password;
+}
+
+User::User(std::string username, std::string password)
+{
+	this->username = username;
+	this->password = password;
+	time_t now = time(0);
+	this->whenBorrowed = localtime(&now);
+	this->returningDay = "\0";
+	this->borrowedBooks.resize(0);
 }
 
 User::User(const User& user)
@@ -27,6 +39,7 @@ User::User(const User& user)
 	this->username = user.username;
 	this->borrowedBooks = user.borrowedBooks;
 	this->whenBorrowed = user.whenBorrowed;
+	this->password = user.password;
 }
 
 std::string User::GetUsername() const
@@ -172,6 +185,32 @@ void User::ReadBook()
 	}
 }
 
+void User::LoginMenu()
+{
+	std::cout << "Please input your username";
+	std::string nickname;
+	std::cin >> nickname;
+	std::cout << "Please input your password";
+	std::string pass = "";
+	char ch;
+	ch = getch();
+	while (ch != 10)
+	{
+		pass.push_back(ch);
+		std::cout << "*";
+		ch = getch();
+	}
+	if (nickname != this->username || pass != this->password)
+	{
+		std::cout << "Username and/or password are incorrect";
+		LoginRegisterMenu();
+	}
+	else
+	{
+		ShowMenu();
+	}
+}
+
 
 void User::LoginRegisterMenu()
 {
@@ -193,18 +232,4 @@ void User::LoginRegisterMenu()
 	}
 }
 
-
-//1 casuta user
-//1 casuta parola
-//1 casuta confirm password
-//1 functie verificare parola + confirm parola
-//functie afisare meniu
-//selectare optiune 
-//-> ai deja cont? -> logare 
-// -> inregistrare cont
-//in functie de optiune mergi pe ramura specifica
-// functie inregistrare cont
-//-----------------------------------------
-//Login/register menu : opt:da/nu -> loginmenu/ registermenu 
-//loginmenu ->  show menu
 
