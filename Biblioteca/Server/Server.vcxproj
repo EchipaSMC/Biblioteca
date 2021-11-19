@@ -151,6 +151,7 @@
     <ClCompile Include="Ratings.cpp" />
     <ClCompile Include="Server.cpp" />
     <ClCompile Include="Tags.cpp" />
+    <ClCompile Include="UserServer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Books.h" />
@@ -159,6 +160,7 @@
     <ClInclude Include="Ratings.h" />
     <ClInclude Include="Server.h" />
     <ClInclude Include="Tags.h" />
+    <ClInclude Include="UserServer.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
