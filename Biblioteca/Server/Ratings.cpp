@@ -34,6 +34,7 @@ std::string Ratings::GetRatings(const int& id) const
 {
 	std::string query = "SELECT book_id,user_id,rating FROM Ratings INNER JOIN Books o ON ON Ratings.book_id =o.id  WHERE Ratings.book_id = ";
 	query += std::to_string(id);
+	return query;
 }
 
 int Ratings::GetBookId() const
