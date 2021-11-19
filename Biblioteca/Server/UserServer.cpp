@@ -5,10 +5,10 @@ UserServer::UserServer(const std::string queryResult)
 	std::string word;
 	std::stringstream result;
 	result << queryResult;
-	
+
 	result >> word;
 	userId = std::stoi(word);
-	
+
 	result >> word;
 	username = word;
 
@@ -16,8 +16,8 @@ UserServer::UserServer(const std::string queryResult)
 	password = word;
 }
 
-UserServer::UserServer(const int& userId, const std::string& username, const std::string& password):
-userId(userId),username(username),password(password){}
+UserServer::UserServer(const int& userId, const std::string& username, const std::string& password) :
+	userId(userId), username(username), password(password) {}
 
 std::string UserServer::UserSearch(const std::string& usernameSearch, const std::string& passwordSearch) const
 {
@@ -25,6 +25,20 @@ std::string UserServer::UserSearch(const std::string& usernameSearch, const std:
 	query += usernameSearch;
 	query += " AND password=";
 	query += passwordSearch;
+	return query;
+}
+
+std::string UserServer::UserInsert(const std::string& username, const std::string& password) const
+{
+	std::string query = "INSERT INTO User (username,password) VALUES ('";
+	query += username + "'," + "'" + password + "')";
+	return query;
+}
+
+std::string UserServer::UserDelete(const std::string& username, const std::string& password) const
+{
+	std::string query = "DELETE FROM User WHERE username = '";
+	query += username + "' AND password = '" + "'" + password + "'";
 	return query;
 }
 
