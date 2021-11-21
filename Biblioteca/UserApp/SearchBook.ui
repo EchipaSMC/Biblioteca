@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ui version="4.0">
+    <class>SearchBook</class>
+    <widget class="QWidget" name="SearchBook">
+        <property name="geometry">
+            <rect>
+                <x>0</x>
+                <y>0</y>
+                <width>600</width>
+                <height>400</height>
+            </rect>
+        </property>
+        <property name="minimumSize">
+            <size>
+                <width>503</width>
+                <height>0</height>
+            </size>
+        </property>
+        <property name="cursor">
+            <cursorShape>ArrowCursor</cursorShape>
+        </property>
+        <property name="windowTitle">
+            <string>What would you like to read today? :)</string>
+        </property>
+        <widget class="QWidget" name="verticalLayoutWidget">
+            <property name="geometry">
+                <rect>
+                    <x>40</x>
+                    <y>80</y>
+                    <width>521</width>
+                    <height>281</height>
+                </rect>
+            </property>
+            <layout class="QVBoxLayout" name="verticalLayout">
+                <item>
+                    <widget class="QLineEdit" name="searchInput" />
+                </item>
+                <item>
+                    <widget class="QPushButton" name="searchButton">
+                        <property name="text">
+                            <string>Search</string>
+                        </property>
+                    </widget>
+                </item>
+                <item>
+                    <layout class="QHBoxLayout" name="horizontalLayout">
+                        <item>
+                            <widget class="QPushButton" name="mainMenuBtn">
+                                <property name="text">
+                                    <string>Main Menu</string>
+                                </property>
+                            </widget>
+                        </item>
+                        <item>
+                            <widget class="QPushButton" name="logInBtn">
+                                <property name="text">
+                                    <string>Log in</string>
+                                </property>
+                            </widget>
+                        </item>
+                        <item>
+                            <widget class="QPushButton" name="exitBtn">
+                                <property name="text">
+                                    <string>Exit</string>
+                                </property>
+                            </widget>
+                        </item>
+                    </layout>
+                </item>
+            </layout>
+        </widget>
+        <widget class="QLabel" name="label">
+            <property name="geometry">
+                <rect>
+                    <x>180</x>
+                    <y>40</y>
+                    <width>241</width>
+                    <height>20</height>
+                </rect>
+            </property>
+            <property name="text">
+                <string>Type the book's Title, Author, ISBN or Tag</string>
+            </property>
+        </widget>
+    </widget>
+    <layoutdefault spacing="6" margin="11" />
+    <resources />
+    <connections />
+</ui>

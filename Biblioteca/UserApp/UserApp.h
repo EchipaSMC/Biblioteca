@@ -8,7 +8,7 @@ class UserApp : public QMainWindow
     Q_OBJECT
 
 public:
-    UserApp(QWidget *parent = Q_NULLPTR);
+    UserApp(QWidget* parent = Q_NULLPTR);
 
 private slots:
     void on_bookSearchBtn_clicked();

@@ -1,6 +1,7 @@
 #include "UserApp.h"
+#include "SearchBook.h"
 
-UserApp::UserApp(QWidget *parent)
+UserApp::UserApp(QWidget* parent)
     : QMainWindow(parent)
 {
     ui.setupUi(this);
@@ -12,7 +13,7 @@ void UserApp::on_exitBtn_clicked() {
 
 void UserApp::on_bookSearchBtn_clicked()
 {
-    QWidget* wdg = new QWidget;
-    wdg->show();
-    this->hide();
+    QWidget* searchBookWidget = new SearchBook;
+    searchBookWidget->show();
+    close();
 }

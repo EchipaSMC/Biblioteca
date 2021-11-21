@@ -87,16 +87,19 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <QtRcc Include="UserApp.qrc" />
+    <QtUic Include="SearchBook.ui" />
     <QtUic Include="UserApp.ui" />
     <QtMoc Include="UserApp.h" />
     <ClCompile Include="Book.cpp" />
     <ClCompile Include="InvertedIndex.cpp" />
+    <ClCompile Include="SearchBook.cpp" />
     <ClCompile Include="UserApp.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Book.h" />
     <ClInclude Include="InvertedIndex.h" />
+    <QtMoc Include="SearchBook.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">
