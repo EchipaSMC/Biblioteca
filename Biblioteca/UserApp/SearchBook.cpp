@@ -1,5 +1,6 @@
 #include "SearchBook.h"
 #include "UserApp.h"
+#include "Login.h"
 
 SearchBook::SearchBook(QWidget* parent)
 	: QWidget(parent)
@@ -13,9 +14,9 @@ void SearchBook::on_exitBtn_clicked() {
 
 void SearchBook::on_loginBtn_clicked()
 {
-	/*QWidget* loginWidget = new Login;
+	QWidget* loginWidget = new Login;
 	loginWidget->show();
-	close();*/
+	close();
 }
 
 void SearchBook::on_searchBtn_clicked()

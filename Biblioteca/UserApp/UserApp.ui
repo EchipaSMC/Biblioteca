@@ -30,14 +30,14 @@
      <item>
       <widget class="QPushButton" name="bookSearchBtn">
        <property name="text">
-        <string>Search a book</string>
+        <string>Looking for a book?</string>
        </property>
       </widget>
      </item>
      <item>
       <widget class="QPushButton" name="loginBtn">
        <property name="text">
-        <string>Log in</string>
+        <string>Login</string>
        </property>
       </widget>
      </item>

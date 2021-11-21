@@ -1,5 +1,6 @@
 #include "UserApp.h"
 #include "SearchBook.h"
+#include "Login.h"
 
 UserApp::UserApp(QWidget* parent)
     : QMainWindow(parent)
@@ -8,6 +9,13 @@ UserApp::UserApp(QWidget* parent)
 }
 
 void UserApp::on_exitBtn_clicked() {
+    close();
+}
+
+void UserApp::on_loginBtn_clicked()
+{
+    QWidget* loginWidget = new Login;
+    loginWidget->show();
     close();
 }
 

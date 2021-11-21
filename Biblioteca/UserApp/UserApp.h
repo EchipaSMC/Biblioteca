@@ -13,6 +13,7 @@ public:
 private slots:
     void on_bookSearchBtn_clicked();
     void on_exitBtn_clicked();
+    void on_loginBtn_clicked();
 
 private:
     Ui::UserAppClass ui;
