@@ -5,7 +5,7 @@
 class Book {
 
 private:
-	long long BookID;
+	std::string BookID;
 	std::string original_title;
 	std::string author;
 	std::string ISBN;
@@ -13,9 +13,10 @@ private:
 
 public:
 	Book();
-	Book(long long id, std::string title, std::string auth, std::string ISBNcode, bool borrowed);
+	Book(std::string id, std::string title, std::string auth, std::string ISBNcode, bool borrowed);
 	Book(const Book&);
-	long long getBookID() const;
+	Book(const std::string&);
+	std::string getBookID() const;
 	std::string getISBN() const;
 	std::string getTitle() const;
 	std::string getAuthor() const;

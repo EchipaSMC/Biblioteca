@@ -2,14 +2,14 @@
 
 Book::Book()
 {
-	this->BookID = 0;
+	this->BookID = '\0';
 	this->original_title = '\0';
 	this->author = '\0';
 	this->ISBN = '\0';
 	this->borrowed = false;
 }
 
-Book::Book(long long id, std::string title, std::string auth, std::string ISBNcode, bool borrowed)
+Book::Book(std::string id, std::string title, std::string auth, std::string ISBNcode, bool borrowed)
 {
 	this->BookID = id;
 	this->original_title = title;
@@ -27,8 +27,27 @@ Book::Book(const Book& B)
 	this->borrowed = B.borrowed;
 }
 
+Book::Book(const std::string& bookData)
+{
+	std::stringstream iss(bookData);
+	std::string detailedData;
+	char character = '|';
+	std::vector<std::string> vecData;
 
-long long Book::getBookID() const
+	while (std::getline(iss, detailedData, character))
+	{
+		vecData.push_back(detailedData);
+	}
+
+	this->BookID = vecData[0];
+	this->original_title = vecData[1];
+	this->author = vecData[2];
+	this->ISBN = vecData[3];
+	this->borrowed = false;
+}
+
+
+std::string Book::getBookID() const
 {
 	return BookID;
 }
