@@ -11,7 +11,7 @@
 class User {
 private:
 	std::string username;
-	std::list<Book> borrowedBooks;
+	std::vector<Book> borrowedBooks;
 	tm* whenBorrowed;
 	std::string returningDay;
 	std::string password;
@@ -19,16 +19,18 @@ private:
 public:
 	User();
 	~User();
-	User(std::string, std::list<Book>, std::string);
+	User(std::string, std::vector<Book>, std::string);
 	User(std::string,std::string);
+	User(const std::string&);
 	User(const User&);
 	std::string GetUsername() const;
-	std::list<Book> GetBorrowedBooks() const;
+	std::vector<Book> GetBorrowedBooks() const;
 	//tm* GetReturnDate();
 	//std::string GetReturnDate();
+	bool operator==(const User& s) const;
 	//std::string GetPassword();
 	void ShowBorrowedBooks();
-	void Borrowing(std::string&);
+	void Borrowing(/*id*/);
 	void returningDate(tm* currentDate, int days);
 	void bookReturn();
 	bool search(std::string word);

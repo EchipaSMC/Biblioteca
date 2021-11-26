@@ -15,7 +15,7 @@ User::~User()
 	delete[] whenBorrowed;
 }
 
-User::User(std::string nickname, std::list<Book> borrowedB, std::string password)
+User::User(std::string nickname, std::vector<Book> borrowedB, std::string password)
 {
 	this->username = nickname;
 	this->borrowedBooks = borrowedB;
@@ -34,6 +34,27 @@ User::User(std::string username, std::string password)
 	this->borrowedBooks.resize(0);
 }
 
+User::User(const std::string& data)
+{
+	std::stringstream iss(data);
+	char character = ' ';
+
+	std::vector<std::string> vecData;
+	std::string detailedData;
+	while (std::getline(iss, detailedData, character))
+	{
+		vecData.push_back(detailedData);
+	}
+
+	this->username = vecData[0];
+	this->password = vecData[1];
+
+	time_t now = time(0);
+	whenBorrowed = localtime(&now);
+	this->returningDay = "\0";
+	this->borrowedBooks.resize(0);
+}
+
 User::User(const User& user)
 {
 	this->username = user.username;
@@ -47,7 +68,7 @@ std::string User::GetUsername() const
 	return username;
 }
 
-std::list<Book> User::GetBorrowedBooks() const
+std::vector<Book> User::GetBorrowedBooks() const
 {
 	return borrowedBooks;
 }
@@ -56,6 +77,11 @@ std::list<Book> User::GetBorrowedBooks() const
 //{
 //	return this->whenBorrowed;
 //}
+
+bool User::operator==(const User& s) const
+{
+	return *this == s;
+}
 
 void User::ShowBorrowedBooks()
 {
@@ -77,15 +103,12 @@ void User::ShowBorrowedBooks()
 }
 
 
-void User::Borrowing(std::string& keyword)
+void User::Borrowing(/*id*/)
 {
-	Book b;
-	if (search(keyword) == true)
-	{
-		borrowedBooks.push_back(b);
-		returningDate(whenBorrowed, 14);
-		returningDay = asctime(whenBorrowed);
-	}
+	/*borrowedBooks.push_back(b);
+	returningDate(whenBorrowed, 14);
+	returningDay = asctime(whenBorrowed);*/
+
 }
 
 
@@ -108,7 +131,7 @@ void User::ProlongBorrowDate(tm* retDate, int days)
 
 bool User::search(std::string searchKeyword)
 {
-	InvertedIndex index;
+	/*InvertedIndex index;
 	if (index.getDictionary().find(searchKeyword) == index.getDictionary().end())
 	{
 		std::cout << "Title/author not found.";
@@ -122,7 +145,8 @@ bool User::search(std::string searchKeyword)
 		std::cout << "\n  Line: " << index.getDictionary()[searchKeyword][i].line << std::endl;
 		std::cout << "  Index: " << index.getDictionary()[searchKeyword][i].index << std::endl;
 	}
-	return true;
+	return true;*/
+	return false;
 }
 
 void User::bookReturn()
@@ -134,8 +158,9 @@ void User::bookReturn()
 		char opt;
 		std::cin >> opt;
 
+		borrowedBooks.erase(borrowedBooks.begin(),borrowedBooks.begin()+1);
 		if (opt == 'y' || opt == 'Y') {
-			borrowedBooks.remove(elem);
+
 			std::cout << "You have returned the book succesfully. The book is now available in library.";
 			elem.setIfBorrow(opt);
 			returningDay = '\0';
@@ -149,7 +174,7 @@ void User::BookReturnSpecific(int IdBook)
 	{
 		if (IdBook == elem.getBookID())
 		{
-			borrowedBooks.remove(elem);
+			borrowedBooks.erase(borrowedBooks.begin(), borrowedBooks.begin() + 1);
 			std::cout << "You have returned the book succesfully. The book is now available in library.";
 			//elem.setIfBorrow(opt);
 			returningDay = '\0';
@@ -193,12 +218,12 @@ void User::LoginMenu()
 	std::cout << "Please input your password";
 	std::string pass = "";
 	char ch;
-	ch = getch();
+	ch = _getch();
 	while (ch != 10)
 	{
 		pass.push_back(ch);
 		std::cout << "*";
-		ch = getch();
+		ch = _getch();
 	}
 	if (nickname != this->username || pass != this->password)
 	{
@@ -244,7 +269,7 @@ void User::RegisterMenu()
 	{
 		if (PasswordRequirements(pw))
 		{
-			User(username, pw);
+			User newUser(username, pw);
 			ShowMenu();
 		}
 		else
@@ -280,7 +305,8 @@ void User::ShowMenu()
 		case 1:
 			std::cout << "\nPlease introduce the title/author/ISBN of the book you would like to borrow: ";
 			std::cin >> keyword;
-			Borrowing(keyword);
+			if (search(keyword))
+				Borrowing();
 
 			break;
 		case 2:
