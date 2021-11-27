@@ -4,9 +4,12 @@
 #include "Database.h"
 #include "Ratings.h"
 #include "Tags.h"
+#include "BorrowedBooks.h"
 #include "UserServer.h"
 #include <sstream>
 #include <string>
+#include <vector>
+
 class Server
 {
 public:
@@ -21,5 +24,6 @@ private:
 	Ratings ratings;
 	Tags tags;
 	UserServer user;
+	std::vector<BorrowedBooks> borrowedBooks;
 };
 

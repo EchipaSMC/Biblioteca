@@ -50,6 +50,20 @@ std::string UserServer::CheckExistingUsers(const std::string& username) const
 	return query;
 }
 
+std::string UserServer::UsersLogin(const std::string& username, const std::string& password) const
+{
+	std::string query = "SELECT COUNT(*) FROM User WHERE username='";
+	query += username + "' AND password ='"+password+"'";
+	return query;
+}
+
+std::string UserServer::UsersLoginID(const std::string& username, const std::string& password) const
+{
+	std::string query = "SELECT user_id FROM User WHERE username='";
+	query += username + "' AND password ='" + password + "'";
+	return query;
+}
+
 void UserServer::SetUserId(const int& userId)
 {
 	this->userId = userId;

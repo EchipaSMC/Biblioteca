@@ -55,7 +55,7 @@ void Server::RunServer()
 	{
 		switch (operationCode)
 		{
-		case 1:
+		case 1: // register
 			stmt = database.CreateStatement(database.GetDatabase(), user.CheckExistingUsers(username));
 			database.Run(stmt.get(), DumpCurrentRow);
 			std::getline(getResult, result, '|');
@@ -63,9 +63,51 @@ void Server::RunServer()
 			if (checkUser == 0)
 				user.UserInsert(username, password);
 			else std::cout << "User already exists";
+			getResult.str(std::string());
+			getResult.clear();
 			break;
 
-		case 2:
+		case 2:	// login
+			stmt = database.CreateStatement(database.GetDatabase(), user.UsersLogin(username,password));
+			database.Run(stmt.get(), DumpCurrentRow);
+			std::getline(getResult, result, '|');
+			checkUser = std::stoi(result);
+			
+			if (checkUser == 1)
+			{
+				getResult.str(std::string());
+				getResult.clear();
+
+				user.SetPassword(password);
+				user.SetUsername(username);
+				stmt = database.CreateStatement(database.GetDatabase(), user.UsersLoginID(username, password));
+				database.Run(stmt.get(), DumpCurrentRow);
+				std::getline(getResult, result, '|');
+				user.SetUserId(std::stoi(result));
+			}
+			else 
+				std::cout << "error login!";	
+		
+			getResult.str(std::string());
+			getResult.clear();
+
+			stmt = database.CreateStatement(database.GetDatabase(), borrowedBooks[0].BorrowedBooksSearch(user.GetUserId()));
+			database.Run(stmt.get(), DumpCurrentRow);
+
+			while (std::getline(getResult,username,'|'))
+			{
+				std::getline(getResult, result, '|');
+				borrowedBooks.push_back(BorrowedBooks(std::stoi(username), std::stoi(result)));
+			}
+
+			getResult.str(std::string());
+			getResult.clear();
+
+			break;
+		
+		case 3: // delete user
+
+
 			break;
 		default:
 			break;

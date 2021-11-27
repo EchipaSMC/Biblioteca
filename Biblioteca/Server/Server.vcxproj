@@ -147,6 +147,7 @@
   <ItemGroup>
     <ClCompile Include="Books.cpp" />
     <ClCompile Include="BookTags.cpp" />
+    <ClCompile Include="BorrowedBooks.cpp" />
     <ClCompile Include="Database.cpp" />
     <ClCompile Include="MainServer.cpp" />
     <ClCompile Include="Ratings.cpp" />
@@ -157,6 +158,7 @@
   <ItemGroup>
     <ClInclude Include="Books.h" />
     <ClInclude Include="BookTags.h" />
+    <ClInclude Include="BorrowedBooks.h" />
     <ClInclude Include="Database.h" />
     <ClInclude Include="Ratings.h" />
     <ClInclude Include="Server.h" />
