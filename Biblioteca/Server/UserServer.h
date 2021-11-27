@@ -13,6 +13,7 @@ public:
 	std::string UserSearch(const std::string& usernameSearch, const std::string& passwordSearch)const;
 	std::string UserInsert(const std::string& username, const std::string& password)const;
 	std::string UserDelete(const std::string& username, const std::string& password)const;
+	std::string CheckExistingUsers(const std::string& username)const;
 
 	void SetUserId(const int& userId);
 	void SetUsername(const std::string& username);

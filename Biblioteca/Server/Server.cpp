@@ -1,5 +1,5 @@
 #include "Server.h"
-
+std::stringstream getResult;
 bool DumpCurrentRow(sqlite3_stmt* stmt)
 {
 	if (stmt)
@@ -9,25 +9,25 @@ bool DumpCurrentRow(sqlite3_stmt* stmt)
 			auto columntype = sqlite3_column_type(stmt, i);
 			if (columntype == SQLITE_NULL)
 			{
-				std::cout << "<NULL>";
+				//std::cout << "<NULL>";
 			}
 			else if (columntype == SQLITE_INTEGER)
 			{
-				std::cout << sqlite3_column_int64(stmt, i);
+				getResult << sqlite3_column_int64(stmt, i);
 			}
 			else if (columntype == SQLITE_FLOAT)
 			{
-				std::cout << sqlite3_column_double(stmt, i);
+				getResult << sqlite3_column_double(stmt, i);
 			}
 			else if (columntype == SQLITE_TEXT)
 			{
 				auto first = sqlite3_column_text(stmt, i);
 				std::size_t s = sqlite3_column_bytes(stmt, i);
-				std::cout << "'" << (s > 0 ? std::string((const char*)first, s) : "") << "'";
+				getResult << (s > 0 ? std::string((const char*)first, s) : "");
 			}
 			else if (columntype == SQLITE_BLOB)
 			{
-				std::cout << "<BLOOOB>";
+				//std::cout << "<BLOOOB>";
 			}
 			std::cout << "|";
 		}
@@ -39,16 +39,37 @@ bool DumpCurrentRow(sqlite3_stmt* stmt)
 
 Server::Server()
 {
-	database=Database("dbCarti.db");
+	database = Database("dbCarti.db");
 	RunServer();
 }
 
 void Server::RunServer()
 {
+	int operationCode;
+	std::string username, password, result;
+	int checkUser;
+	statement stmt(nullptr,sqlite3_finalize);
+	std::cin >> operationCode;
 	PrepareVirtualTable();
 	while (true)
 	{
-		break;
+		switch (operationCode)
+		{
+		case 1:
+			stmt = database.CreateStatement(database.GetDatabase(), user.CheckExistingUsers(username));
+			database.Run(stmt.get(), DumpCurrentRow);
+			std::getline(getResult, result, '|');
+			checkUser = std::stoi(result);
+			if (checkUser == 0)
+				user.UserInsert(username, password);
+			else std::cout << "User already exists";
+			break;
+
+		case 2:
+			break;
+		default:
+			break;
+		}	
 	}
 	DropVirtualTable();
 }

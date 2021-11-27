@@ -4,6 +4,9 @@
 #include "Database.h"
 #include "Ratings.h"
 #include "Tags.h"
+#include "UserServer.h"
+#include <sstream>
+#include <string>
 class Server
 {
 public:
@@ -17,5 +20,6 @@ private:
 	Database database;
 	Ratings ratings;
 	Tags tags;
+	UserServer user;
 };
 

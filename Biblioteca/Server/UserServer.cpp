@@ -30,6 +30,7 @@ std::string UserServer::UserSearch(const std::string& usernameSearch, const std:
 
 std::string UserServer::UserInsert(const std::string& username, const std::string& password) const
 {
+
 	std::string query = "INSERT INTO User (username,password) VALUES ('";
 	query += username + "'," + "'" + password + "')";
 	return query;
@@ -39,6 +40,13 @@ std::string UserServer::UserDelete(const std::string& username, const std::strin
 {
 	std::string query = "DELETE FROM User WHERE username = '";
 	query += username + "' AND password = '" + "'" + password + "'";
+	return query;
+}
+
+std::string UserServer::CheckExistingUsers(const std::string& username) const
+{
+	std::string query = "SELECT COUNT(*) FROM User WHERE username='";
+	query += username+"'";
 	return query;
 }
 
