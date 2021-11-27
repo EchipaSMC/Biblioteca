@@ -21,8 +21,10 @@ public:
 	bool Connect();
 	bool Listen();
 	TCPSocket Accept();
-	bool Send(const std::string& data, int size);
+	bool Send(const std::string& data);
+	bool SendInt(const int& data);
 	bool Receive(std::string& data);
+	bool ReceiveInt(int& data);
 
 };
 

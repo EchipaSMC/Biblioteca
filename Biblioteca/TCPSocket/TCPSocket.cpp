@@ -73,15 +73,27 @@ TCPSocket TCPSocket::Accept()
 	return TCPSocket(clientSocket);
 }
 
-bool TCPSocket::Send(const std::string& data, int size)
+bool TCPSocket::Send(const std::string& data)
 {
+	int size = data.size();
 	int iSendResult = send(sock, (char*)&size, sizeof(int), 0);
-	if (iSendResult == SOCKET_ERROR) {
+	if (iSendResult == SOCKET_ERROR)
+	{
 		std::cerr << "Send failed with error: " << WSAGetLastError() << std::endl;
 		return false;
 	}
-
 	iSendResult = send(sock, data.c_str(), data.size(), 0);
+	if (iSendResult == SOCKET_ERROR)
+	{
+		std::cerr << "Send failed with error: " << WSAGetLastError() << std::endl;
+		return false;
+	}
+	return true;
+}
+
+bool TCPSocket::SendInt(const int& data)
+{
+	int iSendResult = send(sock, (char*)&data, sizeof(int), 0);
 	if (iSendResult == SOCKET_ERROR) {
 		std::cerr << "Send failed with error: " << WSAGetLastError() << std::endl;
 		return false;
@@ -91,24 +103,30 @@ bool TCPSocket::Send(const std::string& data, int size)
 
 bool TCPSocket::Receive(std::string& data)
 {
-	int size;
+	int size = 0;
 	int iReceiveResult = recv(sock, (char*)&size, sizeof(int), 0);
-	if (iReceiveResult == 0)
-		std::cout << "Connection closed\n" << std::endl;
-	else if (iReceiveResult < 0)
-	{
-		std::cerr << "recv failed with error: " << WSAGetLastError();
-		return false;
-	}
-	char* recvbuf = new char[size];
-
-	iReceiveResult = recv(sock, recvbuf, size, 0);
-	if (iReceiveResult > 0) {
-		for (int i = 0; i < iReceiveResult; i++) data += recvbuf[i];
-	}
 	if (iReceiveResult < 0)
 	{
-		std::cerr << "receive failed: " << WSAGetLastError() << std::endl;
+		std::cerr << "Receive failed with error: " << WSAGetLastError();
+		return false;
+	}
+	char* buffer = new char[size];
+	iReceiveResult = recv(sock, buffer, size, 0);
+	if (iReceiveResult < 0)
+	{
+		std::cerr << "Receive failed with error: " << WSAGetLastError();
+		return false;
+	}
+	std::copy(buffer, buffer + size, std::back_inserter(data));
+	return true;
+}
+
+bool TCPSocket::ReceiveInt(int& data)
+{
+	int iReceiveResult = recv(sock, (char*)&data, sizeof(int), 0);
+	if (iReceiveResult < 0)
+	{
+		std::cerr << "Receive failed with error: " << WSAGetLastError();
 		return false;
 	}
 	return true;
