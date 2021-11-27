@@ -48,7 +48,7 @@ void Server::RunServer()
 	int operationCode;
 	std::string username, password, result;
 	int checkUser;
-	statement stmt(nullptr,sqlite3_finalize);
+	statement stmt(nullptr, sqlite3_finalize);
 	std::cin >> operationCode;
 	PrepareVirtualTable();
 	while (true)
@@ -56,23 +56,23 @@ void Server::RunServer()
 		switch (operationCode)
 		{
 		case 1: // register
-			stmt = database.CreateStatement(database.GetDatabase(), user.CheckExistingUsers(username));
+			stmt = database.CreateStatement(database.GetDatabase(), queryList.UserServerCheckExistingUsers(username));
 			database.Run(stmt.get(), DumpCurrentRow);
 			std::getline(getResult, result, '|');
 			checkUser = std::stoi(result);
 			if (checkUser == 0)
-				user.UserInsert(username, password);
+				queryList.UserServerUserInsert(username, password);
 			else std::cout << "User already exists";
 			getResult.str(std::string());
 			getResult.clear();
 			break;
 
 		case 2:	// login
-			stmt = database.CreateStatement(database.GetDatabase(), user.UsersLogin(username,password));
+			stmt = database.CreateStatement(database.GetDatabase(), queryList.UserServerUsersLogin(username, password));
 			database.Run(stmt.get(), DumpCurrentRow);
 			std::getline(getResult, result, '|');
 			checkUser = std::stoi(result);
-			
+
 			if (checkUser == 1)
 			{
 				getResult.str(std::string());
@@ -80,21 +80,21 @@ void Server::RunServer()
 
 				user.SetPassword(password);
 				user.SetUsername(username);
-				stmt = database.CreateStatement(database.GetDatabase(), user.UsersLoginID(username, password));
+				stmt = database.CreateStatement(database.GetDatabase(), queryList.UserServerUsersLoginID(username, password));
 				database.Run(stmt.get(), DumpCurrentRow);
 				std::getline(getResult, result, '|');
 				user.SetUserId(std::stoi(result));
 			}
-			else 
-				std::cout << "error login!";	
-		
+			else
+				std::cout << "error login!";
+
 			getResult.str(std::string());
 			getResult.clear();
 
-			stmt = database.CreateStatement(database.GetDatabase(), borrowedBooks[0].BorrowedBooksSearch(user.GetUserId()));
+			stmt = database.CreateStatement(database.GetDatabase(), queryList.BorrowedBooksSearch(user.GetUserId()));
 			database.Run(stmt.get(), DumpCurrentRow);
 
-			while (std::getline(getResult,username,'|'))
+			while (std::getline(getResult, username, '|'))
 			{
 				std::getline(getResult, result, '|');
 				borrowedBooks.push_back(BorrowedBooks(std::stoi(username), std::stoi(result)));
@@ -104,17 +104,17 @@ void Server::RunServer()
 			getResult.clear();
 
 			break;
-		
+
 		case 3: // delete user
 
-			stmt = database.CreateStatement(database.GetDatabase(), user.UserDelete(username, password));
+			stmt = database.CreateStatement(database.GetDatabase(), queryList.UserServerUserDelete(username, password));
 			database.Run(stmt.get(), DumpCurrentRow);
 			std::getline(getResult, result, '|');
 			checkUser = std::stoi(result);
 
-			for (int i=0;i<borrowedBooks.size();i++)
+			for (int i = 0; i < borrowedBooks.size(); i++)
 			{
-				stmt = database.CreateStatement(database.GetDatabase(), borrowedBooks[i].BorrowedBooksDelete(borrowedBooks[i].GetUserId(), borrowedBooks[i].GetBookId()));
+				stmt = database.CreateStatement(database.GetDatabase(), queryList.BorrowedBooksDelete(borrowedBooks[i].GetUserId(), borrowedBooks[i].GetBookId()));
 				database.Run(stmt.get(), DumpCurrentRow);
 				getResult.str(std::string());
 				getResult.clear();
@@ -130,9 +130,18 @@ void Server::RunServer()
 			user.SetUserId(0);
 			borrowedBooks.clear();
 			break;
+		case 5:	// delete booko from borroedbooks
+
+			stmt = database.CreateStatement(database.GetDatabase(), queryList.BorrowedBooksDelete(borrowedBooks[checkUser].GetUserId(), borrowedBooks[checkUser].GetBookId()));
+			database.Run(stmt.get(), DumpCurrentRow);
+			borrowedBooks.erase(borrowedBooks.begin() + checkUser, borrowedBooks.begin() + checkUser + 1);
+
+			getResult.str(std::string());
+			getResult.clear();
+			break;
 		default:
 			break;
-		}	
+		}
 	}
 	DropVirtualTable();
 }

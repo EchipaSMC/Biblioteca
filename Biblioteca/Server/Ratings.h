@@ -10,8 +10,7 @@ public:
 	Ratings();
 	Ratings(std::string queryResult);
 	Ratings(const int& bookId, const int& userId, const int& rating);
-	std::string GetRatings(const int& bestBookId)const;
-
+	
 	int GetBookId() const;
 	int GetUserId() const;
 	int GetRating() const;

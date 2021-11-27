@@ -103,15 +103,6 @@ Books::Books(std::string queryResult)
 	smallImageUrl = word;
 }
 
-std::string Books::BookSearch(const std::string& searchInput) const
-{
-	std::string query = "SELECT * FROM Books WHERE ";
-	query += searchInput;
-	query += "in(original_title, authors, isbn)";
-
-	return query;
-}
-
 int Books::GetId() const
 {
 	return id;

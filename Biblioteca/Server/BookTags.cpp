@@ -30,13 +30,6 @@ BookTags::BookTags(int goodReadsBookId, int tagId, int count)
 	this->count = count;
 }
 
-std::string BookTags::GetTags(const int& bestBookId) const
-{
-	std::string query = "SELECT goodreads_book_id,tag_id,count FROM BookTags INNER JOIN Books o ON goodreads_book_id = o.best_book_id WHERE goodreads_book_id = ";
-	query += std::to_string(bestBookId);
-	return query;
-}
-
 void BookTags::SetGoodReadsBookId(int goodReadsBookId)
 {
 	this->goodReadsBookId = goodReadsBookId;

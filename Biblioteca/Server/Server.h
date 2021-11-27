@@ -6,6 +6,7 @@
 #include "Tags.h"
 #include "BorrowedBooks.h"
 #include "UserServer.h"
+#include "Query.h"
 #include <sstream>
 #include <string>
 #include <vector>
@@ -18,6 +19,7 @@ public:
 	void PrepareVirtualTable();
 	void DropVirtualTable();
 private:
+	Query queryList;
 	Books book;
 	BookTags bookTags;
 	Database database;

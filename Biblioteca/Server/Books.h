@@ -9,9 +9,7 @@ public:
 	Books(int id, int bookId, int bestBookId, int workId, int booksCount, std::string isbn, std::string isbn13, std::string authors, std::string originalPublicationYear,
 		std::string originalTitle, std::string title, std::string languageCode,double averageRating, int ratingsCount, int workRatingsCount, int workTextReviewsCount,
 		int ratings1,int ratings2, int ratings3, int ratings4, int ratings5, std::string imageUrl, std::string smallImageUrl);
-
 	Books(std::string queryResult);
-	std::string BookSearch(const std::string& searchInput)const;
 
 	int GetId() const;
 	int GetBookId() const;

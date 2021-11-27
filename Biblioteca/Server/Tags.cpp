@@ -25,15 +25,6 @@ Tags::Tags(std::string queryResult)
 	tagName = std::stoi(word);
 }
 
-
-std::string Tags::QuerySearch(const std::string& searchInput) const
-{
-	std::string query = "SELECT * FROM Tags INNER JOIN BookTags ON Tags.tag_id = BookTags.tag_id WHERE Tags.tag_id = ";
-	query += searchInput;
-
-	return query;
-}
-
 int Tags::GetTagId()
 {
 	return tagId;

@@ -150,6 +150,7 @@
     <ClCompile Include="BorrowedBooks.cpp" />
     <ClCompile Include="Database.cpp" />
     <ClCompile Include="MainServer.cpp" />
+    <ClCompile Include="Query.cpp" />
     <ClCompile Include="Ratings.cpp" />
     <ClCompile Include="Server.cpp" />
     <ClCompile Include="Tags.cpp" />
@@ -160,6 +161,7 @@
     <ClInclude Include="BookTags.h" />
     <ClInclude Include="BorrowedBooks.h" />
     <ClInclude Include="Database.h" />
+    <ClInclude Include="Query.h" />
     <ClInclude Include="Ratings.h" />
     <ClInclude Include="Server.h" />
     <ClInclude Include="Tags.h" />

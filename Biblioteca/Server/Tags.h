@@ -9,7 +9,6 @@ public:
 	Tags(const int& tagId, const std::string& tagName);
 	Tags(std::string queryResult);
 
-	std::string QuerySearch(const std::string& searchInput)const;
 	int GetTagId();
 	std::string GetTagName();
 
