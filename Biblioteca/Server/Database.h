@@ -12,11 +12,13 @@ using stmt_callback = std::function<bool(sqlite3_stmt*)>;
 class Database
 {
 public:
-	Database() = default;
-	Database(const char* name);
+	Database();
+	Database(const std::string& name);
 	statement CreateStatement(sqlite3* db, const std::string& sql);
-	void Run(sqlite3_stmt* stmt, stmt_callback callback = stmt_callback());
-	bool DumpCurrentRow(sqlite3_stmt* stmt);
-	database OpenDatabase(const char* name);
+	void Run(sqlite3_stmt* stmt, stmt_callback callback);
+	sqlite3* GetDatabase();
+	database OpenDatabase(const std::string& name);
+private:
+	database db;
 };
 

@@ -8,7 +8,9 @@ class Server
 {
 public:
 	Server();
-	void Run();
+	void RunServer();
+	void PrepareVirtualTable();
+	void DropVirtualTable();
 private:
 	Books book;
 	BookTags bookTags;
