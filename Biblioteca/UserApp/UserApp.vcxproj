@@ -59,6 +59,11 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|Win32'">
   </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+    </ClCompile>
+  </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|Win32'" Label="Configuration">
     <ClCompile>
       <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
@@ -87,20 +92,26 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <QtRcc Include="UserApp.qrc" />
+    <QtUic Include="DialogBox.ui" />
     <QtUic Include="Login.ui" />
+    <QtUic Include="MainMenu.ui" />
     <QtUic Include="SearchBook.ui" />
     <QtUic Include="UserApp.ui" />
     <QtMoc Include="UserApp.h" />
     <ClCompile Include="Book.cpp" />
+    <ClCompile Include="DialogBox.cpp" />
     <ClCompile Include="InvertedIndex.cpp" />
     <ClCompile Include="Login.cpp" />
+    <ClCompile Include="MainMenu.cpp" />
     <ClCompile Include="SearchBook.cpp" />
     <ClCompile Include="UserApp.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Book.h" />
+    <QtMoc Include="DialogBox.h" />
     <ClInclude Include="InvertedIndex.h" />
+    <QtMoc Include="MainMenu.h" />
     <QtMoc Include="Login.h" />
     <QtMoc Include="SearchBook.h" />
   </ItemGroup>

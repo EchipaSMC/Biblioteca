@@ -1,6 +1,7 @@
 #include "SearchBook.h"
 #include "UserApp.h"
 #include "Login.h"
+#include "DialogBox.h"
 
 SearchBook::SearchBook(QWidget* parent)
 	: QWidget(parent)
@@ -21,9 +22,22 @@ void SearchBook::on_loginBtn_clicked()
 
 void SearchBook::on_searchBtn_clicked()
 {
-	/*QWidget* bookSearchResultWidget = new bookSearchResult;
+	QString searchInput = ui.searchInput->text();
+	std::string search = searchInput.toStdString();
+
+	if (search.size())
+	{
+		/*QWidget* bookSearchResultWidget = new bookSearchResult;
 	bookSearchResultWidget->show();
-	close();*/
+	*/
+		close();
+	}
+	else
+	{
+		DialogBox* warningMessage = new DialogBox;
+		warningMessage->SetMessage("No search input given!");
+		warningMessage->show();
+	}
 }
 
 void SearchBook::on_mainMenuBtn_clicked() {
