@@ -107,7 +107,28 @@ void Server::RunServer()
 		
 		case 3: // delete user
 
+			stmt = database.CreateStatement(database.GetDatabase(), user.UserDelete(username, password));
+			database.Run(stmt.get(), DumpCurrentRow);
+			std::getline(getResult, result, '|');
+			checkUser = std::stoi(result);
 
+			for (int i=0;i<borrowedBooks.size();i++)
+			{
+				stmt = database.CreateStatement(database.GetDatabase(), borrowedBooks[i].BorrowedBooksDelete(borrowedBooks[i].GetUserId(), borrowedBooks[i].GetBookId()));
+				database.Run(stmt.get(), DumpCurrentRow);
+				getResult.str(std::string());
+				getResult.clear();
+			}
+			borrowedBooks.clear();
+			getResult.str(std::string());
+			getResult.clear();
+			break;
+
+		case 4:	// logout
+			user.SetPassword("");
+			user.SetUsername("");
+			user.SetUserId(0);
+			borrowedBooks.clear();
 			break;
 		default:
 			break;

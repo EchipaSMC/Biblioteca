@@ -16,8 +16,8 @@ public:
 
 	void SetUserId(const int& userId);
 	void SetBookId(const int& bookId);
-	int SetUserId()const;
-	int SetBookId()const;
+	int GetUserId()const;
+	int GetBookId()const;
 private:
 	int userId, bookId;
 };

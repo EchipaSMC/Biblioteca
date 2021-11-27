@@ -47,12 +47,12 @@ void BorrowedBooks::SetBookId(const int& bookId)
 	this->bookId = bookId;
 }
 
-int BorrowedBooks::SetUserId() const
+int BorrowedBooks::GetUserId() const
 {
 	return userId;
 }
 
-int BorrowedBooks::SetBookId() const
+int BorrowedBooks::GetBookId() const
 {
 	return bookId;
 }
