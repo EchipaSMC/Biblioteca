@@ -295,49 +295,59 @@ void User::ShowMenu()
 	{
 		MenuList();
 		std::cin >> opt;
-		while (opt < 1 || opt>8)
+		while (opt < 1 || opt>5)
 		{
-			std::cout << "\nInvalid option, please try again (1-8).";
+			std::cout << "\nInvalid option, please try again (1-5).";
 			std::cin >> opt;
 		}
 		std::string keyword;
 		switch (opt)
 		{
-		case 1:
-			std::cout << "\nPlease introduce the title/author/ISBN of the book you would like to borrow: ";
-			//send keyword pentru imprumut carte
-			std::cin >> keyword;
-			if (search(keyword))
-				Borrowing();
-
+		case 1: //Register
+			RegisterMenu();
 			break;
-		case 2:
-			ShowBorrowedBooks();
+		case 2: //Login
+			LoginMenu();
 			break;
-		case 3:
-			std::cout << "\nIntroduce the title/author/ISBN of the book you would like to look for: ";
-			//send keyword pt search
-			std::cin >> keyword;
-			break;
-		case 4:
-			ReadBook();
-			break;
-		case 5:
-			ChangePassword();
-			break;
-		case 6:
-			LoginRegisterMenu();
-			break;
-		case 7:
+		case 3: //Delete account
 			this->username = '\0';
 			this->password = '\0';
 			this->borrowedBooks.resize(0);
 			std::cout << "\nYour account has been deleted.";
 			LoginRegisterMenu();
 			break;
-		case 8:
-			return;
+		case 4: //Log out
+			std::cout << "\nYou have logged out succesfully.";
+			LoginMenu();
 			break;
+		case 5: //Return a book
+			bookReturn();
+			break;
+			/*
+			case 6: //Borrow a book
+				std::cout << "\nPlease introduce the title/author/ISBN of the book you would like to borrow: ";
+				std::cin >> keyword;
+				if (search(keyword))
+					Borrowing();
+				break;
+			case 7: //Show list of borrowed books
+				ShowBorrowedBooks();
+				break;
+			case 8: //search a book
+				std::cout << "\nIntroduce the title/author/ISBN of the book you would like to look for: ";
+				std::cin >> keyword;
+				search(keyword);
+				break;
+			case 9: //Read a book
+				ReadBook();
+				break;
+			case 10: //change password
+				ChangePassword();
+				break;
+			case 11: //exit
+				return;
+				break;
+			*/
 		default:
 			break;
 		}
