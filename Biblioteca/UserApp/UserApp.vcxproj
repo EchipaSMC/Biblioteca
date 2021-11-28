@@ -92,6 +92,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <QtRcc Include="UserApp.qrc" />
+    <QtUic Include="BookSearchResult.ui" />
     <QtUic Include="DialogBox.ui" />
     <QtUic Include="Login.ui" />
     <QtUic Include="MainMenu.ui" />
@@ -100,6 +101,7 @@
     <QtUic Include="UserApp.ui" />
     <QtMoc Include="UserApp.h" />
     <ClCompile Include="Book.cpp" />
+    <ClCompile Include="BookSearchResult.cpp" />
     <ClCompile Include="DialogBox.cpp" />
     <ClCompile Include="InvertedIndex.cpp" />
     <ClCompile Include="Login.cpp" />
@@ -114,6 +116,7 @@
     <QtMoc Include="MyAccount.h" />
     <QtMoc Include="MainMenu.h" />
     <QtMoc Include="DialogBox.h" />
+    <QtMoc Include="BookSearchResult.h" />
     <ClInclude Include="InvertedIndex.h" />
     <QtMoc Include="Login.h" />
     <QtMoc Include="SearchBook.h" />

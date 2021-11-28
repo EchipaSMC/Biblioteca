@@ -9,19 +9,3 @@ MyAccount::MyAccount(QWidget *parent)
 MyAccount::~MyAccount()
 {
 }
-
-void MyAccount::on_borrowedBooksBtn_clicked()
-{
-}
-
-void MyAccount::on_logOutBtn_clicked()
-{
-}
-
-void MyAccount::on_retunBookBtn_clicked()
-{
-}
-
-void MyAccount::on_borrowBookBtn_clicked() {
-
-}

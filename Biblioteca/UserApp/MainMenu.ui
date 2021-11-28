@@ -23,7 +23,7 @@
     </rect>
    </property>
    <property name="currentIndex">
-    <number>2</number>
+    <number>3</number>
    </property>
    <widget class="SearchBook" name="searchBook">
     <attribute name="title">
@@ -38,6 +38,11 @@
    <widget class="MyAccount" name="myAccount">
     <attribute name="title">
      <string>My Account</string>
+    </attribute>
+   </widget>
+   <widget class="BookSearchResult" name="searchResult">
+    <attribute name="title">
+     <string>Search Result</string>
     </attribute>
    </widget>
   </widget>
@@ -60,6 +65,12 @@
    <class>MyAccount</class>
    <extends>QWidget</extends>
    <header>MyAccount.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>BookSearchResult</class>
+   <extends>QWidget</extends>
+   <header>BookSearchResult.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>
