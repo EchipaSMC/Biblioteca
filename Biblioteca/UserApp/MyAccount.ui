@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MyAccount</class>
+ <widget class="QWidget" name="MyAccount">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1190</width>
+    <height>690</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MyAccount</string>
+  </property>
+  <widget class="QWidget" name="verticalLayoutWidget">
+   <property name="geometry">
+    <rect>
+     <x>90</x>
+     <y>50</y>
+     <width>301</width>
+     <height>541</height>
+    </rect>
+   </property>
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <item>
+     <widget class="QPushButton" name="borrowedBooksBtn">
+      <property name="text">
+       <string>Borrowed Books</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="borrowBookBtn">
+      <property name="text">
+       <string>Borrow a Book</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="retunBookBtn">
+      <property name="text">
+       <string>Return a Book</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="logOutBtn">
+      <property name="text">
+       <string>Log Out</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <resources/>
+ <connections/>
+</ui>

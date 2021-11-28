@@ -12,7 +12,6 @@ public:
 	~SearchBook();
 
 private slots:
-	void on_mainMenuBtn_clicked();
 	void on_exitBtn_clicked();
 	void on_loginBtn_clicked();
 	void on_searchBtn_clicked();

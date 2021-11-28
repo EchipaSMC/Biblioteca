@@ -40,12 +40,6 @@ void SearchBook::on_searchBtn_clicked()
 	}
 }
 
-void SearchBook::on_mainMenuBtn_clicked() {
-	QWidget* userAppWidget = new UserApp;
-	userAppWidget->show();
-	close();
-}
-
 SearchBook::~SearchBook()
 {
 }

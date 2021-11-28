@@ -52,10 +52,13 @@
     <ClCompile Include="Login.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="DialogBox.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="MainMenu.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="DialogBox.cpp">
+    <ClCompile Include="MyAccount.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -74,10 +77,13 @@
     <QtMoc Include="Login.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="DialogBox.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
     <QtMoc Include="MainMenu.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="DialogBox.h">
+    <QtMoc Include="MyAccount.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>
@@ -88,10 +94,13 @@
     <QtUic Include="Login.ui">
       <Filter>Form Files</Filter>
     </QtUic>
+    <QtUic Include="DialogBox.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
     <QtUic Include="MainMenu.ui">
       <Filter>Form Files</Filter>
     </QtUic>
-    <QtUic Include="DialogBox.ui">
+    <QtUic Include="MyAccount.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>

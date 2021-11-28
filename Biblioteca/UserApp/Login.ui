@@ -6,27 +6,36 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>600</width>
-    <height>400</height>
+    <width>1190</width>
+    <height>690</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Sign in</string>
   </property>
-  <widget class="QWidget" name="verticalLayoutWidget">
+  <widget class="QWidget" name="">
    <property name="geometry">
     <rect>
-     <x>140</x>
-     <y>40</y>
-     <width>315</width>
-     <height>311</height>
+     <x>20</x>
+     <y>160</y>
+     <width>1151</width>
+     <height>351</height>
     </rect>
    </property>
    <layout class="QVBoxLayout" name="verticalLayout">
+    <property name="leftMargin">
+     <number>350</number>
+    </property>
+    <property name="rightMargin">
+     <number>350</number>
+    </property>
     <item>
      <widget class="QLabel" name="label">
       <property name="text">
        <string>Username</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
       </property>
      </widget>
     </item>
@@ -38,6 +47,9 @@
       <property name="text">
        <string>Password</string>
       </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
      </widget>
     </item>
     <item>
@@ -48,9 +60,18 @@
      </widget>
     </item>
     <item>
-     <layout class="QVBoxLayout" name="verticalLayout_2">
+     <layout class="QVBoxLayout" name="verticalLayout_3">
+      <property name="leftMargin">
+       <number>300</number>
+      </property>
       <property name="topMargin">
        <number>30</number>
+      </property>
+      <property name="rightMargin">
+       <number>300</number>
+      </property>
+      <property name="bottomMargin">
+       <number>100</number>
       </property>
      </layout>
     </item>
@@ -62,41 +83,16 @@
      </widget>
     </item>
     <item>
-     <layout class="QVBoxLayout" name="verticalLayout_3">
-      <property name="sizeConstraint">
-       <enum>QLayout::SetMinimumSize</enum>
-      </property>
+     <layout class="QVBoxLayout" name="verticalLayout_4">
       <property name="leftMargin">
-       <number>0</number>
+       <number>300</number>
       </property>
       <property name="topMargin">
-       <number>70</number>
+       <number>30</number>
       </property>
-     </layout>
-    </item>
-    <item>
-     <layout class="QHBoxLayout" name="horizontalLayout">
-      <item>
-       <widget class="QPushButton" name="mainMenuBtn">
-        <property name="text">
-         <string>Main Menu</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="bookSearchBtn">
-        <property name="text">
-         <string>Search for a book</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="exitBtn">
-        <property name="text">
-         <string>Exit</string>
-        </property>
-       </widget>
-      </item>
+      <property name="rightMargin">
+       <number>300</number>
+      </property>
      </layout>
     </item>
    </layout>

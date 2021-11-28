@@ -6,41 +6,63 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1281</width>
-    <height>720</height>
+    <width>1280</width>
+    <height>700</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainMenu</string>
   </property>
-  <widget class="QTabWidget" name="menuTab">
+  <widget class="QTabWidget" name="tabWidget">
    <property name="geometry">
     <rect>
-     <x>10</x>
-     <y>10</y>
-     <width>1261</width>
-     <height>701</height>
+     <x>20</x>
+     <y>20</y>
+     <width>1241</width>
+     <height>661</height>
     </rect>
    </property>
-   <property name="tabPosition">
-    <enum>QTabWidget::North</enum>
-   </property>
    <property name="currentIndex">
-    <number>0</number>
+    <number>2</number>
    </property>
-   <widget class="QWidget" name="MyAccount">
+   <widget class="SearchBook" name="searchBook">
     <attribute name="title">
-     <string>My account</string>
+     <string>Search For A Book</string>
     </attribute>
    </widget>
-   <widget class="QWidget" name="SearchBook">
+   <widget class="Login" name="login">
     <attribute name="title">
-     <string>Search a book</string>
+     <string>Log In</string>
+    </attribute>
+   </widget>
+   <widget class="MyAccount" name="myAccount">
+    <attribute name="title">
+     <string>My Account</string>
     </attribute>
    </widget>
   </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
+ <customwidgets>
+  <customwidget>
+   <class>SearchBook</class>
+   <extends>QWidget</extends>
+   <header>SearchBook.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>Login</class>
+   <extends>QWidget</extends>
+   <header>Login.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>MyAccount</class>
+   <extends>QWidget</extends>
+   <header>MyAccount.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

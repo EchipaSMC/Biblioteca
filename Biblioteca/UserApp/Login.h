@@ -16,7 +16,6 @@ public:
 private slots:
 	void on_loginBtn_clicked();
 	void on_exitBtn_clicked();
-	void on_mainMenuBtn_clicked();
 	void on_bookSearchBtn_clicked();
 
 private:

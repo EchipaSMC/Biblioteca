@@ -95,6 +95,7 @@
     <QtUic Include="DialogBox.ui" />
     <QtUic Include="Login.ui" />
     <QtUic Include="MainMenu.ui" />
+    <QtUic Include="MyAccount.ui" />
     <QtUic Include="SearchBook.ui" />
     <QtUic Include="UserApp.ui" />
     <QtMoc Include="UserApp.h" />
@@ -103,15 +104,17 @@
     <ClCompile Include="InvertedIndex.cpp" />
     <ClCompile Include="Login.cpp" />
     <ClCompile Include="MainMenu.cpp" />
+    <ClCompile Include="MyAccount.cpp" />
     <ClCompile Include="SearchBook.cpp" />
     <ClCompile Include="UserApp.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Book.h" />
+    <QtMoc Include="MyAccount.h" />
+    <QtMoc Include="MainMenu.h" />
     <QtMoc Include="DialogBox.h" />
     <ClInclude Include="InvertedIndex.h" />
-    <QtMoc Include="MainMenu.h" />
     <QtMoc Include="Login.h" />
     <QtMoc Include="SearchBook.h" />
   </ItemGroup>

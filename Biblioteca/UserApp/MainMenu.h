@@ -11,8 +11,6 @@ public:
 	MainMenu(QWidget *parent = Q_NULLPTR);
 	~MainMenu();
 
-private slots:
-
 private:
 	Ui::MainMenu ui;
 };

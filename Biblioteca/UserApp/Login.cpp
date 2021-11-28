@@ -1,5 +1,6 @@
 #include "Login.h"
 #include "DialogBox.h"
+#include "MainMenu.h"
 
 Login::Login(QWidget* parent)
 	: QWidget(parent)
@@ -16,8 +17,7 @@ void Login::on_loginBtn_clicked() {
 
 	if (true)
 	{
-
-		//close();
+		close();
 	}
 
 	else
@@ -30,13 +30,6 @@ void Login::on_loginBtn_clicked() {
 
 void Login::on_exitBtn_clicked()
 {
-	close();
-}
-
-void Login::on_mainMenuBtn_clicked()
-{
-	QWidget* userAppWidget = new UserApp;
-	userAppWidget->show();
 	close();
 }
 
