@@ -10,6 +10,7 @@
 #include <sstream>
 #include <string>
 #include <vector>
+#include "..\TCPSocket\TCPSocket.cpp"
 
 class Server
 {
@@ -27,5 +28,7 @@ private:
 	Tags tags;
 	UserServer user;
 	std::vector<BorrowedBooks> borrowedBooks;
+	TCPSocket client;
+
 };
 

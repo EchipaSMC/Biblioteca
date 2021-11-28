@@ -1,4 +1,6 @@
 #define _CRT_SECURE_NO_WARNINGS
+#define Server_OK 0
+
 #include "User.h"
 
 User::User()
@@ -53,6 +55,8 @@ User::User(const std::string& data)
 	whenBorrowed = localtime(&now);
 	this->returningDay = "\0";
 	this->borrowedBooks.resize(0);
+
+	socket.Connect();
 }
 
 User::User(const User& user)
@@ -105,7 +109,9 @@ void User::ShowBorrowedBooks()
 
 void User::Borrowing(/*id*/)
 {
-	/*borrowedBooks.push_back(b);
+	/*
+	obiect book, data primire, data returnare
+	borrowedBooks.push_back(b);
 	returningDate(whenBorrowed, 14);
 	returningDay = asctime(whenBorrowed);*/
 
@@ -172,7 +178,7 @@ void User::BookReturnSpecific(int IdBook)
 {
 	for (auto elem : borrowedBooks)
 	{
-		if (IdBook == elem.getBookID())
+		if (IdBook == stoi(elem.getBookID()))
 		{
 			borrowedBooks.erase(borrowedBooks.begin(), borrowedBooks.begin() + 1);
 			std::cout << "You have returned the book succesfully. The book is now available in library.";
@@ -190,9 +196,9 @@ void User::ReadBook()
 	std::cin >> IdBook;
 	for (auto elem : borrowedBooks)
 	{
-		if (IdBook == elem.getBookID())
+		if (IdBook == stoi(elem.getBookID()))
 		{
-			//afisare continut carte
+			//afisare text citire
 			break;
 		}
 	}
@@ -210,7 +216,7 @@ void User::ReadBook()
 	}
 }
 
-void User::LoginMenu()
+void User::LoginMenu()// de mutat in switch + de adaugat borrowedBook(cu receive din server)
 {
 	std::cout << "Please input your username";
 	std::string nickname;
@@ -230,6 +236,7 @@ void User::LoginMenu()
 		std::cout << "Username and/or password are incorrect";
 		LoginRegisterMenu();
 	}
+	
 	else
 	{
 		ShowMenu();
@@ -265,11 +272,17 @@ void User::RegisterMenu()
 	std::cin >> pw;
 	std::cout << "Confirm password: ";
 	std::cin >> cpw;
+
+	
 	if (pw == cpw)
 	{
+		
 		if (PasswordRequirements(pw))
 		{
 			User newUser(username, pw);
+			socket.Send(username);
+			socket.Send(pw);
+			//cod 0 
 			ShowMenu();
 		}
 		else
@@ -304,6 +317,7 @@ void User::ShowMenu()
 		{
 		case 1:
 			std::cout << "\nPlease introduce the title/author/ISBN of the book you would like to borrow: ";
+			//send keyword pentru imprumut carte
 			std::cin >> keyword;
 			if (search(keyword))
 				Borrowing();
@@ -314,8 +328,8 @@ void User::ShowMenu()
 			break;
 		case 3:
 			std::cout << "\nIntroduce the title/author/ISBN of the book you would like to look for: ";
+			//send keyword pt search
 			std::cin >> keyword;
-			search(keyword);
 			break;
 		case 4:
 			ReadBook();
@@ -339,7 +353,6 @@ void User::ShowMenu()
 		default:
 			break;
 		}
-
 	}
 }
 
@@ -394,8 +407,10 @@ bool User::PasswordRequirements(std::string pw)
 {
 	bool UpperLetter = false;
 	bool isDigit = false;
+	
 	if (pw.size() < 8)
 		return false;
+
 	for (int i = 0; i < pw.length(); i++)
 	{
 		if (isupper(pw[i]))
@@ -403,6 +418,8 @@ bool User::PasswordRequirements(std::string pw)
 			UpperLetter = true;
 		}
 	}
+	//sa nu aiba apostrof ';|
+
 	if (UpperLetter == false)
 		return false;
 
@@ -413,6 +430,7 @@ bool User::PasswordRequirements(std::string pw)
 			isDigit = true;
 		}
 	}
+
 	if (isDigit == false)
 		return false;
 	return true;

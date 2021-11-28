@@ -40,6 +40,9 @@ bool DumpCurrentRow(sqlite3_stmt* stmt)
 Server::Server()
 {
 	database = Database("dbCarti.db");
+	TCPSocket listener;
+	listener.Listen();
+	client = listener.Accept();
 	RunServer();
 }
 

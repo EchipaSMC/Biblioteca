@@ -46,7 +46,6 @@ Book::Book(const std::string& bookData)
 	this->borrowed = false;
 }
 
-
 std::string Book::getBookID() const
 {
 	return BookID;

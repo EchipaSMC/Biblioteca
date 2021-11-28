@@ -7,6 +7,7 @@
 #include <conio.h>
 #include "InvertedIndex.h"
 #include "Book.h"
+#include "..\TCPSocket\TCPSocket.cpp"
 
 class User {
 private:
@@ -15,6 +16,7 @@ private:
 	tm* whenBorrowed;
 	std::string returningDay;
 	std::string password;
+	TCPSocket socket;
 
 public:
 	User();
