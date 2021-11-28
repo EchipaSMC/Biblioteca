@@ -40,9 +40,6 @@ bool DumpCurrentRow(sqlite3_stmt* stmt)
 Server::Server()
 {
 	database = Database("dbCarti.db");
-	TCPSocket listener;
-	listener.Listen();
-	client = listener.Accept();
 	RunServer();
 }
 
@@ -56,9 +53,11 @@ void Server::RunServer()
 	PrepareVirtualTable();
 	while (true)
 	{
+		
 		switch (operationCode)
 		{
 		case 1: // register
+			
 			stmt = database.CreateStatement(database.GetDatabase(), queryList.UserServerCheckExistingUsers(username));
 			database.Run(stmt.get(), DumpCurrentRow);
 			std::getline(getResult, result, '|');
@@ -71,6 +70,7 @@ void Server::RunServer()
 			break;
 
 		case 2:	// login
+			
 			stmt = database.CreateStatement(database.GetDatabase(), queryList.UserServerUsersLogin(username, password));
 			database.Run(stmt.get(), DumpCurrentRow);
 			std::getline(getResult, result, '|');
@@ -103,6 +103,7 @@ void Server::RunServer()
 				borrowedBooks.push_back(BorrowedBooks(std::stoi(username), std::stoi(result)));
 			}
 
+			
 			getResult.str(std::string());
 			getResult.clear();
 

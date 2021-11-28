@@ -1,6 +1,4 @@
 #define _CRT_SECURE_NO_WARNINGS
-#define Server_OK 0
-
 #include "User.h"
 
 User::User()
@@ -55,8 +53,6 @@ User::User(const std::string& data)
 	whenBorrowed = localtime(&now);
 	this->returningDay = "\0";
 	this->borrowedBooks.resize(0);
-
-	socket.Connect();
 }
 
 User::User(const User& user)
@@ -109,9 +105,7 @@ void User::ShowBorrowedBooks()
 
 void User::Borrowing(/*id*/)
 {
-	/*
-	obiect book, data primire, data returnare
-	borrowedBooks.push_back(b);
+	/*borrowedBooks.push_back(b);
 	returningDate(whenBorrowed, 14);
 	returningDay = asctime(whenBorrowed);*/
 
@@ -164,7 +158,7 @@ void User::bookReturn()
 		char opt;
 		std::cin >> opt;
 
-		borrowedBooks.erase(borrowedBooks.begin(),borrowedBooks.begin()+1);
+		borrowedBooks.erase(borrowedBooks.begin(), borrowedBooks.begin() + 1);
 		if (opt == 'y' || opt == 'Y') {
 
 			std::cout << "You have returned the book succesfully. The book is now available in library.";
@@ -178,7 +172,7 @@ void User::BookReturnSpecific(int IdBook)
 {
 	for (auto elem : borrowedBooks)
 	{
-		if (IdBook == stoi(elem.getBookID()))
+		if (IdBook == elem.getBookID())
 		{
 			borrowedBooks.erase(borrowedBooks.begin(), borrowedBooks.begin() + 1);
 			std::cout << "You have returned the book succesfully. The book is now available in library.";
@@ -196,9 +190,9 @@ void User::ReadBook()
 	std::cin >> IdBook;
 	for (auto elem : borrowedBooks)
 	{
-		if (IdBook == stoi(elem.getBookID()))
+		if (IdBook == elem.getBookID())
 		{
-			//afisare text citire
+			//afisare continut carte
 			break;
 		}
 	}
@@ -216,7 +210,7 @@ void User::ReadBook()
 	}
 }
 
-void User::LoginMenu()// de mutat in switch + de adaugat borrowedBook(cu receive din server)
+void User::LoginMenu()
 {
 	std::cout << "Please input your username";
 	std::string nickname;
@@ -236,7 +230,6 @@ void User::LoginMenu()// de mutat in switch + de adaugat borrowedBook(cu receive
 		std::cout << "Username and/or password are incorrect";
 		LoginRegisterMenu();
 	}
-	
 	else
 	{
 		ShowMenu();
@@ -268,32 +261,27 @@ void User::RegisterMenu()
 	std::string username, pw, cpw;
 	std::cout << "\nUsername: ";
 	std::cin >> username;
+	std::cout << "\nPlease note: The password must have at least one digit, a mixture of uppercase and lowercase letters and at least one special character. ";
 	std::cout << "Password: ";
 	std::cin >> pw;
 	std::cout << "Confirm password: ";
 	std::cin >> cpw;
-
-	
 	if (pw == cpw)
 	{
-		
 		if (PasswordRequirements(pw))
 		{
 			User newUser(username, pw);
-			socket.Send(username);
-			socket.Send(pw);
-			//cod 0 
 			ShowMenu();
 		}
 		else
 		{
-			std::cout << "\nPassword doesn't match the requirements, please repeat.";
+			std::cout << "\nPassword does not meet the requirements, please repeat.";
 			RegisterMenu();
 		}
 	}
 	else
 	{
-		std::cout << "\nPassword and confirm pawword do not match, pelase repeat.";
+		std::cout << "\nPassword and confirm password do not match, pelase repeat.";
 		RegisterMenu();
 	}
 }
@@ -391,47 +379,57 @@ void User::ChangePassword()
 void User::MenuList()
 {
 	std::cout << "\n---------------------------------------------------------\n";
-	std::cout << "Hello " << this->username << "! Please select an option: ";
-	std::cout << "\n1. Borrow a book. ";
-	std::cout << "\n2. Show borrowed books. ";
-	std::cout << "\n3. Search a book. ";
-	std::cout << "\n4. Read book. ";
-	std::cout << "\n5. Change password. ";
-	std::cout << "\n6. Log out. ";
-	std::cout << "\n7. Delete account. ";
-	std::cout << "\n8. Exit.";
+	std::cout << "Hello " << this->username << "! Please select an option from below: ";
+	std::cout << "\n1. Register. ";
+	std::cout << "\n2. Login. ";
+	std::cout << "\n3. Delete user. ";
+	std::cout << "\n4. Log out. ";
+	std::cout << "\n5. Return a book. ";
+	/*
+	std::cout << "\n6. Borrow a book. ";
+	std::cout << "\n7. Show borrowed books. ";
+	std::cout << "\n8. Search a book. ";
+	std::cout << "\n9. Read a book. ";
+	std::cout << "\n10. Change password. ";
+	std::cout << "\n11. Exit. ";
+	*/
 	std::cout << "\n---------------------------------------------------------\n";
 }
 
 bool User::PasswordRequirements(std::string pw)
 {
 	bool UpperLetter = false;
+	bool LowerLetter = false;
 	bool isDigit = false;
-	
+	bool specialChar = false;
 	if (pw.size() < 8)
 		return false;
-
 	for (int i = 0; i < pw.length(); i++)
 	{
 		if (isupper(pw[i]))
 		{
 			UpperLetter = true;
 		}
-	}
-	//sa nu aiba apostrof ';|
-
-	if (UpperLetter == false)
-		return false;
-
-	for (int i = 0; i < pw.length(); i++)
-	{
+		if (islower(pw[i]))
+		{
+			LowerLetter = true;
+		}
 		if (isdigit(pw[i]))
 		{
 			isDigit = true;
 		}
+		if ((pw[i] > 32 && pw[i] < 48) || (pw[i] > 57 && pw[i] < 65) || (pw[i] > 90 && pw[i] < 97) || (pw[i] > 122 && pw[i] < 127))
+		{
+			specialChar = true;
+		}
 	}
+	if (UpperLetter == false || LowerLetter == false)
+		return false;
 
 	if (isDigit == false)
+		return false;
+
+	if (specialChar == false)
 		return false;
 	return true;
 }
