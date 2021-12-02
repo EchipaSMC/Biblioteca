@@ -8,32 +8,31 @@
 #include "InvertedIndex.h"
 #include "Book.h"
 #include "..\TCPSocket\TCPSocket.cpp"
+#include "BorrowedBooks.h"
 
 class User {
 private:
 	std::string username;
-	std::vector<Book> borrowedBooks;
-	tm* whenBorrowed;
-	std::string returningDay;
+	std::vector<BorrowedBooks> borrowedBooks;
 	std::string password;
 	TCPSocket socket;
 
 public:
 	User();
 	~User();
-	User(std::string, std::vector<Book>, std::string);
+	User(std::string, std::vector<BorrowedBooks>, std::string);
 	User(std::string,std::string);
 	User(const std::string&);
 	User(const User&);
 	std::string GetUsername() const;
-	std::vector<Book> GetBorrowedBooks() const;
+	std::vector<BorrowedBooks> GetBorrowedBooks() const;
 	//tm* GetReturnDate();
 	//std::string GetReturnDate();
 	bool operator==(const User& s) const;
 	//std::string GetPassword();
 	void ShowBorrowedBooks();
 	void Borrowing(/*id*/);
-	void returningDate(tm* currentDate, int days);
+	void returningDate(std::string currentDate, int days);
 	void bookReturn();
 	bool search(std::string word);
 	void ProlongBorrowDate(tm* retDate, int days);

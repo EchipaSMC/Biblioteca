@@ -142,12 +142,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Book.cpp" />
+    <ClCompile Include="BorrowedBooks.cpp" />
     <ClCompile Include="InvertedIndex.cpp" />
     <ClCompile Include="MainClient.cpp" />
     <ClCompile Include="User.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Book.h" />
+    <ClInclude Include="BorrowedBooks.h" />
     <ClInclude Include="InvertedIndex.h" />
     <ClInclude Include="User.h" />
   </ItemGroup>

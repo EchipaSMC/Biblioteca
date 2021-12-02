@@ -5,22 +5,13 @@ User::User()
 {
 	this->username = "\0";
 	time_t now = time(0);
-	whenBorrowed = localtime(&now);
-	this->returningDay = "\0";
 	this->password = '\0';
 }
 
-User::~User()
-{
-	delete[] whenBorrowed;
-}
-
-User::User(std::string nickname, std::vector<Book> borrowedB, std::string password)
+User::User(std::string nickname, std::vector<BorrowedBooks> borrowedB, std::string password)
 {
 	this->username = nickname;
 	this->borrowedBooks = borrowedB;
-	time_t now = time(0);
-	this->whenBorrowed = localtime(&now);
 	this->password = password;
 }
 
@@ -29,8 +20,6 @@ User::User(std::string username, std::string password)
 	this->username = username;
 	this->password = password;
 	time_t now = time(0);
-	this->whenBorrowed = localtime(&now);
-	this->returningDay = "\0";
 	this->borrowedBooks.resize(0);
 }
 
@@ -49,9 +38,6 @@ User::User(const std::string& data)
 	this->username = vecData[0];
 	this->password = vecData[1];
 
-	time_t now = time(0);
-	whenBorrowed = localtime(&now);
-	this->returningDay = "\0";
 	this->borrowedBooks.resize(0);
 }
 
@@ -59,7 +45,6 @@ User::User(const User& user)
 {
 	this->username = user.username;
 	this->borrowedBooks = user.borrowedBooks;
-	this->whenBorrowed = user.whenBorrowed;
 	this->password = user.password;
 }
 
@@ -68,15 +53,10 @@ std::string User::GetUsername() const
 	return username;
 }
 
-std::vector<Book> User::GetBorrowedBooks() const
+std::vector<BorrowedBooks> User::GetBorrowedBooks() const
 {
 	return borrowedBooks;
 }
-
-//tm* User::GetReturnDate()
-//{
-//	return this->whenBorrowed;
-//}
 
 bool User::operator==(const User& s) const
 {
@@ -88,7 +68,7 @@ void User::ShowBorrowedBooks()
 	std::cout << "User :" << this->username << "borrowed next books: " << std::endl;
 	for (auto& elem : this->borrowedBooks)
 	{
-		std::cout << elem.getBookID() << ". " << elem.getTitle() << " - " << returningDay << std::endl;
+		std::cout << elem.getBook().getBookID() << ". " << elem.getBook().getTitle() << " - " << elem.getReturningDate() << std::endl;
 		std::cout << "Do you want to prolong the returning date?(y/n)";
 		char opt;
 		std::cin >> opt;
@@ -97,7 +77,7 @@ void User::ShowBorrowedBooks()
 			std::cout << "Please input the number of days:";
 			int days;
 			std::cin >> days;
-			ProlongBorrowDate(whenBorrowed, days);
+			returningDate(elem.getBorrowDate(), days);
 		}
 	}
 }
@@ -112,12 +92,25 @@ void User::Borrowing(/*id*/)
 }
 
 
-void User::returningDate(tm* currentDate, int days)
+void User::returningDate(std::string currentDate, int days)
 {
-	const time_t one_day = 24 * 60 * 60;
-	time_t date_seconds = mktime(currentDate) + (days * one_day);
+	std::stringstream iss(currentDate);
+	std::string partOfDate;
+	time_t now = time(NULL);
+	tm* retDate = localtime(&now);
 
-	*currentDate = *localtime(&date_seconds);
+	std::vector<std::string>fullDate;
+	while (std::getline(iss, partOfDate, '/')) {
+		fullDate.push_back(partOfDate);
+	}
+	retDate->tm_mday = stoi(fullDate[0]);
+	retDate->tm_mon = stoi(fullDate[1]);
+	retDate->tm_year = stoi(fullDate[2]);
+	
+	const time_t one_day = 24 * 60 * 60;
+	time_t date_seconds = mktime(retDate) + (days * one_day);
+
+	*retDate = *localtime(&date_seconds);
 }
 
 void User::ProlongBorrowDate(tm* retDate, int days)
@@ -162,8 +155,8 @@ void User::bookReturn()
 		if (opt == 'y' || opt == 'Y') {
 
 			std::cout << "You have returned the book succesfully. The book is now available in library.";
-			elem.setIfBorrow(opt);
-			returningDay = '\0';
+			elem.getBook().setIfBorrow(opt);
+			elem.setReturningDate('\0');
 		}
 	}
 }
@@ -172,12 +165,12 @@ void User::BookReturnSpecific(int IdBook)
 {
 	for (auto elem : borrowedBooks)
 	{
-		if (IdBook == elem.getBookID())
+		if (IdBook == stoi(elem.getBook().getBookID()))
 		{
 			borrowedBooks.erase(borrowedBooks.begin(), borrowedBooks.begin() + 1);
 			std::cout << "You have returned the book succesfully. The book is now available in library.";
 			//elem.setIfBorrow(opt);
-			returningDay = '\0';
+			elem.setReturningDate('\0');
 		}
 	}
 }
@@ -190,15 +183,17 @@ void User::ReadBook()
 	std::cin >> IdBook;
 	for (auto elem : borrowedBooks)
 	{
-		if (IdBook == elem.getBookID())
+		if (IdBook == stoi(elem.getBook().getBookID()))
 		{
-			//afisare continut carte
+			std::cout << "You are now reading " << elem.getBook().getTitle() << " written by " << elem.getBook().getAuthor() << std::endl;
 			break;
 		}
 	}
 	char opt, opt2;
+
 	std::cout << "Have you finished the book?(y/n)";
 	std::cin >> opt;
+	
 	if (opt == 'y' || opt == 'Y')
 	{
 		std::cout << "Do you want to return the book?(y/n)";
