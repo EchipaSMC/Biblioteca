@@ -11,6 +11,7 @@ SearchBook::SearchBook(QWidget* parent)
 	ui.listWidget->setViewMode(QListWidget::IconMode);
 	ui.listWidget->setIconSize(QSize(200, 150));
 	ui.listWidget->setResizeMode(QListWidget::Adjust);
+	ui.listWidget->setSpacing(20);
 }
 
 void SearchBook::on_exitBtn_clicked() {
@@ -30,17 +31,27 @@ void SearchBook::on_searchBtn_clicked()
 
 	if (searchInput.size())
 	{
-		std::vector<Book> searchResult; //= send input to server and receive a vector containing the books matching the input
+		std::vector<Book> searchResult; //= send input to server and receive a vector (of books) containing all the books matching the search input
 
-		if (searchResult.size())
+		if (true /*searchResult.size()*/)
 		{
+			QNetworkAccessManager* nam = new QNetworkAccessManager(this);
+			connect(nam, &QNetworkAccessManager::finished, this, &SearchBook::loadImage);
+
 			for each (Book book in searchResult)
 			{
-			ui.listWidget->addItem(book.getPictureLink());
-			std::string listItem = book.getTitle() + "     " + book.getAuthor();
-			QString path = "C/users/stefa/img/ex.jpg";
-			QListWidgetItem* item = new QListWidgetItem(QIcon(path), titleAndAuthor);
-			ui.listWidget->addItem(item);
+				QString imageURL = book.getImgURL();
+
+				if (imageURL.indexOf("https") == 0)
+				{
+					imageURL.remove(4, 1);
+				}
+
+				titleAndAuthor = QString::fromStdString(book.getTitle() + " " + book.getAuthor());
+
+				QUrl imageNoSecureURL = imageURL;
+				QNetworkRequest request(imageNoSecureURL);
+				nam->get(request);
 			}
 		}
 		else
@@ -66,7 +77,6 @@ void SearchBook::loadImage(QNetworkReply* reply)
 	QListWidgetItem* item = new QListWidgetItem(bookCoverImage, titleAndAuthor);
 	ui.listWidget->addItem(item);
 }
-
 
 SearchBook::~SearchBook()
 {
