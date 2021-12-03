@@ -181,10 +181,29 @@ void Server::RunServer()
 			getResult.clear();
 			break;
 			
-			/*
+			
 		case 8: //Read a book
-			ReadBook();
-			break;*/
+			client.Receive(result);
+
+			stmt = database.CreateStatement(database.GetDatabase(), queryList.BookTagsNumGetTags(std::stoi(result)));
+			database.Run(stmt.get(), DumpCurrentRow);
+			std::getline(getResult, username);
+			client.SendInt(std::stoi(username));
+
+			username = "This is a book about: ";
+
+			stmt = database.CreateStatement(database.GetDatabase(), queryList.BookTagsGetTags(std::stoi(result)));
+			for (int i = 0; i < std::stoi(result); i++)
+			{
+				std::getline(getResult, password);
+				username += password;
+			}
+			client.Send(username);
+
+			getResult.str(std::string());
+			getResult.clear();
+			break;
+
 		case 9: //Change Password
 			client.Receive(result);
 			stmt = database.CreateStatement(database.GetDatabase(), queryList.UserChangePassword(user.GetUserId(),result));

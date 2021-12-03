@@ -20,6 +20,12 @@ std::string Query::BookTagsGetTags(const int& bestBookId) const
 	query += std::to_string(bestBookId);
 	return query;
 }
+std::string Query::BookTagsNumGetTags(const int& bestBookId) const
+{
+	std::string query = "SELECT count(*) FROM BookTags INNER JOIN Books o ON goodreads_book_id = o.best_book_id WHERE goodreads_book_id = ";
+	query += std::to_string(bestBookId);
+	return query;
+}
 std::string Query::BorrowedBooksSearch(const int& userIdSearch) const
 {
 	std::string query = "SELECT * FROM BorrowedBooks WHERE user_id=";
@@ -89,7 +95,6 @@ std::string Query::UserServerUsersLoginID(const std::string& username, const std
 	query += username + "' AND password ='" + password + "'";
 	return query;
 }
-
 std::string Query::UserChangePassword(const int& userId, const std::string& newPassword)
 {
 	std::string query = "UPDATE User SET password = '";
