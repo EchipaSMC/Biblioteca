@@ -90,3 +90,10 @@ std::string Query::UserServerUsersLoginID(const std::string& username, const std
 	return query;
 }
 
+std::string Query::UserChangePassword(const int& userId, const std::string& newPassword)
+{
+	std::string query = "UPDATE User SET password = '";
+	query += newPassword+"' WHERE user_id = "+std::to_string(userId);
+	return query;
+}
+

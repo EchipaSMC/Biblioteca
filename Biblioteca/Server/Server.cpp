@@ -185,7 +185,14 @@ void Server::RunServer()
 		case 8: //Read a book
 			ReadBook();
 			break;*/
+		case 9: //Change Password
+			client.Receive(result);
+			stmt = database.CreateStatement(database.GetDatabase(), queryList.UserChangePassword(user.GetUserId(),result));
+			database.Run(stmt.get(), DumpCurrentRow);
+			user.SetPassword(result);
 
+			getResult.str(std::string());
+			getResult.clear();
 		default:
 			break;
 		}
