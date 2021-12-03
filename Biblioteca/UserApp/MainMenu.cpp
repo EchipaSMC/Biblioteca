@@ -40,22 +40,21 @@ void MainMenu::on_retunBookBtn_clicked()
 {
 }
 
-void MainMenu::on_searchBtn_clicked()
-{
-	SearchBook currentWidget = ui.tabWidget->widget(ui.tabWidget->indexOf(ui.searchBook));
-	QString searchInputText = currentWidget.ui.searchInput->text();
-	std::string search = searchInputText.toStdString();
-
-	if (search.size())
-	{
-		ui.tabWidget->setTabVisible(ui.tabWidget->indexOf(ui.searchResult), true);
-		ui.tabWidget->setCurrentWidget(ui.searchResult);
-	}
-	else
-	{
-		DialogBox* warningMessage = new DialogBox;
-		warningMessage->SetMessage("No search input given!");
-		warningMessage->show();
-	}
-	
-}
+//void MainMenu::on_searchBtn_clicked()
+//{
+//	SearchBook currentWidget = ui.tabWidget->widget(ui.tabWidget->indexOf(ui.searchBook));
+//	std::string searchInputText = currentWidget.GetSearchInput();
+//
+//	if (searchInputText.size()>0)
+//	{
+//		ui.tabWidget->setTabVisible(ui.tabWidget->indexOf(ui.searchResult), true);
+//		ui.tabWidget->setCurrentWidget(ui.searchResult);
+//	}
+//	else
+//	{
+//		DialogBox* warningMessage = new DialogBox;
+//		warningMessage->SetMessage("No search input given!");
+//		warningMessage->show();
+//	}
+//	
+//}

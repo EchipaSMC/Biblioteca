@@ -17,7 +17,7 @@ private slots:
 	void on_borrowBookBtn_clicked();
 	void on_borrowedBooksBtn_clicked();
 	void on_retunBookBtn_clicked();
-	void on_searchBtn_clicked();
+	//void on_searchBtn_clicked();
 
 private:
 	Ui::MainMenu ui;

@@ -2,6 +2,7 @@
 #include "UserApp.h"
 #include "Login.h"
 #include "DialogBox.h"
+#include "Book.h"
 
 SearchBook::SearchBook(QWidget* parent)
 	: QWidget(parent)
@@ -22,15 +23,28 @@ void SearchBook::on_loginBtn_clicked()
 
 void SearchBook::on_searchBtn_clicked()
 {
-	QString searchInput = ui.searchInput->text();
-	std::string search = searchInput.toStdString();
+	std::string searchInput = ui.searchInput->text().toStdString();
 
-	if (search.size())
+	if (searchInput.size())
 	{
-		/*QWidget* bookSearchResultWidget = new bookSearchResult;
-	bookSearchResultWidget->show();
-	*/
-		close();
+		std::vector<Book> searchResult; //= send input to server and receive a vector containing the books matching the input
+
+		if (true /*searchResult.size()*/)
+		{
+			//for each (Book book in searchResult)
+			//{
+			//ui.listWidget->addItem(book.getPictureLink());
+			//std::string listItem = book.getTitle() + "     " + book.getAuthor();
+			ui.listWidget->addItem("Poza");
+			ui.listWidget->addItem("Titlu autor");
+			//}
+		}
+		else
+		{
+			DialogBox* warningMessage = new DialogBox;
+			warningMessage->SetMessage("No matches found!");
+			warningMessage->show();
+		}
 	}
 	else
 	{
@@ -42,4 +56,9 @@ void SearchBook::on_searchBtn_clicked()
 
 SearchBook::~SearchBook()
 {
+}
+
+std::string SearchBook::GetSearchInput()
+{
+	return userSearchInput;
 }

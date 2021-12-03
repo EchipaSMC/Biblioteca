@@ -10,12 +10,16 @@ class SearchBook : public QWidget
 public:
 	SearchBook(QWidget* parent = Q_NULLPTR);
 	~SearchBook();
-	Ui::SearchBook ui;
+	std::string GetSearchInput();
 
 
 private slots:
 	void on_exitBtn_clicked();
 	void on_loginBtn_clicked();
 	void on_searchBtn_clicked();
+
+private:
+	std::string userSearchInput;
+	Ui::SearchBook ui;
 
 };
