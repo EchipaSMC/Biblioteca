@@ -2,10 +2,16 @@
 
 std::string Query::BooksBookSearch(const std::string& searchInput) const
 {
-	std::string query = "SELECT * FROM Books WHERE ";
+	std::string query = "Select * from Books where id in (SELECT rank from demo where editdist3(word,'";
 	query += searchInput;
-	query += "in(original_title, authors, isbn)";
-
+	query += "')/100 < 5);";
+	return query;
+}
+std::string Query::BooksNumOfBookSearch(const std::string& searchInput) const
+{
+	std::string query = "Select count(*) from Books where id in (SELECT rank from demo where editdist3(word,'";
+	query += searchInput;
+	query += "')/100 < 5);";
 	return query;
 }
 std::string Query::BookTagsGetTags(const int& bestBookId) const
