@@ -79,3 +79,40 @@ database Database::OpenDatabase(const std::string& name)
 	}
 	return database(db, sqlite3_close);
 }
+
+bool Database::DumpCurrentRow(sqlite3_stmt* stmt)
+{
+	if (stmt)
+	{
+		for (int i = 0; i < sqlite3_column_count(stmt); ++i)
+		{
+			auto columntype = sqlite3_column_type(stmt, i);
+			if (columntype == SQLITE_NULL)
+			{
+				//std::cout << "<NULL>";
+			}
+			else if (columntype == SQLITE_INTEGER)
+			{
+				getResult << sqlite3_column_int64(stmt, i);
+			}
+			else if (columntype == SQLITE_FLOAT)
+			{
+				getResult << sqlite3_column_double(stmt, i);
+			}
+			else if (columntype == SQLITE_TEXT)
+			{
+				auto first = sqlite3_column_text(stmt, i);
+				std::size_t s = sqlite3_column_bytes(stmt, i);
+				getResult << (s > 0 ? std::string((const char*)first, s) : "");
+			}
+			else if (columntype == SQLITE_BLOB)
+			{
+				//std::cout << "<BLOOOB>";
+			}
+			std::cout << "|";
+		}
+		std::cout << std::endl;
+		return true;
+	}
+	return false;
+}
