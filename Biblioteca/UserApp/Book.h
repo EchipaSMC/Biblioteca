@@ -23,5 +23,4 @@ public:
 	void printBookInfo(const Book& book);
 	void setIfBorrow(bool option);
 	bool isBorrowed() const;
-
 };
