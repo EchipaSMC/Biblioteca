@@ -4,6 +4,7 @@ class Query
 {
 public:
 	std::string BooksBookSearch(const std::string& searchInput)const;
+	std::string BooksNumOfBookSearch(const std::string& searchInput)const;
 	std::string BookTagsGetTags(const int& bestBookId)const;
 	std::string BorrowedBooksSearch(const int& userIdSearch)const;
 	std::string BorrowedBooksInsert(const int& userId, const int& bookId)const;

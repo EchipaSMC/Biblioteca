@@ -1,4 +1,5 @@
 #include "Server.h"
+#include "..\TCPSocket\TCPSocket.cpp"
 std::stringstream getResult;
 bool DumpCurrentRow(sqlite3_stmt* stmt)
 {
@@ -153,7 +154,15 @@ void Server::RunServer()
 			getResult.str(std::string());
 			getResult.clear();
 			break;
+		case 6: // borrow book
+			client.Receive(result);
+			stmt = database.CreateStatement(database.GetDatabase(), queryList.BorrowedBooksInsert(user.GetUserId(), std::stoi(result)));
+			database.Run(stmt.get(), DumpCurrentRow);
+			borrowedBooks.push_back(BorrowedBooks(user.GetUserId(), std::stoi(result)));
 
+			getResult.str(std::string());
+			getResult.clear();
+			break;
 		case 7: //search a book
 			client.Receive(result);
 			stmt = database.CreateStatement(database.GetDatabase(), queryList.BooksNumOfBookSearch(result));
