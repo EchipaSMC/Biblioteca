@@ -147,14 +147,36 @@ void Server::RunServer()
 			borrowedBooks.clear();
 			break;
 		case 5:	// delete booko from borroedbooks
-
 			stmt = database.CreateStatement(database.GetDatabase(), queryList.BorrowedBooksDelete(borrowedBooks[checkUser].GetUserId(), borrowedBooks[checkUser].GetBookId()));
 			database.Run(stmt.get(), DumpCurrentRow);
 			borrowedBooks.erase(borrowedBooks.begin() + checkUser, borrowedBooks.begin() + checkUser + 1);
+			getResult.str(std::string());
+			getResult.clear();
+			break;
+
+		case 7: //search a book
+			client.Receive(result);
+			stmt = database.CreateStatement(database.GetDatabase(), queryList.BooksNumOfBookSearch(result));
+			database.Run(stmt.get(), DumpCurrentRow);
+			std::getline(getResult, username);
+			client.SendInt(std::stoi(username));
+			
+			stmt = database.CreateStatement(database.GetDatabase(), queryList.BooksBookSearch(result));
+			for (int i = 0; i < std::stoi(result); i++)
+			{
+				std::getline(getResult, username);
+				client.Send(username);
+			}
 
 			getResult.str(std::string());
 			getResult.clear();
 			break;
+			
+			/*
+		case 8: //Read a book
+			ReadBook();
+			break;*/
+
 		default:
 			break;
 		}
