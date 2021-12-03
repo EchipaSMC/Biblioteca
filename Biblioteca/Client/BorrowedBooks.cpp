@@ -39,12 +39,12 @@ std::string BorrowedBooks::getReturningDate() const
 	return returningDate;
 }
 
-void BorrowedBooks::setBorrowingDate(const std::string& borrowDate)
+void BorrowedBooks::setBorrowingDate(std::string borrowDate)
 {
 	this->dateWhenBorrowed = borrowDate;
 }
 
-void BorrowedBooks::setReturningDate(const std::string& retDate)
+void BorrowedBooks::setReturningDate(std::string retDate)
 {
 	this->returningDate = retDate;
 }

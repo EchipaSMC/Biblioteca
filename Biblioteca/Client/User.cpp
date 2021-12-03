@@ -1,4 +1,5 @@
 #define _CRT_SECURE_NO_WARNINGS
+#include "..\TCPSocket\TCPSocket.cpp"
 #include "User.h"
 
 User::User()
@@ -156,7 +157,7 @@ void User::bookReturn()
 
 			std::cout << "You have returned the book succesfully. The book is now available in library.";
 			elem.getBook().setIfBorrow(opt);
-			elem.setReturningDate('\0');
+			elem.setReturningDate("\0");
 		}
 	}
 }
@@ -170,7 +171,7 @@ void User::BookReturnSpecific(int IdBook)
 			borrowedBooks.erase(borrowedBooks.begin(), borrowedBooks.begin() + 1);
 			std::cout << "You have returned the book succesfully. The book is now available in library.";
 			//elem.setIfBorrow(opt);
-			elem.setReturningDate('\0');
+			elem.setReturningDate("\0");
 		}
 	}
 }

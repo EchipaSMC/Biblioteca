@@ -6,15 +6,17 @@ Book::Book()
 	this->original_title = '\0';
 	this->author = '\0';
 	this->ISBN = '\0';
+	this->imageURL = '\0';
 	this->borrowed = false;
 }
 
-Book::Book(std::string id, std::string title, std::string auth, std::string ISBNcode, bool borrowed)
+Book::Book(std::string id, std::string title, std::string auth, std::string ISBNcode, std::string imgURL, bool borrowed)
 {
 	this->BookID = id;
 	this->original_title = title;
 	this->author = auth;
 	this->ISBN = ISBNcode;
+	this->imageURL = imgURL;
 	this->borrowed = borrowed;
 }
 
@@ -24,6 +26,7 @@ Book::Book(const Book& B)
 	this->BookID = B.BookID;
 	this->ISBN = B.ISBN;
 	this->original_title = B.original_title;
+	this->imageURL = B.imageURL;
 	this->borrowed = B.borrowed;
 }
 
@@ -43,6 +46,7 @@ Book::Book(const std::string& bookData)
 	this->original_title = vecData[1];
 	this->author = vecData[2];
 	this->ISBN = vecData[3];
+	this->imageURL = vecData[4];
 	this->borrowed = false;
 }
 
@@ -64,6 +68,11 @@ std::string Book::getTitle() const
 std::string Book::getAuthor() const
 {
 	return author;
+}
+
+std::string Book::getImgURL() const
+{
+	return imageURL;
 }
 
 void Book::printBookInfo(const Book& book)

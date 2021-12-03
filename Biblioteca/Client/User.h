@@ -7,7 +7,6 @@
 #include <conio.h>
 #include "InvertedIndex.h"
 #include "Book.h"
-#include "..\TCPSocket\TCPSocket.cpp"
 #include "BorrowedBooks.h"
 
 class User {

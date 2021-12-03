@@ -14,6 +14,6 @@ public:
 	Book getBook()const;
 	std::string getBorrowDate() const;
 	std::string getReturningDate() const;
-	void setBorrowingDate(const std::string&);
-	void setReturningDate(const std::string&);
+	void setBorrowingDate(std::string);
+	void setReturningDate(std::string);
 };
