@@ -10,6 +10,7 @@ public:
 	std::string BorrowedBooksSearch(const int& userIdSearch)const;
 	std::string BorrowedBooksInsert(const int& userId, const int& bookId)const;
 	std::string BorrowedBooksDelete(const int& userId, const int& bookId)const;
+	std::string BookGetBookByID(const int& bookId) const;
 	std::string RatingsGetRatings(const int& bestBookId)const;
 	std::string TagsQuerySearch(const std::string& searchInput)const;
 	std::string UserServerUserSearch(const std::string& usernameSearch, const std::string& passwordSearch)const;

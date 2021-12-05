@@ -44,6 +44,12 @@ std::string Query::BorrowedBooksDelete(const int& userId, const int& bookId) con
 	query += std::to_string(userId) + "' AND book_id = '" + std::to_string(bookId) + "'";
 	return query;
 }
+std::string Query::BookGetBookByID(const int& bookId) const
+{
+	std::string query = "SELECT * FROM Books WHERE id = ";
+	query += std::to_string(bookId);
+	return query;
+}
 std::string Query::RatingsGetRatings(const int& bestBookId) const
 {
 	std::string query = "SELECT book_id,user_id,rating FROM Ratings INNER JOIN Books o ON ON Ratings.book_id =o.id  WHERE Ratings.book_id = ";
