@@ -7,6 +7,7 @@
 #include "InvertedIndex.h"
 #include "Book.h"
 #include "BorrowedBooks.h"
+#include <stdlib.h>
 #include "..\TCPSocket\TCPSocket.h"
 
 class User {
@@ -43,5 +44,6 @@ public:
 	void ShowMenu();
 	void ChangePassword();
 	void MenuList();
+	void BookDetails();
 	bool PasswordRequirements(std::string pw);
 };

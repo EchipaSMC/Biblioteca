@@ -226,6 +226,18 @@ void Server::RunServer()
 			Database::getResult.str(std::string());
 			Database::getResult.clear();
 
+			stmt = database.CreateStatement(database.GetDatabase(), queryList.BookGetBookByID(checkUser));
+			database.Run(stmt.get(), Database::DumpCurrentRow);
+			std::getline(Database::getResult, result);
+			book = Books(result);
+			client.Send(std::to_string(book.GetAverageRating()));
+			client.SendInt(book.GetRatings1());
+			client.SendInt(book.GetRatings2());
+			client.SendInt(book.GetRatings3());
+			client.SendInt(book.GetRatings4());
+			client.SendInt(book.GetRatings5());
+			client.Send(book.GetLanguageCode());
+
 			break;
 		default:
 			break;

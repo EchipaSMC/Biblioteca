@@ -314,7 +314,6 @@ void User::ShowMenu()
 		case 5: //Return a book
 			bookReturn();
 			break;
-
 		case 6: //Borrow a book
 			std::cout << "\nPlease introduce the title/author/ISBN of the book you would like to borrow: ";
 			std::cin >> keyword;
@@ -323,26 +322,23 @@ void User::ShowMenu()
 			break;
 		case 7: //search a book
 			socket.Send(keyword);
-
 			socket.ReceiveInt(size);
 			for (int i = 0; i < size; i++)
 			{
 				socket.Receive(bookData);
 				vec.push_back(Book(bookData));
 			}
-
 			break;
-		case 8: 
-			
-			break;
-		case 9: //Read a book
+		case 8: //Read a book
 			ReadBook();
 			break;
-		case 10: //change password
+		case 9: //change password
 			ChangePassword();
 			break;
+		case 10: //BookDetails
+			break;
 		case 11: //exit
-			return;
+			exit(EXIT_SUCCESS);
 			break;
 
 		default:
@@ -392,15 +388,17 @@ void User::MenuList()
 	std::cout << "\n3. Delete user. ";
 	std::cout << "\n4. Log out. ";
 	std::cout << "\n5. Return a book. ";
-	/*
 	std::cout << "\n6. Borrow a book. ";
-	std::cout << "\n7. Show borrowed books. ";
-	std::cout << "\n8. Search a book. ";
-	std::cout << "\n9. Read a book. ";
-	std::cout << "\n10. Change password. ";
+	std::cout << "\n7. Search a book. ";
+	std::cout << "\n8. Read a book. ";
+	std::cout << "\n9. Change password. ";
+	std::cout << "\n10. Show book details. ";
 	std::cout << "\n11. Exit. ";
-	*/
 	std::cout << "\n---------------------------------------------------------\n";
+}
+
+void User::BookDetails()
+{
 }
 
 bool User::PasswordRequirements(std::string pw)

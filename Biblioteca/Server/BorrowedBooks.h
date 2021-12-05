@@ -14,6 +14,7 @@ public:
 	int GetUserId()const;
 	int GetBookId()const;
 private:
+	//returndate , borrowdate ; update contstr
 	int userId, bookId;
 };
 
