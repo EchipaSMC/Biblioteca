@@ -1,4 +1,3 @@
-#define _CRT_SECURE_NO_WARNINGS
 #include "..\TCPSocket\TCPSocket.cpp"
 #include "User.h"
 
@@ -98,28 +97,21 @@ void User::returningDate(std::string currentDate, int days)
 	std::stringstream iss(currentDate);
 	std::string partOfDate;
 	time_t now = time(NULL);
-	tm* retDate = localtime(&now);
+	tm retDate;
+	localtime_s(&retDate, &now);
 
 	std::vector<std::string>fullDate;
 	while (std::getline(iss, partOfDate, '/')) {
 		fullDate.push_back(partOfDate);
 	}
-	retDate->tm_mday = stoi(fullDate[0]);
-	retDate->tm_mon = stoi(fullDate[1]);
-	retDate->tm_year = stoi(fullDate[2]);
-	
+	retDate.tm_mday = stoi(fullDate[0]);
+	retDate.tm_mon = stoi(fullDate[1]);
+	retDate.tm_year = stoi(fullDate[2]);
+
 	const time_t one_day = 24 * 60 * 60;
-	time_t date_seconds = mktime(retDate) + (days * one_day);
+	time_t date_seconds = mktime(&retDate) + (days * one_day);
 
-	*retDate = *localtime(&date_seconds);
-}
-
-void User::ProlongBorrowDate(tm* retDate, int days)
-{
-	const time_t one_day = 24 * 60 * 60;
-	time_t date_seconds = mktime(retDate) + (days * one_day);
-
-	*retDate = *localtime(&date_seconds);
+	localtime_s(&retDate, &date_seconds);
 }
 
 
@@ -194,7 +186,7 @@ void User::ReadBook()
 
 	std::cout << "Have you finished the book?(y/n)";
 	std::cin >> opt;
-	
+
 	if (opt == 'y' || opt == 'Y')
 	{
 		std::cout << "Do you want to return the book?(y/n)";
@@ -286,6 +278,10 @@ void User::RegisterMenu()
 void User::ShowMenu()
 {
 	int opt = 1;
+	int size;
+	std::string keyword;
+	std::string bookData;
+	std::vector<Book> vec;
 
 	while (opt)
 	{
@@ -296,7 +292,6 @@ void User::ShowMenu()
 			std::cout << "\nInvalid option, please try again (1-5).";
 			std::cin >> opt;
 		}
-		std::string keyword;
 		switch (opt)
 		{
 		case 1: //Register
@@ -319,31 +314,37 @@ void User::ShowMenu()
 		case 5: //Return a book
 			bookReturn();
 			break;
-			/*
-			case 6: //Borrow a book
-				std::cout << "\nPlease introduce the title/author/ISBN of the book you would like to borrow: ";
-				std::cin >> keyword;
-				if (search(keyword))
-					Borrowing();
-				break;
-			case 7: //Show list of borrowed books
-				ShowBorrowedBooks();
-				break;
-			case 8: //search a book
-				std::cout << "\nIntroduce the title/author/ISBN of the book you would like to look for: ";
-				std::cin >> keyword;
-				search(keyword);
-				break;
-			case 9: //Read a book
-				ReadBook();
-				break;
-			case 10: //change password
-				ChangePassword();
-				break;
-			case 11: //exit
-				return;
-				break;
-			*/
+
+		case 6: //Borrow a book
+			std::cout << "\nPlease introduce the title/author/ISBN of the book you would like to borrow: ";
+			std::cin >> keyword;
+			if (search(keyword))
+				Borrowing();
+			break;
+		case 7: //search a book
+			socket.Send(keyword);
+
+			socket.ReceiveInt(size);
+			for (int i = 0; i < size; i++)
+			{
+				socket.Receive(bookData);
+				vec.push_back(Book(bookData));
+			}
+
+			break;
+		case 8: 
+			
+			break;
+		case 9: //Read a book
+			ReadBook();
+			break;
+		case 10: //change password
+			ChangePassword();
+			break;
+		case 11: //exit
+			return;
+			break;
+
 		default:
 			break;
 		}

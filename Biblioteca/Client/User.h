@@ -2,12 +2,12 @@
 #include <string>
 #include <vector>
 #include <iostream>
-#include <list>
 #include <ctime>
 #include <conio.h>
 #include "InvertedIndex.h"
 #include "Book.h"
 #include "BorrowedBooks.h"
+#include "..\TCPSocket\TCPSocket.h"
 
 class User {
 private:
@@ -18,7 +18,7 @@ private:
 
 public:
 	User();
-	~User();
+	~User()=default;
 	User(std::string, std::vector<BorrowedBooks>, std::string);
 	User(std::string,std::string);
 	User(const std::string&);
