@@ -17,7 +17,7 @@ class InvertedIndex {
 public:
 	void addFile(const std::string&);
 	std::map<std::string, std::vector<wordPosition>> getDictionary();
-	int getLine(std::string&, int);
+	int getLine(std::string&,int);
 	int getIndex(std::string&, int);
 	//int LevenshteinDistance(const std::string&, const std::string&);
 

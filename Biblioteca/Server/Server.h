@@ -17,8 +17,6 @@ class Server
 public:
 	Server();
 	void RunServer();
-	void PrepareVirtualTable();
-	void DropVirtualTable();
 private:
 	Query queryList;
 	Books book;
@@ -29,5 +27,19 @@ private:
 	UserServer user;
 	std::vector<BorrowedBooks> borrowedBooks;
 	TCPSocket client;
+
+	void PrepareVirtualTable();
+	void DropVirtualTable();
+
+	void Register();
+	void Login();
+	void DeleteUser();
+	void Logout();
+	void ReturnBook();
+	void BorrowBook();
+	void SearchBook();
+	void ReadBook();
+	void ChangePassword();
+	void PrepareBookDetails();
 };
 

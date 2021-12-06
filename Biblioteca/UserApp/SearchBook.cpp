@@ -40,7 +40,7 @@ void SearchBook::on_searchBtn_clicked()
 
 			for each (Book book in searchResult)
 			{
-				QString imageURL = book.getImgURL();
+				QString imageURL = QString::fromStdString(book.getImgURL());
 
 				if (imageURL.indexOf("https") == 0)
 				{
