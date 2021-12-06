@@ -51,7 +51,7 @@ Server::Server()
 void Server::RunServer()
 {
 	int operationCode;
-	std::string username, password, result;
+	std::string username, password, result,result2;
 	int checkUser;
 	statement stmt(nullptr, sqlite3_finalize);
 	std::cin >> operationCode;
@@ -107,7 +107,9 @@ void Server::RunServer()
 			while (std::getline(Database::getResult, username, '|'))
 			{
 				std::getline(Database::getResult, result, '|');
-				borrowedBooks.push_back(BorrowedBooks(std::stoi(username), std::stoi(result)));
+				std::getline(Database::getResult, result2, '|');
+				std::getline(Database::getResult, password, '|');
+				borrowedBooks.push_back(BorrowedBooks(std::stoi(username), std::stoi(result),result2,password));
 			}
 
 			client.SendInt(borrowedBooks.size());
@@ -159,9 +161,12 @@ void Server::RunServer()
 			break;
 		case 6: // borrow book
 			client.Receive(result);
-			stmt = database.CreateStatement(database.GetDatabase(), queryList.BorrowedBooksInsert(user.GetUserId(), std::stoi(result)));
+			client.Receive(result2);
+			client.Receive(username);
+			stmt = database.CreateStatement(database.GetDatabase(), queryList.BorrowedBooksInsert(user.GetUserId(), std::stoi(result),result2,username));
 			database.Run(stmt.get(), Database::DumpCurrentRow);
-			borrowedBooks.push_back(BorrowedBooks(user.GetUserId(), std::stoi(result)));
+
+			borrowedBooks.push_back(BorrowedBooks(user.GetUserId(), std::stoi(result),result2,username));
 
 			Database::getResult.str(std::string());
 			Database::getResult.clear();

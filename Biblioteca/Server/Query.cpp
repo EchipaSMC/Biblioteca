@@ -32,10 +32,10 @@ std::string Query::BorrowedBooksSearch(const int& userIdSearch) const
 	query += userIdSearch;
 	return query;
 }
-std::string Query::BorrowedBooksInsert(const int& userId, const int& bookId) const
+std::string Query::BorrowedBooksInsert(const int& userId, const int& bookId,const std::string& borrowedDate, const std::string& returningDate) const
 {
-	std::string query = "INSERT INTO BorrowedBooks (user_id,book_id)VALUES ('";
-	query += std::to_string(userId) + "'," + "'" + std::to_string(bookId) + "')";
+	std::string query = "INSERT INTO BorrowedBooks (user_id,book_id,borrowed_date,returning_date)VALUES ('";
+	query += std::to_string(userId) + "'," + "'" + std::to_string(bookId) + "',"+"'"+borrowedDate+"',"+"'"+returningDate+"')";
 	return query;
 }
 std::string Query::BorrowedBooksDelete(const int& userId, const int& bookId) const
@@ -101,7 +101,7 @@ std::string Query::UserServerUsersLoginID(const std::string& username, const std
 	query += username + "' AND password ='" + password + "'";
 	return query;
 }
-std::string Query::UserChangePassword(const int& userId, const std::string& newPassword)
+std::string Query::UserChangePassword(const int& userId, const std::string& newPassword) const
 {
 	std::string query = "UPDATE User SET password = '";
 	query += newPassword+"' WHERE user_id = "+std::to_string(userId);

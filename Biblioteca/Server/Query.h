@@ -8,7 +8,7 @@ public:
 	std::string BookTagsGetTags(const int& bestBookId)const;
 	std::string BookTagsNumGetTags(const int& bestBookId)const;
 	std::string BorrowedBooksSearch(const int& userIdSearch)const;
-	std::string BorrowedBooksInsert(const int& userId, const int& bookId)const;
+	std::string BorrowedBooksInsert(const int& userId, const int& bookId,const std::string& borrowedDate,const std::string& returningDate)const;
 	std::string BorrowedBooksDelete(const int& userId, const int& bookId)const;
 	std::string BookGetBookByID(const int& bookId) const;
 	std::string RatingsGetRatings(const int& bestBookId)const;
@@ -19,7 +19,7 @@ public:
 	std::string UserServerCheckExistingUsers(const std::string& username)const;
 	std::string UserServerUsersLogin(const std::string& username, const std::string& password)const;
 	std::string UserServerUsersLoginID(const std::string& username, const std::string& password)const;
-	std::string UserChangePassword(const int& userId, const std::string& newPassword);
+	std::string UserChangePassword(const int& userId, const std::string& newPassword)const;
 
 };
 
