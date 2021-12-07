@@ -85,7 +85,7 @@ void User::LoginMenu(std::string username, std::string password)
 	{
 		std::string bookToAdd;
 		socket.Receive(bookToAdd);
-		borrowedBooks.push_back(BorrowedBooks(bookToAdd));
+		borrowedBooks[i]=BorrowedBooks(bookToAdd);
 	}
 }
 
