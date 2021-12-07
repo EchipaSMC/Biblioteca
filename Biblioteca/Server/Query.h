@@ -8,6 +8,7 @@ public:
 	std::string BorrowedBooksSearch(const int& userIdSearch)const;
 	std::string BorrowedBooksInsert(const int& userId, const int& bookId,const std::string& borrowedDate,const std::string& returningDate)const;
 	std::string BorrowedBooksDelete(const int& userId, const int& bookId)const;
+	std::string BorrowedBooksUpdateReturnDate(const int& userId, const int& bookId,const std::string &date)const;
 	std::string BookGetBookByID(const int& bookId) const;
 	std::string RatingsGetRatings(const int& bestBookId)const;
 	std::string TagsGetAllTags(const int& goodReadsBookId);
