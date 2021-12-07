@@ -49,6 +49,8 @@ void Server::RunServer()
 		case 10: //Prepare book details;
 			PrepareBookDetails();
 			break;
+		case 11://Prolong borrow date
+
 		default:
 			break;
 		}
@@ -307,5 +309,23 @@ void Server::PrepareBookDetails()
 	client.Send(book.GetLanguageCode());
 
 	tags.clear();
+}
+
+void Server::ProlongBorrowDate()
+{
+	int bookId;
+	std::string newReturnDate;
+	client.ReceiveInt(bookId);
+	client.Receive(newReturnDate);
+	auto stmt= database.CreateStatement(database.GetDatabase(), queryList.BorrwedBooksUpdateReturnDate(user.GetUserId(),bookId,newReturnDate));
+	database.Run(stmt.get(), Database::DumpCurrentRow);
+	Database::getResult.str(std::string());
+	Database::getResult.clear();
+
+	for (auto& i : borrowedBooks)
+	{
+		if (i.GetBookId() == bookId)
+			i.SetReturnDate(newReturnDate);
+	}
 }
 

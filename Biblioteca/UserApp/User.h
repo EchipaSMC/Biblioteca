@@ -20,7 +20,7 @@ public:
 	std::string GetUsername() const;
 	std::vector<BorrowedBooks> GetBorrowedBooks() const;
 
-	bool operator==(const User& s) const;
+	const bool& operator==(const User& s) const;
 	
 	bool search(std::string word);
 

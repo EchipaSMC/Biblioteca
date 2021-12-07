@@ -40,5 +40,6 @@ private:
 	void ReadBook();
 	void ChangePassword();
 	void PrepareBookDetails();
+	void ProlongBorrowDate();
 };
 

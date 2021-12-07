@@ -39,9 +39,9 @@ std::vector<BorrowedBooks> User::GetBorrowedBooks() const
 	return borrowedBooks;
 }
 
-bool User::operator==(const User& s) const
+const bool& User::operator==(const User& s) const
 {
-	return *this == s;
+	return (this == &s);
 }
 
 bool User::search(std::string searchKeyword)
