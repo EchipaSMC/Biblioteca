@@ -102,22 +102,24 @@
     <QtMoc Include="UserApp.h" />
     <ClCompile Include="Book.cpp" />
     <ClCompile Include="BookSearchResult.cpp" />
+    <ClCompile Include="BorrowedBooks.cpp" />
     <ClCompile Include="DialogBox.cpp" />
-    <ClCompile Include="InvertedIndex.cpp" />
     <ClCompile Include="Login.cpp" />
     <ClCompile Include="MainMenu.cpp" />
     <ClCompile Include="MyAccount.cpp" />
     <ClCompile Include="SearchBook.cpp" />
+    <ClCompile Include="User.cpp" />
     <ClCompile Include="UserApp.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Book.h" />
+    <ClInclude Include="BorrowedBooks.h" />
+    <ClInclude Include="User.h" />
     <QtMoc Include="MyAccount.h" />
     <QtMoc Include="MainMenu.h" />
     <QtMoc Include="DialogBox.h" />
     <QtMoc Include="BookSearchResult.h" />
-    <ClInclude Include="InvertedIndex.h" />
     <QtMoc Include="Login.h" />
     <QtMoc Include="SearchBook.h" />
   </ItemGroup>

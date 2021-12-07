@@ -2,6 +2,7 @@
 #include <sstream>
 #include <string>
 #include <iostream>
+#include <vector>
 
 BorrowedBooks::BorrowedBooks(const std::string data)
 {

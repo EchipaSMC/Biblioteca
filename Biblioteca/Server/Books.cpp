@@ -1,8 +1,6 @@
 #include "Books.h"
 
-Books::Books(int id, int bookId, int bestBookId, int workId, int booksCount, std::string isbn, std::string isbn13, std::string authors, std::string originalPublicationYear,
-	std::string originalTitle, std::string title, std::string languageCode, double averageRating, int ratingsCount, int workRatingsCount, int workTextReviewsCount,
-	int ratings1, int ratings2, int ratings3, int ratings4, int ratings5, std::string imageUrl, std::string smallImageUrl) :
+Books::Books(const int& id, const int& bookId, const int& bestBookId, const int& workId, const int& booksCount, const std::string& isbn, const std::string& isbn13, const std::string& authors, const std::string& originalPublicationYear, const std::string& originalTitle, const std::string& title, const std::string& languageCode, const double& averageRating, const int& ratingsCount, const int& workRatingsCount, const int& workTextReviewsCount, const int& ratings1, const int& ratings2, const int& ratings3, const int& ratings4, const int& ratings5, const std::string& imageUrl, const std::string& smallImageUrl) :
 	id(id),
 	bookId(bookId),
 	bestBookId(bestBookId),
@@ -27,7 +25,7 @@ Books::Books(int id, int bookId, int bestBookId, int workId, int booksCount, std
 	imageUrl(imageUrl),
 	smallImageUrl(smallImageUrl) {}
 
-Books::Books(std::string queryResult)
+Books::Books(const std::string& queryResult)
 {
 	std::string word;
 	std::stringstream result;

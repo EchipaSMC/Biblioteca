@@ -1,6 +1,6 @@
 #include "BorrowedBooks.h"
 
-BorrowedBooks::BorrowedBooks(const std::string queryResult)
+BorrowedBooks::BorrowedBooks(const std::string& queryResult)
 {
 	std::string word;
 	std::stringstream result;

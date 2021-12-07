@@ -16,7 +16,6 @@ public:
 	static std::stringstream getResult;
 	Database();
 	Database(const std::string& name);
-	~Database()=default;
 	statement CreateStatement(sqlite3* db, const std::string& sql);
 	void Run(sqlite3_stmt* stmt, stmt_callback callback);
 	sqlite3* GetDatabase();

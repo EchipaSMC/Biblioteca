@@ -1,30 +1,29 @@
 #pragma once
 #include <string>
-#include "InvertedIndex.h"
+#include <sstream>
 
 class Book {
 
 private:
-	std::string BookID;
-	std::string original_title;
+	std::string bookId;
+	std::string originalTitle;
 	std::string author;
-	std::string ISBN;
-	std::string imageURL;
-	bool borrowed;
+	std::string isbn;
+	std::string imageUrl;
 
 public:
-	Book();
-	Book(std::string id, std::string title, std::string auth, std::string ISBNcode, std::string imgURL, bool borrowed);
-	Book(const Book&);
-	Book(const std::string&);
-	std::string getBookID() const;
-	std::string getISBN() const;
+	Book()=default;
+	Book(const std::string& id, const std::string& title, const std::string& auth, const std::string& ISBNcode, const std::string&imgURL);
+	Book(const Book& book);
+	Book(const std::string& serverReceived);
+
+	const Book& operator=(const Book& book);
+
+	std::string getBookId() const;
+	std::string getIsbn() const;
 	std::string getTitle() const;
 	std::string getAuthor() const;
-	std::string getImgURL() const;
+	std::string getImgUrl() const;
 	friend std::ostream& operator<<(std::ostream& fo, const Book& book);
-	void printBookInfo(const Book& book);
-	void setIfBorrow(bool option);
-	bool isBorrowed() const;
 
 };

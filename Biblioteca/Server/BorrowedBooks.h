@@ -6,7 +6,7 @@ class BorrowedBooks
 {
 public:
 	BorrowedBooks() = default;
-	BorrowedBooks(const std::string queryResult);
+	BorrowedBooks(const std::string& queryResult);
 	BorrowedBooks(const int& userId, const int& bookId, const std::string& returnDate, const std::string& borrowDate);
 	BorrowedBooks(const BorrowedBooks& borrowedBook);
 	~BorrowedBooks() = default;

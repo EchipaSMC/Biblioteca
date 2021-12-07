@@ -68,7 +68,7 @@ void User::ShowBorrowedBooks()
 	std::cout << "User :" << this->username << "borrowed next books: " << std::endl;
 	for (auto& elem : this->borrowedBooks)
 	{
-		std::cout << elem.getBook().getBookID() << ". " << elem.getBook().getTitle() << " - " << elem.getReturningDate() << std::endl;
+		std::cout << elem.getBook().getBookId() << ". " << elem.getBook().getTitle() << " - " << elem.getReturningDate() << std::endl;
 		std::cout << "Do you want to prolong the returning date?(y/n)";
 		char opt;
 		std::cin >> opt;
@@ -148,7 +148,6 @@ void User::bookReturn()
 		if (opt == 'y' || opt == 'Y') {
 
 			std::cout << "You have returned the book succesfully. The book is now available in library.";
-			elem.getBook().setIfBorrow(opt);
 			elem.setReturningDate("\0");
 		}
 	}
@@ -158,7 +157,7 @@ void User::BookReturnSpecific(int IdBook)
 {
 	for (auto elem : borrowedBooks)
 	{
-		if (IdBook == stoi(elem.getBook().getBookID()))
+		if (IdBook == stoi(elem.getBook().getBookId()))
 		{
 			borrowedBooks.erase(borrowedBooks.begin(), borrowedBooks.begin() + 1);
 			std::cout << "You have returned the book succesfully. The book is now available in library.";
@@ -176,7 +175,7 @@ void User::ReadBook()
 	std::cin >> IdBook;
 	for (auto elem : borrowedBooks)
 	{
-		if (IdBook == stoi(elem.getBook().getBookID()))
+		if (IdBook == stoi(elem.getBook().getBookId()))
 		{
 			std::cout << "You are now reading " << elem.getBook().getTitle() << " written by " << elem.getBook().getAuthor() << std::endl;
 			break;

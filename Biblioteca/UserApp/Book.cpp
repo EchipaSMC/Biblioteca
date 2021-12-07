@@ -1,68 +1,63 @@
 #include "Book.h"
 
-Book::Book()
+Book::Book(const std::string& id, const std::string& title, const std::string& auth, const std::string& ISBNcode, const std::string& imgURL):
+	bookId(id),
+	originalTitle(title),
+	author(auth),
+	isbn(ISBNcode),
+	imageUrl(imgURL)
 {
-	this->BookID = '\0';
-	this->original_title = '\0';
-	this->author = '\0';
-	this->ISBN = '\0';
-	this->imageURL = '\0';
-	this->borrowed = false;
 }
 
-Book::Book(std::string id, std::string title, std::string auth, std::string ISBNcode, std::string imgURL, bool borrowed)
+Book::Book(const Book& book)
 {
-	this->BookID = id;
-	this->original_title = title;
-	this->author = auth;
-	this->ISBN = ISBNcode;
-	this->imageURL = imgURL;
-	this->borrowed = borrowed;
-}
-
-Book::Book(const Book& B)
-{
-	this->author = B.author;
-	this->BookID = B.BookID;
-	this->ISBN = B.ISBN;
-	this->original_title = B.original_title;
-	this->imageURL = B.imageURL;
-	this->borrowed = B.borrowed;
+	this->author = book.author;
+	this->bookId = book.bookId;
+	this->isbn = book.isbn;
+	this->originalTitle = book.originalTitle;
+	this->imageUrl = book.imageUrl;
 }
 
 Book::Book(const std::string& bookData)
 {
 	std::stringstream iss(bookData);
 	std::string detailedData;
-	char character = '|';
-	std::vector<std::string> vecData;
-
-	while (std::getline(iss, detailedData, character))
-	{
-		vecData.push_back(detailedData);
-	}
-
-	this->BookID = vecData[0];
-	this->original_title = vecData[1];
-	this->author = vecData[2];
-	this->ISBN = vecData[3];
-	this->imageURL = vecData[4];
-	this->borrowed = false;
+	std::getline(iss, detailedData, '|');
+	this->bookId = detailedData;
+	std::getline(iss, detailedData, '|');
+	this->originalTitle = detailedData;
+	std::getline(iss, detailedData, '|');
+	this->author = detailedData;
+	std::getline(iss, detailedData, '|');
+	this->isbn = detailedData;
+	std::getline(iss, detailedData, '|');
+	this->imageUrl = detailedData;
 }
 
-std::string Book::getBookID() const
+const Book& Book::operator=(const Book& book)
 {
-	return BookID;
+	if (this == &book) return *this;
+	this->bookId = book.bookId;
+	this->originalTitle = book.originalTitle;
+	this->author = book.author;
+	this->isbn = book.isbn;
+	this->imageUrl = book.imageUrl;
+	return *this;
 }
 
-std::string Book::getISBN() const
+std::string Book::getBookId() const
 {
-	return ISBN;
+	return bookId;
+}
+
+std::string Book::getIsbn() const
+{
+	return isbn;
 }
 
 std::string Book::getTitle() const
 {
-	return original_title;
+	return originalTitle;
 }
 
 std::string Book::getAuthor() const
@@ -70,35 +65,13 @@ std::string Book::getAuthor() const
 	return author;
 }
 
-std::string Book::getImgURL() const
+std::string Book::getImgUrl() const
 {
-	return imageURL;
-}
-
-void Book::printBookInfo(const Book& book)
-{
-	std::cout << book;
-	if (book.borrowed == false)
-	{
-		std::cout << " Status: available";
-	}
-	else
-		std::cout << " Status: unavailable";
-}
-
-void Book::setIfBorrow(bool option)
-{
-	this->borrowed = option;
-}
-
-bool Book::isBorrowed()const
-{
-	return borrowed;
-
+	return imageUrl;
 }
 
 std::ostream& operator<<(std::ostream& fo, const Book& book)
 {
-	std::cout << book.getBookID() << ". " << book.getTitle() << ", " << book.getAuthor() << " | " << book.getISBN();
+	fo << book.getBookId() << ". " << book.getTitle() << ", " << book.getAuthor() << " | " << book.getIsbn();
 	return fo;
 }
