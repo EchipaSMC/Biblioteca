@@ -14,18 +14,6 @@ std::string Query::BooksNumOfBookSearch(const std::string& searchInput) const
 	query += "')/100 < 5);";
 	return query;
 }
-std::string Query::BookTagsGetTags(const int& bestBookId) const
-{
-	std::string query = "SELECT goodreads_book_id,tag_id,count FROM BookTags INNER JOIN Books o ON goodreads_book_id = o.best_book_id WHERE goodreads_book_id = ";
-	query += std::to_string(bestBookId);
-	return query;
-}
-std::string Query::BookTagsNumGetTags(const int& bestBookId) const
-{
-	std::string query = "SELECT count(*) FROM BookTags INNER JOIN Books o ON goodreads_book_id = o.best_book_id WHERE goodreads_book_id = ";
-	query += std::to_string(bestBookId);
-	return query;
-}
 std::string Query::BorrowedBooksSearch(const int& userIdSearch) const
 {
 	std::string query = "SELECT * FROM BorrowedBooks WHERE user_id=";
@@ -56,10 +44,10 @@ std::string Query::RatingsGetRatings(const int& bestBookId) const
 	query += std::to_string(bestBookId);
 	return query;
 }
-std::string Query::TagsQuerySearch(const std::string& searchInput) const
+std::string Query::TagsGetAllTags(const int& goodReadsBookId)
 {
-	std::string query = "SELECT * FROM Tags INNER JOIN BookTags ON Tags.tag_id = BookTags.tag_id WHERE Tags.tag_id = ";
-	query += searchInput;
+	std::string query = "SELECT tag_id,tag_name FROM Tags WHERE tag_id IN (SELECT tag_id FROM BookTags INNER JOIN Books o ON goodreads_book_id = o.best_book_id WHERE goodreads_book_id = ";
+	query += std::to_string(goodReadsBookId) + ")";
 	return query;
 }
 std::string Query::UserServerUserSearch(const std::string& usernameSearch, const std::string& passwordSearch) const
