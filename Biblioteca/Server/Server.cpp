@@ -50,7 +50,8 @@ void Server::RunServer()
 			PrepareBookDetails();
 			break;
 		case 11://Prolong borrow date
-
+			ProlongBorrowDate();
+			break;
 		default:
 			break;
 		}
@@ -316,7 +317,7 @@ void Server::ProlongBorrowDate()
 	std::string newReturnDate;
 	client.ReceiveInt(bookId);
 	client.Receive(newReturnDate);
-	auto stmt= database.CreateStatement(database.GetDatabase(), queryList.BorrwedBooksUpdateReturnDate(user.GetUserId(),bookId,newReturnDate));
+	auto stmt= database.CreateStatement(database.GetDatabase(), queryList.BorrowedBooksUpdateReturnDate(user.GetUserId(),bookId,newReturnDate));
 	database.Run(stmt.get(), Database::DumpCurrentRow);
 	Database::getResult.str(std::string());
 	Database::getResult.clear();

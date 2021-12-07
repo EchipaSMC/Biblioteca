@@ -9,6 +9,20 @@
 #include <stdlib.h>
 #include "..\TCPSocket\TCPSocket.h"
 
+enum Instructions {
+	registerUser = 0,
+	loginUser,
+	deleteAccount,
+	logout,
+	returnBook,
+	borrowBook,
+	searchBook,
+	readBook,
+	changePassword,
+	bookDetails,
+	prolongBorrowDate
+};
+
 class User {
 public:
 	User();
@@ -33,8 +47,8 @@ public:
 	void SearchBooks();
 	void ReadBook();
 	void ChangePassword(std::string newPassword);
-	void BookDetails();
-	void ProlongBorrowDate(tm* retDate, int days);
+	void BookDetails(const int& bookId);
+	void ProlongBorrowDate(const int& bookId, const std::string& returnDate);
 
 	bool PasswordRequirements(std::string pw);
 	void returningDate(std::string currentDate, int days);
@@ -43,5 +57,6 @@ private:
 	std::string username;
 	std::string password;
 	std::vector<BorrowedBooks> borrowedBooks;
+	std::vector<std::string> currentBookTags;
 	TCPSocket socket;
 };

@@ -134,8 +134,51 @@ void User::ChangePassword(std::string newPassword)
 	}
 }
 
-void BookDetails()
+void User::BookDetails(const int& bookId)
 {
+	int tagNumber;
+	std::string tag;
+	socket.SendInt(bookId);
+	socket.ReceiveInt(tagNumber);
+	currentBookTags.resize(tagNumber);
+	for (int i = 0; i < tagNumber; i++)
+	{
+		socket.Receive(tag);
+		currentBookTags[i] = tag;
+	}
+	socket.Receive(tag);
+	socket.ReceiveInt(tagNumber);
+	socket.ReceiveInt(tagNumber);
+	socket.ReceiveInt(tagNumber);
+	socket.ReceiveInt(tagNumber);
+	socket.ReceiveInt(tagNumber);
+	socket.Receive(tag);
+}
+
+void User::ProlongBorrowDate(const int& bookId, const std::string& returnDate)
+{
+	std::stringstream iss(returnDate);
+	std::string date;
+	time_t now = time(0);
+	tm retDate;
+	localtime_s(&retDate, &now);
+
+	std::getline(iss, date, '-');
+	retDate.tm_year = stoi(date) - 1900;
+	std::getline(iss, date, '-');
+	retDate.tm_mon = stoi(date);
+	std::getline(iss, date, '-');
+	retDate.tm_mday = stoi(date);
+
+	const time_t one_day = 24 * 60 * 60;
+	time_t date_seconds = mktime(&retDate) + (14 * one_day);
+
+	localtime_s(&retDate, &date_seconds);
+	date = "";
+	date += std::to_string(retDate.tm_year + 1900) + '-' + std::to_string(retDate.tm_mon) + '-' + std::to_string(retDate.tm_mday);
+
+	socket.SendInt(bookId);
+	socket.Send(date);
 }
 
 bool User::PasswordRequirements(std::string pw)
