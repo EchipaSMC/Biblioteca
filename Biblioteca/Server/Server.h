@@ -1,6 +1,5 @@
 #pragma once
 #include "Books.h"
-#include "BookTags.h"
 #include "Database.h"
 #include "Ratings.h"
 #include "Tags.h"
@@ -20,10 +19,9 @@ public:
 private:
 	Query queryList;
 	Books book;
-	BookTags bookTags;
 	Database database;
 	Ratings ratings;
-	Tags tags;
+	std::vector<Tags> tags;
 	UserServer user;
 	std::vector<BorrowedBooks> borrowedBooks;
 	TCPSocket client;

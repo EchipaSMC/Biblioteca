@@ -18,9 +18,6 @@
     <ClCompile Include="MainServer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="BookTags.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Ratings.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -48,9 +45,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Books.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="BookTags.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Ratings.h">

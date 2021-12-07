@@ -91,7 +91,7 @@ void Server::Register()
 
 void Server::Login()
 {
-	std::string username, password,result,result2;
+	std::string username, password, result, result2;
 	client.Receive(username);
 	client.Receive(password);
 	auto stmt = database.CreateStatement(database.GetDatabase(), queryList.UserServerUsersLogin(username, password));
@@ -125,7 +125,7 @@ void Server::Login()
 	}
 
 	client.SendInt(borrowedBooks.size());
-	for (auto elem : borrowedBooks)
+	for (auto &elem : borrowedBooks)
 	{
 		result = "";
 		result += std::to_string(elem.GetUserId()) + " " + std::to_string(elem.GetBookId()) + " " + elem.GetBorrowDate() + " " + elem.GetReturnDate();
@@ -160,9 +160,8 @@ void Server::Logout()
 	user.SetUserId(0);
 	borrowedBooks.clear();
 	book = Books();
-	bookTags = BookTags();
 	ratings = Ratings();
-	tags = Tags();
+	tags.clear();
 }
 
 void Server::ReturnBook()
@@ -194,7 +193,7 @@ void Server::BorrowBook()
 
 void Server::SearchBook()
 {
-	std::string keyword, resultsFound,book;
+	std::string keyword, resultsFound, book;
 	client.Receive(keyword);
 	auto stmt = database.CreateStatement(database.GetDatabase(), queryList.BooksNumOfBookSearch(keyword));
 	database.Run(stmt.get(), Database::DumpCurrentRow);
@@ -215,7 +214,7 @@ void Server::SearchBook()
 void Server::ReadBook()
 {
 	int bookId;
-	std::string bookText, tags;
+	std::string bookText,result;
 	client.ReceiveInt(bookId);
 
 	//auto stmt = database.CreateStatement(database.GetDatabase(), queryList.BookTagsNumGetTags(bookId));
@@ -225,10 +224,25 @@ void Server::ReadBook()
 
 	bookText = "This is a book about: ";
 
-	auto stmt = database.CreateStatement(database.GetDatabase(), queryList.BookTagsGetTags(bookId));
+	auto stmt = database.CreateStatement(database.GetDatabase(), queryList.BookGetBookByID(bookId));
 	database.Run(stmt.get(), Database::DumpCurrentRow);
-	std::getline(Database::getResult, tags);
-	bookText += tags;
+	std::getline(Database::getResult, result);
+
+	book = Books(result);
+
+	stmt = database.CreateStatement(database.GetDatabase(), queryList.TagsGetAllTags(book.GetBestBookId()));
+	database.Run(stmt.get(), Database::DumpCurrentRow);
+	while (std::getline(Database::getResult, result))
+	{
+		tags.push_back(result);
+	}
+
+	for (auto& i : tags)
+	{
+		bookText += i.GetTagName()+", ";
+		client.Send(result);
+	}
+
 	client.Send(bookText);
 
 	Database::getResult.str(std::string());
@@ -252,17 +266,31 @@ void Server::PrepareBookDetails()
 	int bookId;
 	std::string result;
 	client.ReceiveInt(bookId);
-	auto stmt = database.CreateStatement(database.GetDatabase(), queryList.TagsQuerySearch(std::to_string(bookId)));
+	auto stmt = database.CreateStatement(database.GetDatabase(), queryList.BookGetBookByID(bookId));
 	database.Run(stmt.get(), Database::DumpCurrentRow);
 	std::getline(Database::getResult, result);
-	bookTags = BookTags(result);
+
+	book = Books(result);
+
+	stmt = database.CreateStatement(database.GetDatabase(), queryList.TagsGetAllTags(book.GetBestBookId()));
+	database.Run(stmt.get(), Database::DumpCurrentRow);
+	while (std::getline(Database::getResult, result))
+	{
+		tags.push_back(result);
+	}
+
 	Database::getResult.str(std::string());
 	Database::getResult.clear();
 
-	stmt = database.CreateStatement(database.GetDatabase(), queryList.BookGetBookByID(bookId));
-	database.Run(stmt.get(), Database::DumpCurrentRow);
-	std::getline(Database::getResult, result);
-	book = Books(result);
+	client.SendInt(tags.size());
+
+	for (auto& i : tags)
+	{
+		result = "";
+		result += i.GetTagName();
+		client.Send(result);
+	}
+
 	client.Send(std::to_string(book.GetAverageRating()));
 	client.SendInt(book.GetRatings1());
 	client.SendInt(book.GetRatings2());
@@ -270,5 +298,7 @@ void Server::PrepareBookDetails()
 	client.SendInt(book.GetRatings4());
 	client.SendInt(book.GetRatings5());
 	client.Send(book.GetLanguageCode());
+
+	tags.clear();
 }
 
