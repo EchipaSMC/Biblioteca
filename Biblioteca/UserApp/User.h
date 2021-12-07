@@ -24,15 +24,15 @@ public:
 	
 	bool search(std::string word);
 
-	void RegisterMenu();
-	void LoginMenu();
+	void RegisterMenu(std::string username, std::string password);
+	void LoginMenu(std::string username, std::string password);
 	void DeleteAccount();
 	void Logout();
 	void ReturnBook();
-	void Borrowing(/*id*/);
+	void Borrowing(int bookToBorrowId);
 	void SearchBooks();
 	void ReadBook();
-	void ChangePassword();
+	void ChangePassword(std::string newPassword);
 	void BookDetails();
 	void ProlongBorrowDate(tm* retDate, int days);
 

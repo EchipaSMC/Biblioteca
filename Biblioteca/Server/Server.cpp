@@ -249,7 +249,6 @@ void Server::ReadBook()
 	for (auto& i : tags)
 	{
 		bookText += i.GetTagName()+", ";
-		client.Send(result);
 	}
 
 	client.Send(bookText);
