@@ -14,7 +14,7 @@ public:
 	Books(const Books& book);
 	~Books() = default;
 
-	const Books& operator=(const Books& book);
+	Books& operator=(const Books& book);
 
 	int GetId() const;
 	int GetBookId() const;

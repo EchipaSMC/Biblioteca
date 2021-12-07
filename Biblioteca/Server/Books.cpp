@@ -128,7 +128,7 @@ Books::Books(const Books& book)
 	this->smallImageUrl = book.smallImageUrl;
 }
 
-const Books& Books::operator=(const Books& book)
+Books& Books::operator=(const Books& book)
 {
 	if (this == &book) return *this;
 	this->id = book.id;

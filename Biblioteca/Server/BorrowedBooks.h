@@ -11,7 +11,7 @@ public:
 	BorrowedBooks(const BorrowedBooks& borrowedBook);
 	~BorrowedBooks() = default;
 
-	const BorrowedBooks& operator=(const BorrowedBooks& borrowedBook);
+	BorrowedBooks& operator=(const BorrowedBooks& borrowedBook);
 
 	void SetUserId(const int& userId);
 	void SetBookId(const int& bookId);

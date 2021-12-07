@@ -30,7 +30,7 @@ BorrowedBooks::BorrowedBooks(const BorrowedBooks& borrowedBook)
 	this->returnDate = borrowedBook.returnDate;
 }
 
-const BorrowedBooks& BorrowedBooks::operator=(const BorrowedBooks& borrowedBook)
+BorrowedBooks& BorrowedBooks::operator=(const BorrowedBooks& borrowedBook)
 {
 	if (this == &borrowedBook) return *this;
 	this->userId = borrowedBook.userId;
