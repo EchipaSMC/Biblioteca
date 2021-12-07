@@ -91,7 +91,7 @@ void Server::Register()
 
 void Server::Login()
 {
-	std::string username, password, result;
+	std::string username, password, result,data, bookToSend;
 	client.Receive(username);
 	client.Receive(password);
 	auto stmt = database.CreateStatement(database.GetDatabase(), queryList.UserServerUsersLogin(username, password));
@@ -127,9 +127,15 @@ void Server::Login()
 	client.SendInt(borrowedBooks.size());
 	for (auto &elem : borrowedBooks)
 	{
-		result = "";
-		result += std::to_string(elem.GetUserId()) + " " + std::to_string(elem.GetBookId()) + " " + elem.GetBorrowDate() + " " + elem.GetReturnDate();
-		client.Send(result);
+		stmt = database.CreateStatement(database.GetDatabase(), queryList.BookGetBookByID(elem.GetBookId()));
+		database.Run(stmt.get(), Database::DumpCurrentRow);
+		
+		std::getline(Database::getResult, data);
+		book = Books(data);
+		bookToSend = "";
+		bookToSend += std::to_string(book.GetBookId()) + "|" + book.GetOriginalTitle() + "|"
+			+ book.GetAuthors() + "|" + book.GetISBN() + "|" + book.GetSmallImageURL() + "|" + elem.GetBorrowDate() + "|" + elem.GetReturnDate();
+		client.Send(bookToSend);
 	}
 
 	Database::getResult.str(std::string());
@@ -201,6 +207,8 @@ void Server::SearchBook()
 	client.SendInt(std::stoi(resultsFound));
 
 	stmt = database.CreateStatement(database.GetDatabase(), queryList.BooksBookSearch(keyword));
+	database.Run(stmt.get(), Database::DumpCurrentRow);
+
 	for (int i = 0; i < std::stoi(resultsFound); i++)
 	{
 		std::getline(Database::getResult, data);
