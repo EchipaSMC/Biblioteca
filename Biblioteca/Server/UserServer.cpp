@@ -14,13 +14,13 @@ UserServer::UserServer(const std::string queryResult)
 	result << queryResult;
 
 	std::getline(result, word, '|');
-	userId = std::stoi(word);
+	this->userId = std::stoi(word);
 
 	std::getline(result, word, '|');
-	username = word;
+	this->username = word;
 
 	std::getline(result, word, '|');
-	password = word;
+	this->password = word;
 }
 
 UserServer::UserServer(const int& userId, const std::string& username, const std::string& password) :

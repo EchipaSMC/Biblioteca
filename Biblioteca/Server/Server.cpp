@@ -193,7 +193,7 @@ void Server::BorrowBook()
 
 void Server::SearchBook()
 {
-	std::string keyword, resultsFound, book;
+	std::string keyword, resultsFound, data,bookToSend;
 	client.Receive(keyword);
 	auto stmt = database.CreateStatement(database.GetDatabase(), queryList.BooksNumOfBookSearch(keyword));
 	database.Run(stmt.get(), Database::DumpCurrentRow);
@@ -203,8 +203,12 @@ void Server::SearchBook()
 	stmt = database.CreateStatement(database.GetDatabase(), queryList.BooksBookSearch(keyword));
 	for (int i = 0; i < std::stoi(resultsFound); i++)
 	{
-		std::getline(Database::getResult, book);
-		client.Send(book);
+		std::getline(Database::getResult, data);
+		book = Books(data);
+		bookToSend = "";
+		bookToSend += std::to_string(book.GetBookId()) + "|"+ book.GetOriginalTitle()+"|" 
+			+ book.GetAuthors() + "|" + book.GetISBN() + "|" + book.GetSmallImageURL();
+		client.Send(bookToSend);
 	}
 
 	Database::getResult.str(std::string());
@@ -216,11 +220,6 @@ void Server::ReadBook()
 	int bookId;
 	std::string bookText,result;
 	client.ReceiveInt(bookId);
-
-	//auto stmt = database.CreateStatement(database.GetDatabase(), queryList.BookTagsNumGetTags(bookId));
-	//database.Run(stmt.get(), Database::DumpCurrentRow);
-	//std::getline(Database::getResult, username);
-	//client.SendInt(std::stoi(username));
 
 	bookText = "This is a book about: ";
 

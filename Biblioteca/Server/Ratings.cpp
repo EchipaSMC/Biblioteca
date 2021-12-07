@@ -1,12 +1,5 @@
 #include "Ratings.h"
 
-Ratings::Ratings()
-{
-	bookId = 0;
-	userId = 0;
-	rating = 0;
-}
-
 Ratings::Ratings(const Ratings& ratings)
 {
 	this->bookId = ratings.GetBookId();
@@ -21,13 +14,13 @@ Ratings::Ratings(std::string queryResult)
 	result << queryResult;
 
 	std::getline(result, word, '|');
-	bookId = std::stoi(word);
+	this->bookId = std::stoi(word);
 
 	std::getline(result, word, '|');
-	userId = std::stoi(word);
+	this->userId = std::stoi(word);
 
 	std::getline(result, word, '|');
-	rating = std::stoi(word);
+	this->rating = std::stoi(word);
 }
 
 Ratings::Ratings(const int& bookId, const int& userId, const int& rating)

@@ -7,16 +7,16 @@ BorrowedBooks::BorrowedBooks(const std::string& queryResult)
 	result << queryResult;
 
 	std::getline(result, word, '|');
-	userId = std::stoi(word);
+	this->userId = std::stoi(word);
 
 	std::getline(result, word, '|');
-	bookId = std::stoi(word);
+	this->bookId = std::stoi(word);
 
 	std::getline(result, word, '|');
-	borrowDate = word;
+	this->borrowDate = word;
 
 	std::getline(result, word, '|');
-	returnDate =word;
+	this->returnDate =word;
 }
 
 BorrowedBooks::BorrowedBooks(const int& userId, const int& bookId, const std::string& returnDate, const std::string& borrowDate)
@@ -24,19 +24,19 @@ BorrowedBooks::BorrowedBooks(const int& userId, const int& bookId, const std::st
 
 BorrowedBooks::BorrowedBooks(const BorrowedBooks& borrowedBook)
 {
-	userId = borrowedBook.userId;
-	bookId = borrowedBook.bookId;
-	borrowDate = borrowedBook.borrowDate;
-	returnDate = borrowedBook.returnDate;
+	this->userId = borrowedBook.userId;
+	this->bookId = borrowedBook.bookId;
+	this->borrowDate = borrowedBook.borrowDate;
+	this->returnDate = borrowedBook.returnDate;
 }
 
 const BorrowedBooks& BorrowedBooks::operator=(const BorrowedBooks& borrowedBook)
 {
 	if (this == &borrowedBook) return *this;
-	userId = borrowedBook.userId;
-	bookId = borrowedBook.bookId;
-	borrowDate = borrowedBook.borrowDate;
-	returnDate = borrowedBook.returnDate;
+	this->userId = borrowedBook.userId;
+	this->bookId = borrowedBook.bookId;
+	this->borrowDate = borrowedBook.borrowDate;
+	this->returnDate = borrowedBook.returnDate;
 	return *this;
 }
 

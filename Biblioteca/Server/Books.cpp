@@ -32,128 +32,128 @@ Books::Books(const std::string& queryResult)
 	result << queryResult;
 
 	std::getline(result, word, '|');
-	id = std::stoi(word);
+	this->id = std::stoi(word);
 
 	std::getline(result, word, '|');
-	bookId = std::stoi(word);
+	this->bookId = std::stoi(word);
 
 	std::getline(result, word, '|');
-	bestBookId = std::stoi(word);
+	this->bestBookId = std::stoi(word);
 
 	std::getline(result, word, '|');
-	workId = std::stoi(word);
+	this->workId = std::stoi(word);
 
 	std::getline(result, word, '|');
-	booksCount = std::stoi(word);
+	this->booksCount = std::stoi(word);
 
 	std::getline(result, word, '|');
-	isbn = word;
+	this->isbn = word;
 
 	std::getline(result, word, '|');
-	isbn13 = word;
+	this->isbn13 = word;
 
 	std::getline(result, word, '|');
-	authors = word;
+	this->authors = word;
 
 	std::getline(result, word, '|');
-	originalPublicationYear = word;
+	this->originalPublicationYear = word;
 
 	std::getline(result, word, '|');
-	originalTitle = word;
+	this->originalTitle = word;
 
 	std::getline(result, word, '|');
-	title = word;
+	this->title = word;
 
 	std::getline(result, word, '|');
-	languageCode = word;
+	this->languageCode = word;
 
 	std::getline(result, word, '|');
-	averageRating = std::stod(word);
+	this->averageRating = std::stod(word);
 
 	std::getline(result, word, '|');
-	ratingsCount = std::stoi(word);
+	this->ratingsCount = std::stoi(word);
 
 	std::getline(result, word, '|');
-	workRatingsCount = std::stoi(word);
+	this->workRatingsCount = std::stoi(word);
 
 	std::getline(result, word, '|');
-	workTextReviewsCount = std::stoi(word);
+	this->workTextReviewsCount = std::stoi(word);
 
 	std::getline(result, word, '|');
-	ratings1 = std::stoi(word);
+	this->ratings1 = std::stoi(word);
 
 	std::getline(result, word, '|');
-	ratings2 = std::stoi(word);
+	this->ratings2 = std::stoi(word);
 
 	std::getline(result, word, '|');
-	ratings3 = std::stoi(word);
+	this->ratings3 = std::stoi(word);
 
 	std::getline(result, word, '|');
-	ratings4 = std::stoi(word);
+	this->ratings4 = std::stoi(word);
 
 	std::getline(result, word, '|');
-	ratings5 = std::stoi(word);
+	this->ratings5 = std::stoi(word);
 
 	std::getline(result, word, '|');
-	imageUrl = word;
+	this->imageUrl = word;
 
 	std::getline(result, word, '|');
-	smallImageUrl = word;
+	this->smallImageUrl = word;
 }
 
 Books::Books(const Books& book)
 {
-	id = book.id;
-	bookId = book.bookId;
-	bestBookId = book.bestBookId;
-	workId = book.workId;
-	booksCount = book.booksCount;
-	isbn = book.isbn;
-	isbn13 = book.isbn13;
-	authors = book.authors;
-	originalPublicationYear = book.originalPublicationYear;
-	originalTitle = book.originalTitle;
-	title = book.title;
-	languageCode = book.languageCode;
-	averageRating = book.averageRating;
-	ratingsCount = book.ratingsCount;
-	workRatingsCount = book.workRatingsCount;
-	workTextReviewsCount = book.workTextReviewsCount;
-	ratings1 = book.ratings1;
-	ratings2 = book.ratings2;
-	ratings3 = book.ratings3;
-	ratings4 = book.ratings4;
-	ratings5 = book.ratings5;
-	imageUrl = book.imageUrl;
-	smallImageUrl = book.smallImageUrl;
+	this->id = book.id;
+	this->bookId = book.bookId;
+	this->bestBookId = book.bestBookId;
+	this->workId = book.workId;
+	this->booksCount = book.booksCount;
+	this->isbn = book.isbn;
+	this->isbn13 = book.isbn13;
+	this->authors = book.authors;
+	this->originalPublicationYear = book.originalPublicationYear;
+	this->originalTitle = book.originalTitle;
+	this->title = book.title;
+	this->languageCode = book.languageCode;
+	this->averageRating = book.averageRating;
+	this->ratingsCount = book.ratingsCount;
+	this->workRatingsCount = book.workRatingsCount;
+	this->workTextReviewsCount = book.workTextReviewsCount;
+	this->ratings1 = book.ratings1;
+	this->ratings2 = book.ratings2;
+	this->ratings3 = book.ratings3;
+	this->ratings4 = book.ratings4;
+	this->ratings5 = book.ratings5;
+	this->imageUrl = book.imageUrl;
+	this->smallImageUrl = book.smallImageUrl;
 }
 
 const Books& Books::operator=(const Books& book)
 {
 	if (this == &book) return *this;
-	id = book.id;
-	bookId = book.bookId;
-	bestBookId = book.bestBookId;
-	workId = book.workId;
-	booksCount = book.booksCount;
-	isbn = book.isbn;
-	isbn13 = book.isbn13;
-	authors = book.authors;
-	originalPublicationYear = book.originalPublicationYear;
-	originalTitle = book.originalTitle;
-	title = book.title;
-	languageCode = book.languageCode;
-	averageRating = book.averageRating;
-	ratingsCount = book.ratingsCount;
-	workRatingsCount = book.workRatingsCount;
-	workTextReviewsCount = book.workTextReviewsCount;
-	ratings1 = book.ratings1;
-	ratings2 = book.ratings2;
-	ratings3 = book.ratings3;
-	ratings4 = book.ratings4;
-	ratings5 = book.ratings5;
-	imageUrl = book.imageUrl;
-	smallImageUrl = book.smallImageUrl;
+	this->id = book.id;
+	this->bookId = book.bookId;
+	this->bestBookId = book.bestBookId;
+	this->workId = book.workId;
+	this->booksCount = book.booksCount;
+	this->isbn = book.isbn;
+	this->isbn13 = book.isbn13;
+	this->authors = book.authors;
+	this->originalPublicationYear = book.originalPublicationYear;
+	this->originalTitle = book.originalTitle;
+	this->title = book.title;
+	this->languageCode = book.languageCode;
+	this->averageRating = book.averageRating;
+	this->ratingsCount = book.ratingsCount;
+	this->workRatingsCount = book.workRatingsCount;
+	this->workTextReviewsCount = book.workTextReviewsCount;
+	this->ratings1 = book.ratings1;
+	this->ratings2 = book.ratings2;
+	this->ratings3 = book.ratings3;
+	this->ratings4 = book.ratings4;
+	this->ratings5 = book.ratings5;
+	this->imageUrl = book.imageUrl;
+	this->smallImageUrl = book.smallImageUrl;
 	return *this;
 }
 

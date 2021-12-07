@@ -7,7 +7,7 @@ class Ratings
 {
 public:
 
-	Ratings();
+	Ratings()=default;
 	Ratings(const Ratings& ratings);
 	Ratings(std::string queryResult);
 	Ratings(const int& bookId, const int& userId, const int& rating);

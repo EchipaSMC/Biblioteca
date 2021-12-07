@@ -5,7 +5,7 @@
 class Tags
 {
 public:
-	Tags();
+	Tags()=default;
 	Tags(const Tags& tags);
 	Tags(std::string queryResult);
 	Tags(const int& tagId, const std::string& tagName);

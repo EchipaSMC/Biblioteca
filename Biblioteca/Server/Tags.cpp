@@ -1,11 +1,5 @@
 #include "Tags.h"
 
-Tags::Tags()
-{
-	tagId = -1;
-	tagName = "";
-}
-
 Tags::Tags(const Tags& tags)
 {
 	this->tagId = tags.GetTagId();
@@ -25,10 +19,10 @@ Tags::Tags(std::string queryResult)
 	result << queryResult;
 
 	std::getline(result, word, '|');
-	tagId = std::stoi(word);
+	this->tagId = std::stoi(word);
 
 	std::getline(result, word, '|');
-	tagName = std::stoi(word);
+	this->tagName = std::stoi(word);
 }
 
 int Tags::GetTagId()const
