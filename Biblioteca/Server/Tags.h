@@ -6,15 +6,18 @@ class Tags
 {
 public:
 	Tags();
-	Tags(const int& tagId, const std::string& tagName);
+	Tags(const Tags& tags);
 	Tags(std::string queryResult);
+	Tags(const int& tagId, const std::string& tagName);
 
-	int GetTagId();
-	std::string GetTagName();
+	int GetTagId()const;
+	std::string GetTagName()const;
 
-	void SetTagId(int tagId);
-	void SetTagName(std::string tagName);
+	void SetTagId(const int &tagId);
+	void SetTagName(const std::string &tagName);
+	Tags& operator=(const Tags& tags);
 
+	~Tags()=default;
 private:
 	int tagId;
 	std::string tagName;

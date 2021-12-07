@@ -18,6 +18,5 @@ public:
 	std::string UserServerUsersLogin(const std::string& username, const std::string& password)const;
 	std::string UserServerUsersLoginID(const std::string& username, const std::string& password)const;
 	std::string UserChangePassword(const int& userId, const std::string& newPassword)const;
-
 };
 

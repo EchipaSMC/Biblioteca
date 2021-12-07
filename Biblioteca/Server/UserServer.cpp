@@ -1,18 +1,25 @@
 #include "UserServer.h"
 
+UserServer::UserServer(const UserServer& userserver)
+{
+	this->userId = userserver.GetUserId();
+	this->username = userserver.GetUsername();
+	this->password = userserver.GetPassword();
+}
+
 UserServer::UserServer(const std::string queryResult)
 {
 	std::string word;
 	std::stringstream result;
 	result << queryResult;
 
-	result >> word;
+	std::getline(result, word, '|');
 	userId = std::stoi(word);
 
-	result >> word;
+	std::getline(result, word, '|');
 	username = word;
 
-	result >> word;
+	std::getline(result, word, '|');
 	password = word;
 }
 
@@ -48,4 +55,14 @@ std::string UserServer::GetUsername() const
 std::string UserServer::GetPassword() const
 {
 	return password;
+}
+
+UserServer& UserServer::operator=(const UserServer& userserver)
+{
+	if (this == &userserver) 
+		return *this;
+	this->userId = userserver.GetUserId();
+	this->username = userserver.GetUsername();
+	this->password = userserver.GetPassword();
+	return *this;
 }

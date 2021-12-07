@@ -91,7 +91,7 @@ void Server::Register()
 
 void Server::Login()
 {
-	std::string username, password, result, result2;
+	std::string username, password, result;
 	client.Receive(username);
 	client.Receive(password);
 	auto stmt = database.CreateStatement(database.GetDatabase(), queryList.UserServerUsersLogin(username, password));

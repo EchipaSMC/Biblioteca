@@ -16,6 +16,7 @@ class Server
 public:
 	Server();
 	void RunServer();
+	~Server()=default;
 private:
 	Query queryList;
 	Books book;

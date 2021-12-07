@@ -8,6 +8,7 @@ class Ratings
 public:
 
 	Ratings();
+	Ratings(const Ratings& ratings);
 	Ratings(std::string queryResult);
 	Ratings(const int& bookId, const int& userId, const int& rating);
 	
@@ -15,10 +16,13 @@ public:
 	int GetUserId() const;
 	int GetRating() const;
 
-	void SetBookId(int bookId);
-	void SetUserId(int userId);
-	void SetRating(int rating);
+	void SetBookId(const int &bookId);
+	void SetUserId(const int &userId);
+	void SetRating(const int &rating);
 
+	Ratings& operator=(const Ratings& ratings);
+
+	~Ratings()=default;
 private:
 	int bookId;
 	int userId;

@@ -6,6 +6,12 @@ Tags::Tags()
 	tagName = "";
 }
 
+Tags::Tags(const Tags& tags)
+{
+	this->tagId = tags.GetTagId();
+	this->tagName = tags.GetTagName();
+}
+
 Tags::Tags(const int& tagId, const std::string& tagName)
 {
 	this->tagId = tagId;
@@ -18,29 +24,38 @@ Tags::Tags(std::string queryResult)
 	std::stringstream result;
 	result << queryResult;
 
-	result >> word;
+	std::getline(result, word, '|');
 	tagId = std::stoi(word);
 
-	result >> word;
+	std::getline(result, word, '|');
 	tagName = std::stoi(word);
 }
 
-int Tags::GetTagId()
+int Tags::GetTagId()const
 {
 	return tagId;
 }
 
-std::string Tags::GetTagName()
+std::string Tags::GetTagName() const
 {
 	return tagName;
 }
 
-void Tags::SetTagId(int tagId)
+void Tags::SetTagId(const int &tagId)
 {
 	this->tagId = tagId;
 }
 
-void Tags::SetTagName(std::string tagName)
+void Tags::SetTagName(const std::string &tagName)
 {
 	this->tagName = tagName;
+}
+
+Tags& Tags::operator=(const Tags& tags)
+{
+	if (this == &tags)
+		return *this;
+	this->tagId = tagId;
+	this->tagName = tagName;
+	return *this;
 }
