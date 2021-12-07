@@ -4,25 +4,42 @@
 #include <iostream>
 #include <vector>
 
-BorrowedBooks::BorrowedBooks(const std::string data)
+BorrowedBooks::BorrowedBooks(const std::string& data)
 {
-	std::string word;
+	std::string word,bookData;
 	std::stringstream stream(data);
-	std::vector<std::string> vecData;
-	char space_char = ' ';
-	while (std::getline(stream, word, space_char)) {
-		vecData.push_back(word);
+	
+	for (int i = 0; i < 5; i++)
+	{
+		std::getline(stream, word, '|');
+		bookData += word+'|';
 	}
-
-	std::string bookData = vecData[0] + vecData[1] + vecData[2] + vecData[3];
-	book=Book(bookData);
-	dateWhenBorrowed = vecData[4];
-	returningDate = vecData[5];	
+	this->book=Book(bookData);
+	std::getline(stream, word, '|');
+	this->dateWhenBorrowed = word;
+	std::getline(stream, word, '|');
+	this->returningDate = word;
 }
 
 BorrowedBooks::BorrowedBooks(const Book& book, const std::string& borrowDate, const std::string& retDate)
 	:book(book), dateWhenBorrowed(borrowDate), returningDate(retDate)
 {
+}
+
+BorrowedBooks::BorrowedBooks(const BorrowedBooks& borrowedBook)
+{
+	this->book = borrowedBook.book;
+	this->dateWhenBorrowed = borrowedBook.dateWhenBorrowed;
+	this->returningDate = borrowedBook.returningDate;
+}
+
+BorrowedBooks BorrowedBooks::operator=(const BorrowedBooks& borrowedBook)
+{
+	if (this == &borrowedBook) return *this;
+	this->book = borrowedBook.book;
+	this->dateWhenBorrowed = borrowedBook.dateWhenBorrowed;
+	this->returningDate = borrowedBook.returningDate;
+	return *this;
 }
 
 Book BorrowedBooks::getBook() const
@@ -40,12 +57,17 @@ std::string BorrowedBooks::getReturningDate() const
 	return returningDate;
 }
 
-void BorrowedBooks::setBorrowingDate(std::string borrowDate)
+void BorrowedBooks::setBorrowingDate(const std::string& dateWhenBorrowed)
 {
-	this->dateWhenBorrowed = borrowDate;
+	this->dateWhenBorrowed = dateWhenBorrowed;
 }
 
-void BorrowedBooks::setReturningDate(std::string retDate)
+void BorrowedBooks::setReturningDate(const std::string& returningDate)
 {
-	this->returningDate = retDate;
+	this->returningDate = returningDate;
+}
+
+void BorrowedBooks::setBook(const Book& book)
+{
+	this->book = book;
 }

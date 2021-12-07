@@ -8,12 +8,16 @@ private:
 	std::string returningDate;
 public:
 	BorrowedBooks()=default;
-	BorrowedBooks(const std::string data);
+	BorrowedBooks(const std::string& data);
 	BorrowedBooks(const Book& book, const std::string& borrowDate, const std::string& retDate);
+	BorrowedBooks(const BorrowedBooks& borrowedBook);
+	~BorrowedBooks() = default;
 
+	BorrowedBooks operator=(const BorrowedBooks& borrowedBook);
 	Book getBook()const;
 	std::string getBorrowDate() const;
 	std::string getReturningDate() const;
-	void setBorrowingDate(std::string);
-	void setReturningDate(std::string);
+	void setBorrowingDate(const std::string& dateWhenBorrowed);
+	void setReturningDate(const std::string& returningDate);
+	void setBook(const Book& book);
 };
