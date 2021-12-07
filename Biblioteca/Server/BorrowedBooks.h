@@ -8,6 +8,10 @@ public:
 	BorrowedBooks() = default;
 	BorrowedBooks(const std::string queryResult);
 	BorrowedBooks(const int& userId, const int& bookId, const std::string& returnDate, const std::string& borrowDate);
+	BorrowedBooks(const BorrowedBooks& borrowedBook);
+	~BorrowedBooks() = default;
+
+	const BorrowedBooks& operator=(const BorrowedBooks& borrowedBook);
 
 	void SetUserId(const int& userId);
 	void SetBookId(const int& bookId);
@@ -18,7 +22,6 @@ public:
 	std::string GetReturnDate()const;
 	std::string GetBorrowDate()const;
 private:
-	//returndate , borrowdate ; update contsrt
 	std::string returnDate, borrowDate;
 	int userId, bookId;
 };

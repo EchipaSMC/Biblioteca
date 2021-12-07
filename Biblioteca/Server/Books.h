@@ -10,6 +10,10 @@ public:
 		std::string originalTitle, std::string title, std::string languageCode,double averageRating, int ratingsCount, int workRatingsCount, int workTextReviewsCount,
 		int ratings1,int ratings2, int ratings3, int ratings4, int ratings5, std::string imageUrl, std::string smallImageUrl);
 	Books(std::string queryResult);
+	Books(const Books& book);
+	~Books() = default;
+
+	const Books& operator=(const Books& book);
 
 	int GetId() const;
 	int GetBookId() const;

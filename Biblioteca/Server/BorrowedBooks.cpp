@@ -6,15 +6,39 @@ BorrowedBooks::BorrowedBooks(const std::string queryResult)
 	std::stringstream result;
 	result << queryResult;
 
-	result >> word;
+	std::getline(result, word, '|');
 	userId = std::stoi(word);
 
-	result >> word;
+	std::getline(result, word, '|');
 	bookId = std::stoi(word);
+
+	std::getline(result, word, '|');
+	borrowDate = word;
+
+	std::getline(result, word, '|');
+	returnDate =word;
 }
 
 BorrowedBooks::BorrowedBooks(const int& userId, const int& bookId, const std::string& returnDate, const std::string& borrowDate)
 	:userId(userId), bookId(bookId) , returnDate(returnDate), borrowDate(borrowDate) {}
+
+BorrowedBooks::BorrowedBooks(const BorrowedBooks& borrowedBook)
+{
+	userId = borrowedBook.userId;
+	bookId = borrowedBook.bookId;
+	borrowDate = borrowedBook.borrowDate;
+	returnDate = borrowedBook.returnDate;
+}
+
+const BorrowedBooks& BorrowedBooks::operator=(const BorrowedBooks& borrowedBook)
+{
+	if (this == &borrowedBook) return *this;
+	userId = borrowedBook.userId;
+	bookId = borrowedBook.bookId;
+	borrowDate = borrowedBook.borrowDate;
+	returnDate = borrowedBook.returnDate;
+	return *this;
+}
 
 void BorrowedBooks::SetUserId(const int& userId)
 {

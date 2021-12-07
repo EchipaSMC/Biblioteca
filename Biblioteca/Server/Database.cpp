@@ -6,8 +6,6 @@ Database::Database():db(database(nullptr, sqlite3_close))
 
 Database::Database(const std::string& name) :db(OpenDatabase(name))
 {
-	/*db.reset();
-	db = OpenDatabase(name);*/
 }
 
 statement Database::CreateStatement(sqlite3* db, const std::string& sql)

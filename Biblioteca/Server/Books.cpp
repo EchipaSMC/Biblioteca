@@ -2,30 +2,30 @@
 
 Books::Books(int id, int bookId, int bestBookId, int workId, int booksCount, std::string isbn, std::string isbn13, std::string authors, std::string originalPublicationYear,
 	std::string originalTitle, std::string title, std::string languageCode, double averageRating, int ratingsCount, int workRatingsCount, int workTextReviewsCount,
-	int ratings1, int ratings2, int ratings3, int ratings4, int ratings5, std::string imageUrl, std::string smallImageUrl):
+	int ratings1, int ratings2, int ratings3, int ratings4, int ratings5, std::string imageUrl, std::string smallImageUrl) :
 	id(id),
 	bookId(bookId),
 	bestBookId(bestBookId),
-	workId(workId), 
-	booksCount(booksCount), 
-	isbn(isbn), 
-	isbn13(isbn13), 
-	authors(authors), 
-	originalPublicationYear(originalPublicationYear), 
+	workId(workId),
+	booksCount(booksCount),
+	isbn(isbn),
+	isbn13(isbn13),
+	authors(authors),
+	originalPublicationYear(originalPublicationYear),
 	originalTitle(originalTitle),
-	title(title), 
-	languageCode(languageCode), 
-	averageRating(averageRating), 
-	ratingsCount(ratingsCount), 
-	workRatingsCount(workRatingsCount), 
+	title(title),
+	languageCode(languageCode),
+	averageRating(averageRating),
+	ratingsCount(ratingsCount),
+	workRatingsCount(workRatingsCount),
 	workTextReviewsCount(workTextReviewsCount),
-	ratings1(ratings1), 
-	ratings2(ratings2), 
-	ratings3(ratings3), 
-	ratings4(ratings4), 
-	ratings5(ratings5), 
-	imageUrl(imageUrl), 
-	smallImageUrl(smallImageUrl){}
+	ratings1(ratings1),
+	ratings2(ratings2),
+	ratings3(ratings3),
+	ratings4(ratings4),
+	ratings5(ratings5),
+	imageUrl(imageUrl),
+	smallImageUrl(smallImageUrl) {}
 
 Books::Books(std::string queryResult)
 {
@@ -33,74 +33,130 @@ Books::Books(std::string queryResult)
 	std::stringstream result;
 	result << queryResult;
 
-	result >> word;
+	std::getline(result, word, '|');
 	id = std::stoi(word);
 
-	result >> word;
+	std::getline(result, word, '|');
 	bookId = std::stoi(word);
 
-	result >> word;
+	std::getline(result, word, '|');
 	bestBookId = std::stoi(word);
 
-	result >> word;
+	std::getline(result, word, '|');
 	workId = std::stoi(word);
 
-	result >> word;
+	std::getline(result, word, '|');
 	booksCount = std::stoi(word);
 
-	result >> word;
+	std::getline(result, word, '|');
 	isbn = word;
 
-	result >> word;
+	std::getline(result, word, '|');
 	isbn13 = word;
 
-	result >> word;
+	std::getline(result, word, '|');
 	authors = word;
 
-	result >> word;
+	std::getline(result, word, '|');
 	originalPublicationYear = word;
 
-	result >> word;
+	std::getline(result, word, '|');
 	originalTitle = word;
 
-	result >> word;
+	std::getline(result, word, '|');
 	title = word;
 
-	result >> word;
+	std::getline(result, word, '|');
 	languageCode = word;
 
-	result >> word;
+	std::getline(result, word, '|');
 	averageRating = std::stod(word);
 
-	result >> word;
+	std::getline(result, word, '|');
 	ratingsCount = std::stoi(word);
 
-	result >> word;
+	std::getline(result, word, '|');
 	workRatingsCount = std::stoi(word);
 
-	result >> word;
+	std::getline(result, word, '|');
 	workTextReviewsCount = std::stoi(word);
 
-	result >> word;
+	std::getline(result, word, '|');
 	ratings1 = std::stoi(word);
 
-	result >> word;
+	std::getline(result, word, '|');
 	ratings2 = std::stoi(word);
 
-	result >> word;
+	std::getline(result, word, '|');
 	ratings3 = std::stoi(word);
 
-	result >> word;
+	std::getline(result, word, '|');
 	ratings4 = std::stoi(word);
 
-	result >> word;
+	std::getline(result, word, '|');
 	ratings5 = std::stoi(word);
 
-	result >> word;
+	std::getline(result, word, '|');
 	imageUrl = word;
 
-	result >> word;
+	std::getline(result, word, '|');
 	smallImageUrl = word;
+}
+
+Books::Books(const Books& book)
+{
+	id = book.id;
+	bookId = book.bookId;
+	bestBookId = book.bestBookId;
+	workId = book.workId;
+	booksCount = book.booksCount;
+	isbn = book.isbn;
+	isbn13 = book.isbn13;
+	authors = book.authors;
+	originalPublicationYear = book.originalPublicationYear;
+	originalTitle = book.originalTitle;
+	title = book.title;
+	languageCode = book.languageCode;
+	averageRating = book.averageRating;
+	ratingsCount = book.ratingsCount;
+	workRatingsCount = book.workRatingsCount;
+	workTextReviewsCount = book.workTextReviewsCount;
+	ratings1 = book.ratings1;
+	ratings2 = book.ratings2;
+	ratings3 = book.ratings3;
+	ratings4 = book.ratings4;
+	ratings5 = book.ratings5;
+	imageUrl = book.imageUrl;
+	smallImageUrl = book.smallImageUrl;
+}
+
+const Books& Books::operator=(const Books& book)
+{
+	if (this == &book) return *this;
+	id = book.id;
+	bookId = book.bookId;
+	bestBookId = book.bestBookId;
+	workId = book.workId;
+	booksCount = book.booksCount;
+	isbn = book.isbn;
+	isbn13 = book.isbn13;
+	authors = book.authors;
+	originalPublicationYear = book.originalPublicationYear;
+	originalTitle = book.originalTitle;
+	title = book.title;
+	languageCode = book.languageCode;
+	averageRating = book.averageRating;
+	ratingsCount = book.ratingsCount;
+	workRatingsCount = book.workRatingsCount;
+	workTextReviewsCount = book.workTextReviewsCount;
+	ratings1 = book.ratings1;
+	ratings2 = book.ratings2;
+	ratings3 = book.ratings3;
+	ratings4 = book.ratings4;
+	ratings5 = book.ratings5;
+	imageUrl = book.imageUrl;
+	smallImageUrl = book.smallImageUrl;
+	return *this;
 }
 
 int Books::GetId() const
