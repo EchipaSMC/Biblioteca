@@ -10,39 +10,38 @@
 #include "..\TCPSocket\TCPSocket.h"
 
 class User {
-private:
-	std::string username;
-	std::vector<BorrowedBooks> borrowedBooks;
-	std::string password;
-	TCPSocket socket;
-
 public:
 	User();
 	~User()=default;
-	User(std::string, std::vector<BorrowedBooks>, std::string);
-	User(std::string,std::string);
-	User(const std::string&);
-	User(const User&);
+	User(const std::string& username, const std::string& password, const std::vector<BorrowedBooks>& borrowedBooks);
+	User(const std::string& username, const std::string& password);
+	User(const User& user);
+
 	std::string GetUsername() const;
 	std::vector<BorrowedBooks> GetBorrowedBooks() const;
-	//tm* GetReturnDate();
-	//std::string GetReturnDate();
+
 	bool operator==(const User& s) const;
-	//std::string GetPassword();
-	void ShowBorrowedBooks();
-	void Borrowing(/*id*/);
-	void returningDate(std::string currentDate, int days);
-	void bookReturn();
+	
 	bool search(std::string word);
-	void ProlongBorrowDate(tm* retDate, int days);
-	void BookReturnSpecific(int IdBook);
-	void ReadBook();
-	void LoginMenu();
-	void LoginRegisterMenu();
+
 	void RegisterMenu();
-	void ShowMenu();
+	void LoginMenu();
+	void DeleteAccount();
+	void Logout();
+	void ReturnBook();
+	void Borrowing(/*id*/);
+	void SearchBooks();
+	void ReadBook();
 	void ChangePassword();
-	void MenuList();
 	void BookDetails();
+	void ProlongBorrowDate(tm* retDate, int days);
+
 	bool PasswordRequirements(std::string pw);
+	void returningDate(std::string currentDate, int days);
+
+private:
+	std::string username;
+	std::string password;
+	std::vector<BorrowedBooks> borrowedBooks;
+	TCPSocket socket;
 };

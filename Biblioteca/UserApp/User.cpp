@@ -3,41 +3,22 @@
 
 User::User()
 {
-	this->username = "\0";
-	time_t now = time(0);
-	this->password = '\0';
+	socket.Connect();
 }
 
-User::User(std::string nickname, std::vector<BorrowedBooks> borrowedB, std::string password)
+User::User(const std::string& username, const std::string& password, const std::vector<BorrowedBooks>& borrowedBooks)
 {
-	this->username = nickname;
-	this->borrowedBooks = borrowedB;
+	socket.Connect();
+	this->username = username;
+	this->borrowedBooks = borrowedBooks;
 	this->password = password;
 }
 
-User::User(std::string username, std::string password)
+User::User(const std::string& username, const std::string& password)
 {
+	socket.Connect();
 	this->username = username;
 	this->password = password;
-	time_t now = time(0);
-	this->borrowedBooks.resize(0);
-}
-
-User::User(const std::string& data)
-{
-	std::stringstream iss(data);
-	char character = ' ';
-
-	std::vector<std::string> vecData;
-	std::string detailedData;
-	while (std::getline(iss, detailedData, character))
-	{
-		vecData.push_back(detailedData);
-	}
-
-	this->username = vecData[0];
-	this->password = vecData[1];
-
 	this->borrowedBooks.resize(0);
 }
 
@@ -63,58 +44,6 @@ bool User::operator==(const User& s) const
 	return *this == s;
 }
 
-void User::ShowBorrowedBooks()
-{
-	std::cout << "User :" << this->username << "borrowed next books: " << std::endl;
-	for (auto& elem : this->borrowedBooks)
-	{
-		std::cout << elem.getBook().getBookId() << ". " << elem.getBook().getTitle() << " - " << elem.getReturningDate() << std::endl;
-		std::cout << "Do you want to prolong the returning date?(y/n)";
-		char opt;
-		std::cin >> opt;
-		if (opt == 'y' || opt == 'Y')
-		{
-			std::cout << "Please input the number of days:";
-			int days;
-			std::cin >> days;
-			returningDate(elem.getBorrowDate(), days);
-		}
-	}
-}
-
-
-void User::Borrowing(/*id*/)
-{
-	/*borrowedBooks.push_back(b);
-	returningDate(whenBorrowed, 14);
-	returningDay = asctime(whenBorrowed);*/
-
-}
-
-
-void User::returningDate(std::string currentDate, int days)
-{
-	std::stringstream iss(currentDate);
-	std::string partOfDate;
-	time_t now = time(NULL);
-	tm retDate;
-	localtime_s(&retDate, &now);
-
-	std::vector<std::string>fullDate;
-	while (std::getline(iss, partOfDate, '/')) {
-		fullDate.push_back(partOfDate);
-	}
-	retDate.tm_mday = stoi(fullDate[0]);
-	retDate.tm_mon = stoi(fullDate[1]);
-	retDate.tm_year = stoi(fullDate[2]);
-
-	const time_t one_day = 24 * 60 * 60;
-	time_t date_seconds = mktime(&retDate) + (days * one_day);
-
-	localtime_s(&retDate, &date_seconds);
-}
-
-
 bool User::search(std::string searchKeyword)
 {
 	/*InvertedIndex index;
@@ -135,9 +64,65 @@ bool User::search(std::string searchKeyword)
 	return false;
 }
 
-void User::bookReturn()
+void User::RegisterMenu()
 {
-	ShowBorrowedBooks();
+	std::string username, pw, cpw;
+	std::cout << "\nUsername: ";
+	std::cin >> username;
+	std::cout << "\nPlease note: The password must have at least one digit, a mixture of uppercase and lowercase letters and at least one special character. ";
+	std::cout << "Password: ";
+	std::cin >> pw;
+	std::cout << "Confirm password: ";
+	std::cin >> cpw;
+	if (pw == cpw)
+	{
+		if (PasswordRequirements(pw))
+		{
+			User newUser(username, pw);
+			//ShowMenu();
+		}
+		else
+		{
+			std::cout << "\nPassword does not meet the requirements, please repeat.";
+			RegisterMenu();
+		}
+	}
+	else
+	{
+		std::cout << "\nPassword and confirm password do not match, pelase repeat.";
+		RegisterMenu();
+	}
+}
+
+void User::LoginMenu()
+{
+	std::cout << "Please input your username";
+	std::string nickname;
+	std::cin >> nickname;
+	std::cout << "Please input your password";
+	std::string pass = "";
+	char ch;
+	ch = _getch();
+	while (ch != 10)
+	{
+		pass.push_back(ch);
+		std::cout << "*";
+		ch = _getch();
+	}
+	if (nickname != this->username || pass != this->password)
+	{
+		std::cout << "Username and/or password are incorrect";
+		//LoginRegisterMenu();
+	}
+	else
+	{
+		//ShowMenu();
+	}
+}
+
+void User::ReturnBook()
+{
+	//ShowBorrowedBooks();
 	for (auto elem : borrowedBooks)
 	{
 		std::cout << "Select?(y/n)";
@@ -153,23 +138,17 @@ void User::bookReturn()
 	}
 }
 
-void User::BookReturnSpecific(int IdBook)
+void User::Borrowing(/*id*/)
 {
-	for (auto elem : borrowedBooks)
-	{
-		if (IdBook == stoi(elem.getBook().getBookId()))
-		{
-			borrowedBooks.erase(borrowedBooks.begin(), borrowedBooks.begin() + 1);
-			std::cout << "You have returned the book succesfully. The book is now available in library.";
-			//elem.setIfBorrow(opt);
-			elem.setReturningDate("\0");
-		}
-	}
+	/*borrowedBooks.push_back(b);
+	returningDate(whenBorrowed, 14);
+	returningDay = asctime(whenBorrowed);*/
+
 }
 
 void User::ReadBook()
 {
-	ShowBorrowedBooks();
+	//ShowBorrowedBooks();
 	std::cout << "Input the id of the book you want to read: ";
 	int IdBook;
 	std::cin >> IdBook;
@@ -192,156 +171,7 @@ void User::ReadBook()
 		std::cin >> opt2;
 		if (opt2 == 'y' || opt2 == 'Y')
 		{
-			BookReturnSpecific(IdBook);
-		}
-	}
-}
-
-void User::LoginMenu()
-{
-	std::cout << "Please input your username";
-	std::string nickname;
-	std::cin >> nickname;
-	std::cout << "Please input your password";
-	std::string pass = "";
-	char ch;
-	ch = _getch();
-	while (ch != 10)
-	{
-		pass.push_back(ch);
-		std::cout << "*";
-		ch = _getch();
-	}
-	if (nickname != this->username || pass != this->password)
-	{
-		std::cout << "Username and/or password are incorrect";
-		LoginRegisterMenu();
-	}
-	else
-	{
-		ShowMenu();
-	}
-}
-
-void User::LoginRegisterMenu()
-{
-	std::cout << "Are you already registered?(y/n)";
-	char opt;
-	std::cin >> opt;
-	while (opt != 'y' || opt != 'Y' || opt != ' n' || opt != 'N')
-	{
-		std::cout << "Invalid option, please repeat.";
-		std::cin >> opt;
-	}
-	if (opt == 'y' || opt == 'Y')
-	{
-		LoginMenu();
-	}
-	else if (opt == 'n' || opt == 'N')
-	{
-		RegisterMenu();
-	}
-}
-
-void User::RegisterMenu()
-{
-	std::string username, pw, cpw;
-	std::cout << "\nUsername: ";
-	std::cin >> username;
-	std::cout << "\nPlease note: The password must have at least one digit, a mixture of uppercase and lowercase letters and at least one special character. ";
-	std::cout << "Password: ";
-	std::cin >> pw;
-	std::cout << "Confirm password: ";
-	std::cin >> cpw;
-	if (pw == cpw)
-	{
-		if (PasswordRequirements(pw))
-		{
-			User newUser(username, pw);
-			ShowMenu();
-		}
-		else
-		{
-			std::cout << "\nPassword does not meet the requirements, please repeat.";
-			RegisterMenu();
-		}
-	}
-	else
-	{
-		std::cout << "\nPassword and confirm password do not match, pelase repeat.";
-		RegisterMenu();
-	}
-}
-
-
-void User::ShowMenu()
-{
-	int opt = 1;
-	int size;
-	std::string keyword;
-	std::string bookData;
-	std::vector<Book> vec;
-
-	while (opt)
-	{
-		MenuList();
-		std::cin >> opt;
-		while (opt < 1 || opt>5)
-		{
-			std::cout << "\nInvalid option, please try again (1-5).";
-			std::cin >> opt;
-		}
-		switch (opt)
-		{
-		case 1: //Register
-			RegisterMenu();
-			break;
-		case 2: //Login
-			LoginMenu();
-			break;
-		case 3: //Delete account
-			this->username = '\0';
-			this->password = '\0';
-			this->borrowedBooks.resize(0);
-			std::cout << "\nYour account has been deleted.";
-			LoginRegisterMenu();
-			break;
-		case 4: //Log out
-			std::cout << "\nYou have logged out succesfully.";
-			LoginMenu();
-			break;
-		case 5: //Return a book
-			bookReturn();
-			break;
-		case 6: //Borrow a book
-			std::cout << "\nPlease introduce the title/author/ISBN of the book you would like to borrow: ";
-			std::cin >> keyword;
-			if (search(keyword))
-				Borrowing();
-			break;
-		case 7: //search a book
-			socket.Send(keyword);
-			socket.ReceiveInt(size);
-			for (int i = 0; i < size; i++)
-			{
-				socket.Receive(bookData);
-				vec.push_back(Book(bookData));
-			}
-			break;
-		case 8: //Read a book
-			ReadBook();
-			break;
-		case 9: //change password
-			ChangePassword();
-			break;
-		case 10: //BookDetails
-			break;
-		case 11: //exit
-			exit(EXIT_SUCCESS);
-			break;
-
-		default:
-			break;
+			//BookReturnSpecific(IdBook);
 		}
 	}
 }
@@ -378,25 +208,7 @@ void User::ChangePassword()
 	}
 }
 
-void User::MenuList()
-{
-	std::cout << "\n---------------------------------------------------------\n";
-	std::cout << "Hello " << this->username << "! Please select an option from below: ";
-	std::cout << "\n1. Register. ";
-	std::cout << "\n2. Login. ";
-	std::cout << "\n3. Delete user. ";
-	std::cout << "\n4. Log out. ";
-	std::cout << "\n5. Return a book. ";
-	std::cout << "\n6. Borrow a book. ";
-	std::cout << "\n7. Search a book. ";
-	std::cout << "\n8. Read a book. ";
-	std::cout << "\n9. Change password. ";
-	std::cout << "\n10. Show book details. ";
-	std::cout << "\n11. Exit. ";
-	std::cout << "\n---------------------------------------------------------\n";
-}
-
-void User::BookDetails()
+void BookDetails()
 {
 }
 
@@ -438,4 +250,24 @@ bool User::PasswordRequirements(std::string pw)
 	return true;
 }
 
+void User::returningDate(std::string currentDate, int days)
+{
+	std::stringstream iss(currentDate);
+	std::string partOfDate;
+	time_t now = time(NULL);
+	tm retDate;
+	localtime_s(&retDate, &now);
 
+	std::vector<std::string>fullDate;
+	while (std::getline(iss, partOfDate, '/')) {
+		fullDate.push_back(partOfDate);
+	}
+	retDate.tm_mday = stoi(fullDate[0]);
+	retDate.tm_mon = stoi(fullDate[1]);
+	retDate.tm_year = stoi(fullDate[2]);
+
+	const time_t one_day = 24 * 60 * 60;
+	time_t date_seconds = mktime(&retDate) + (days * one_day);
+
+	localtime_s(&retDate, &date_seconds);
+}
