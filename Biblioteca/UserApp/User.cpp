@@ -89,8 +89,16 @@ void User::LoginMenu(std::string username, std::string password)
 	}
 }
 
-void User::ReturnBook()
+void User::ReturnBook(int bookToReturnId)
 {
+	socket.SendInt(bookToReturnId);
+	for (auto& book : borrowedBooks)
+	{
+		if (stoi(book.getBook().getBookId()) == bookToReturnId)
+		{
+			borrowedBooks.erase(borrowedBooks.begin() + bookToReturnId, borrowedBooks.begin() + bookToReturnId + 1);
+		}
+	}
 }
 
 void User::Borrowing(int bookToBorrowId)

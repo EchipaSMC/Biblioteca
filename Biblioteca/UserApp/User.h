@@ -42,7 +42,7 @@ public:
 	void LoginMenu(std::string username, std::string password);
 	void DeleteAccount();
 	void Logout();
-	void ReturnBook();
+	void ReturnBook(int bookToReturnId);
 	void Borrowing(int bookToBorrowId);
 	void SearchBooks();
 	void ReadBook();
