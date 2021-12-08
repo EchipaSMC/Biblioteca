@@ -44,28 +44,9 @@ const bool& User::operator==(const User& s) const
 	return (this == &s);
 }
 
-bool User::search(std::string searchKeyword)
-{
-	/*InvertedIndex index;
-	if (index.getDictionary().find(searchKeyword) == index.getDictionary().end())
-	{
-		std::cout << "Title/author not found.";
-		return false;
-	}
-
-	int size = int(index.getDictionary()[searchKeyword].size());
-	for (int i = 0; i < size; i++)
-	{
-		std::cout << i + 1;
-		std::cout << "\n  Line: " << index.getDictionary()[searchKeyword][i].line << std::endl;
-		std::cout << "  Index: " << index.getDictionary()[searchKeyword][i].index << std::endl;
-	}
-	return true;*/
-	return false;
-}
-
 void User::RegisterMenu(std::string username, std::string password)
 {
+	socket.SendInt(registerUser);
 	socket.Send(username);
 	socket.Send(password);
 	this->username = username;
@@ -74,6 +55,7 @@ void User::RegisterMenu(std::string username, std::string password)
 
 void User::LoginMenu(std::string username, std::string password)
 {
+	socket.SendInt(loginUser);
 	int borrowedBooksSize;
 	socket.Send(username);
 	socket.Send(password);
@@ -89,8 +71,29 @@ void User::LoginMenu(std::string username, std::string password)
 	}
 }
 
+void User::DeleteAccount()
+{
+	socket.SendInt(deleteAccount);
+	username = "";
+	password = "";
+	searchedBooks.clear();
+	borrowedBooks.clear();
+	currentBookTags.clear();
+}
+
+void User::Logout()
+{
+	socket.SendInt(logout);
+	username = "";
+	password = "";
+	searchedBooks.clear();
+	borrowedBooks.clear();
+	currentBookTags.clear();
+}
+
 void User::ReturnBook(int bookToReturnId)
 {
+	socket.SendInt(returnBook);
 	socket.SendInt(bookToReturnId);
 	for (auto& book : borrowedBooks)
 	{
@@ -103,29 +106,46 @@ void User::ReturnBook(int bookToReturnId)
 
 void User::Borrowing(int bookToBorrowId)
 {
+	socket.SendInt(borrowBook);
 	std::string date;
 	time_t now = time(0);
-	tm retDate;
-	localtime_s(&retDate, &now);
+	tm currentDate;
+	localtime_s(&currentDate, &now);
 	date = "";
-	date += std::to_string(retDate.tm_year + 1900) + '-' + std::to_string(retDate.tm_mon) + '-' + std::to_string(retDate.tm_mday);
+	date += std::to_string(currentDate.tm_year + 1900) + '-' + std::to_string(currentDate.tm_mon) + '-' + std::to_string(currentDate.tm_mday);
 	
 	socket.SendInt(bookToBorrowId);
 	socket.Send(date);
 	
 	const time_t one_day = 24 * 60 * 60;
-	time_t date_seconds = mktime(&retDate) + (14 * one_day);
+	time_t date_seconds = mktime(&currentDate) + (14 * one_day);
 
-	localtime_s(&retDate, &date_seconds);
+	localtime_s(&currentDate, &date_seconds);
 	
 	date = "";
-	date += std::to_string(retDate.tm_year + 1900) + '-' + std::to_string(retDate.tm_mon) + '-' + std::to_string(retDate.tm_mday);
+	date += std::to_string(currentDate.tm_year + 1900) + '-' + std::to_string(currentDate.tm_mon) + '-' + std::to_string(currentDate.tm_mday);
 	socket.Send(date);
 
 }
 
+void User::SearchBooks(const std::string& keyword)
+{
+	socket.SendInt(searchBook);
+	int size;
+	std::string book;
+	socket.Send(keyword);
+	socket.ReceiveInt(size);
+	searchedBooks.resize(size);
+	for (int i = 0; i < searchedBooks.size(); i++)
+	{
+		socket.Receive(book);
+		searchedBooks[i] = Book(book);
+	}
+}
+
 void User::ReadBook()
 {
+	socket.SendInt(readBook);
 	int IdBook;
 	std::string tags;
 	std::cin >> IdBook;
@@ -137,6 +157,7 @@ void User::ChangePassword(std::string newPassword)
 {
 	if (PasswordRequirements(newPassword))
 	{
+		socket.SendInt(changePassword);
 		socket.Send(newPassword);
 		this->password = newPassword;
 	}
@@ -144,6 +165,7 @@ void User::ChangePassword(std::string newPassword)
 
 void User::BookDetails(const int& bookId)
 {
+	socket.SendInt(bookDetails);
 	int tagNumber;
 	std::string tag;
 	socket.SendInt(bookId);
@@ -165,6 +187,7 @@ void User::BookDetails(const int& bookId)
 
 void User::ProlongBorrowDate(const int& bookId, const std::string& returnDate)
 {
+	socket.SendInt(prolongBorrowDate);
 	std::stringstream iss(returnDate);
 	std::string date;
 	time_t now = time(0);
@@ -225,26 +248,4 @@ bool User::PasswordRequirements(std::string pw)
 	if (specialChar == false)
 		return false;
 	return true;
-}
-
-void User::returningDate(std::string currentDate, int days)
-{
-	std::stringstream iss(currentDate);
-	std::string partOfDate;
-	time_t now = time(NULL);
-	tm retDate;
-	localtime_s(&retDate, &now);
-
-	std::vector<std::string>fullDate;
-	while (std::getline(iss, partOfDate, '/')) {
-		fullDate.push_back(partOfDate);
-	}
-	retDate.tm_mday = stoi(fullDate[0]);
-	retDate.tm_mon = stoi(fullDate[1]);
-	retDate.tm_year = stoi(fullDate[2]);
-
-	const time_t one_day = 24 * 60 * 60;
-	time_t date_seconds = mktime(&retDate) + (days * one_day);
-
-	localtime_s(&retDate, &date_seconds);
 }
