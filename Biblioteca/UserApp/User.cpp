@@ -49,6 +49,11 @@ std::vector<std::string> User::GetCurrentBookTags() const
 	return currentBookTags;
 }
 
+BookDetails User::GetBookDetails() const
+{
+	return selectedBook;
+}
+
 const bool& User::operator==(const User& s) const
 {
 	return (this == &s);
@@ -99,6 +104,7 @@ void User::Logout()
 	searchedBooks.clear();
 	borrowedBooks.clear();
 	currentBookTags.clear();
+	selectedBook = BookDetails();
 }
 
 void User::ReturnBook(int bookToReturnId)
@@ -173,26 +179,13 @@ void User::ChangePassword(std::string newPassword)
 	}
 }
 
-void User::BookDetails(const int& bookId)
+void User::CreateBookDetails(const int& bookId)
 {
 	socket.SendInt(bookDetails);
-	int tagNumber;
-	std::string tag;
 	socket.SendInt(bookId);
-	socket.ReceiveInt(tagNumber);
-	currentBookTags.resize(tagNumber);
-	for (int i = 0; i < tagNumber; i++)
-	{
-		socket.Receive(tag);
-		currentBookTags[i] = tag;
-	}
-	socket.Receive(tag);
-	socket.ReceiveInt(tagNumber);
-	socket.ReceiveInt(tagNumber);
-	socket.ReceiveInt(tagNumber);
-	socket.ReceiveInt(tagNumber);
-	socket.ReceiveInt(tagNumber);
-	socket.Receive(tag);
+	std::string bookDetailsData;
+	socket.Receive(bookDetailsData);
+	selectedBook = BookDetails(bookDetailsData);
 }
 
 void User::ProlongBorrowDate(const int& bookId, const std::string& returnDate)

@@ -1,6 +1,6 @@
 #include "BookDetails.h"
 
-BookDetails::BookDetails(std::vector<std::string> tags, float averageRating, int ratings1, int ratings2, int ratings3, int ratings4, int ratings5, std::string imageUrl):
+BookDetails::BookDetails(std::vector<std::string> tags, float averageRating, int ratings1, int ratings2, int ratings3, int ratings4, int ratings5, std::string languageCode, std::string imageUrl):
 	tags(tags),
 	averageRating(averageRating),
 	ratings1(ratings1),
@@ -8,6 +8,7 @@ BookDetails::BookDetails(std::vector<std::string> tags, float averageRating, int
 	ratings3(ratings3),
 	ratings4(ratings4),
 	ratings5(ratings5),
+	languageCode(languageCode),
 	imageUrl(imageUrl)
 {
 }
@@ -43,6 +44,9 @@ BookDetails::BookDetails(std::string data)
 	ratings5 = std::stoi(word);
 
 	std::getline(getData, word, '|');
+	languageCode = word;
+
+	std::getline(getData, word, '|');
 	imageUrl = word;
 }
 
@@ -56,6 +60,7 @@ const BookDetails& BookDetails::operator=(const BookDetails& bookDetails)
 	this->ratings3 = bookDetails.ratings3;
 	this->ratings4 = bookDetails.ratings4;
 	this->ratings5 = bookDetails.ratings5;
+	this->languageCode = bookDetails.languageCode;
 	this->imageUrl = bookDetails.imageUrl;
 	return *this;
 }
@@ -93,6 +98,11 @@ int BookDetails::GetRatings4() const
 int BookDetails::GetRatings5() const
 {
 	return ratings5;
+}
+
+std::string BookDetails::GetLanguageCode() const
+{
+	return languageCode;
 }
 
 std::string BookDetails::GetImageUrl() const
@@ -133,6 +143,11 @@ void BookDetails::SetRatings4(const int& ratings4)
 void BookDetails::SetRatings5(const int& ratings5)
 {
 	this->ratings5 = ratings5;
+}
+
+void BookDetails::SetLanguageCode(const std::string& languageCode)
+{
+	this->languageCode = languageCode;
 }
 
 void BookDetails::SetImageUrl(const std::string imageUrl)

@@ -6,6 +6,7 @@
 #include <conio.h>
 #include "Book.h"
 #include "BorrowedBooks.h"
+#include "BookDetails.h"
 #include <stdlib.h>
 #include "..\TCPSocket\TCPSocket.h"
 
@@ -35,6 +36,7 @@ public:
 	std::vector<Book> GetSearchedBooks() const;
 	std::vector<BorrowedBooks> GetBorrowedBooks() const;
 	std::vector<std::string> GetCurrentBookTags() const;
+	BookDetails GetBookDetails() const;
 
 	const bool& operator==(const User& s) const;
 
@@ -47,7 +49,7 @@ public:
 	void SearchBooks(const std::string& keyword);
 	void ReadBook();
 	void ChangePassword(std::string newPassword);
-	void BookDetails(const int& bookId);
+	void CreateBookDetails(const int& bookId);
 	void ProlongBorrowDate(const int& bookId, const std::string& returnDate);
 
 	bool PasswordRequirements(std::string pw);
@@ -58,5 +60,6 @@ private:
 	std::vector<Book> searchedBooks;
 	std::vector<BorrowedBooks> borrowedBooks;
 	std::vector<std::string> currentBookTags;
+	BookDetails selectedBook;
 	TCPSocket socket;
 };

@@ -94,7 +94,7 @@ void Server::Register()
 
 void Server::Login()
 {
-	std::string username, password, result,data, bookToSend;
+	std::string username, password, result, data, bookToSend;
 	client.Receive(username);
 	client.Receive(password);
 	auto stmt = database.CreateStatement(database.GetDatabase(), queryList.UserServerUsersLogin(username, password));
@@ -128,11 +128,11 @@ void Server::Login()
 	}
 
 	client.SendInt(borrowedBooks.size());
-	for (auto &elem : borrowedBooks)
+	for (auto& elem : borrowedBooks)
 	{
 		stmt = database.CreateStatement(database.GetDatabase(), queryList.BookGetBookByID(elem.GetBookId()));
 		database.Run(stmt.get(), Database::DumpCurrentRow);
-		
+
 		std::getline(Database::getResult, data);
 		book = Books(data);
 		bookToSend = "";
@@ -202,7 +202,7 @@ void Server::BorrowBook()
 
 void Server::SearchBook()
 {
-	std::string keyword, resultsFound, data,bookToSend;
+	std::string keyword, resultsFound, data, bookToSend;
 	client.Receive(keyword);
 	auto stmt = database.CreateStatement(database.GetDatabase(), queryList.BooksNumOfBookSearch(keyword));
 	database.Run(stmt.get(), Database::DumpCurrentRow);
@@ -217,7 +217,7 @@ void Server::SearchBook()
 		std::getline(Database::getResult, data);
 		book = Books(data);
 		bookToSend = "";
-		bookToSend += std::to_string(book.GetBookId()) + "|"+ book.GetOriginalTitle()+"|" 
+		bookToSend += std::to_string(book.GetBookId()) + "|" + book.GetOriginalTitle() + "|"
 			+ book.GetAuthors() + "|" + book.GetISBN() + "|" + book.GetSmallImageURL();
 		client.Send(bookToSend);
 	}
@@ -229,7 +229,7 @@ void Server::SearchBook()
 void Server::ReadBook()
 {
 	int bookId;
-	std::string bookText,result;
+	std::string bookText, result;
 	client.ReceiveInt(bookId);
 
 	bookText = "This is a book about: ";
@@ -249,7 +249,7 @@ void Server::ReadBook()
 
 	for (auto& i : tags)
 	{
-		bookText += i.GetTagName()+", ";
+		bookText += i.GetTagName() + ", ";
 	}
 
 	client.Send(bookText);
@@ -273,42 +273,29 @@ void Server::ChangePassword()
 void Server::PrepareBookDetails()
 {
 	int bookId;
-	std::string result;
+	std::string result, bookDetails;
 	client.ReceiveInt(bookId);
 	auto stmt = database.CreateStatement(database.GetDatabase(), queryList.BookGetBookByID(bookId));
 	database.Run(stmt.get(), Database::DumpCurrentRow);
 	std::getline(Database::getResult, result);
 
 	book = Books(result);
+	bookDetails = "";
 
 	stmt = database.CreateStatement(database.GetDatabase(), queryList.TagsGetAllTags(book.GetBestBookId()));
 	database.Run(stmt.get(), Database::DumpCurrentRow);
 	while (std::getline(Database::getResult, result))
 	{
-		tags.push_back(result);
+		bookDetails += result + " ";
 	}
-
+	bookDetails += '|';
 	Database::getResult.str(std::string());
 	Database::getResult.clear();
 
-	client.SendInt(tags.size());
-
-	for (auto& i : tags)
-	{
-		result = "";
-		result += i.GetTagName();
-		client.Send(result);
-	}
-
-	client.Send(std::to_string(book.GetAverageRating()));
-	client.SendInt(book.GetRatings1());
-	client.SendInt(book.GetRatings2());
-	client.SendInt(book.GetRatings3());
-	client.SendInt(book.GetRatings4());
-	client.SendInt(book.GetRatings5());
-	client.Send(book.GetLanguageCode());
-
-	tags.clear();
+	bookDetails += std::to_string(book.GetAverageRating()) + '|' + std::to_string(book.GetRatings1()) + '|' + std::to_string(book.GetRatings2()) + '|'
+		+ std::to_string(book.GetRatings3()) + '|' + std::to_string(book.GetRatings4()) + '|' + std::to_string(book.GetRatings5()) + '|'
+		+ book.GetLanguageCode() + '|' + book.GetImageURL();
+	client.Send(bookDetails);
 }
 
 void Server::ProlongBorrowDate()
@@ -317,7 +304,7 @@ void Server::ProlongBorrowDate()
 	std::string newReturnDate;
 	client.ReceiveInt(bookId);
 	client.Receive(newReturnDate);
-	auto stmt= database.CreateStatement(database.GetDatabase(), queryList.BorrowedBooksUpdateReturnDate(user.GetUserId(),bookId,newReturnDate));
+	auto stmt = database.CreateStatement(database.GetDatabase(), queryList.BorrowedBooksUpdateReturnDate(user.GetUserId(), bookId, newReturnDate));
 	database.Run(stmt.get(), Database::DumpCurrentRow);
 	Database::getResult.str(std::string());
 	Database::getResult.clear();

@@ -6,7 +6,7 @@ class BookDetails
 {
 public:
 	BookDetails() = default;
-	BookDetails(std::vector<std::string> tags,float averageRating,int ratings1,int ratings2, int ratings3, int ratings4, int ratings5, std::string imageUrl);
+	BookDetails(std::vector<std::string> tags,float averageRating,int ratings1,int ratings2, int ratings3, int ratings4, int ratings5,std::string languageCode, std::string imageUrl);
 	BookDetails(std::string data);
 	~BookDetails() = default;
 
@@ -19,6 +19,7 @@ public:
 	int GetRatings3() const;
 	int GetRatings4() const;
 	int GetRatings5() const;
+	std::string GetLanguageCode() const;
 	std::string GetImageUrl() const;
 
 	void SetTags(const std::vector<std::string>& tags);
@@ -28,11 +29,12 @@ public:
 	void SetRatings3(const int& ratings3);
 	void SetRatings4(const int& ratings4);
 	void SetRatings5(const int& ratings5);
+	void SetLanguageCode(const std::string& languageCode);
 	void SetImageUrl(const std::string imageUrl);
 private:
 	std::vector<std::string> tags;
 	float averageRating;
 	int ratings1, ratings2, ratings3, ratings4, ratings5;
-	std::string imageUrl;
+	std::string languageCode,imageUrl;
 };
 

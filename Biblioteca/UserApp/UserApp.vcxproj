@@ -101,6 +101,7 @@
     <QtUic Include="UserApp.ui" />
     <QtMoc Include="UserApp.h" />
     <ClCompile Include="Book.cpp" />
+    <ClCompile Include="BookDetails.cpp" />
     <ClCompile Include="BookSearchResult.cpp" />
     <ClCompile Include="BorrowedBooks.cpp" />
     <ClCompile Include="DialogBox.cpp" />
@@ -114,6 +115,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Book.h" />
+    <ClInclude Include="BookDetails.h" />
     <ClInclude Include="BorrowedBooks.h" />
     <ClInclude Include="User.h" />
     <QtMoc Include="MyAccount.h" />
