@@ -32,7 +32,9 @@ public:
 	User(const User& user);
 
 	std::string GetUsername() const;
+	std::vector<Book> GetSearchedBooks() const;
 	std::vector<BorrowedBooks> GetBorrowedBooks() const;
+	std::vector<std::string> GetCurrentBookTags() const;
 
 	const bool& operator==(const User& s) const;
 

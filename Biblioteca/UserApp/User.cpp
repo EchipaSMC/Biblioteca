@@ -34,9 +34,19 @@ std::string User::GetUsername() const
 	return username;
 }
 
+std::vector<Book> User::GetSearchedBooks() const
+{
+	return searchedBooks;
+}
+
 std::vector<BorrowedBooks> User::GetBorrowedBooks() const
 {
 	return borrowedBooks;
+}
+
+std::vector<std::string> User::GetCurrentBookTags() const
+{
+	return currentBookTags;
 }
 
 const bool& User::operator==(const User& s) const
