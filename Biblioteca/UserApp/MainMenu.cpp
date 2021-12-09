@@ -1,5 +1,4 @@
 #include "MainMenu.h"
-#include "DialogBox.h"
 
 MainMenu::MainMenu(QWidget *parent)
 	: QWidget(parent)

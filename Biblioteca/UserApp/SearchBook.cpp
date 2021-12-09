@@ -1,8 +1,8 @@
 #include "SearchBook.h"
 #include "UserApp.h"
 #include "Login.h"
-#include "DialogBox.h"
-#include "Book.h"
+#include "QtMessageBox.h"
+#include "SelectedBookDetails.h"
 
 SearchBook::SearchBook(QWidget* parent)
 	: QWidget(parent)
@@ -27,16 +27,31 @@ void SearchBook::on_loginBtn_clicked()
 
 void SearchBook::on_searchBtn_clicked()
 {
+	ui.listWidget->clear();
 	std::string searchInput = ui.searchInput->text().toStdString();
 
 	if (searchInput.size())
 	{
-		std::vector<Book> searchResult; //= send input to server and receive a vector (of books) containing all the books matching the search input
+		//user.SearchBooks(searchInput);
+		std::vector<Book> searchResult;// = user.GetSearchedBooks(); //= send input to server and receive a vector (of books) containing all the books matching the search input
 
-		if (true /*searchResult.size()*/)
+		if (true/*searchResult.size()*/)
 		{
+			Book book = Book();
+			book.setImgUrl("https://images.gr-assets.com/books/1447303603m/2767052.jpg");
+			book.setAuthor("Exemplu Autor");
+			book.setIsbn("Ex12334123");
+			book.setTitle("Exemplu Titlu");
+			searchResult.push_back(book);
+			searchResult.push_back(book);
+			searchResult.push_back(book);
+			searchResult.push_back(book);
+
 			QNetworkAccessManager* nam = new QNetworkAccessManager(this);
 			connect(nam, &QNetworkAccessManager::finished, this, &SearchBook::loadImage);
+
+			connect(ui.listWidget, SIGNAL(itemDoubleClicked(QListWidgetItem*)),
+				this, SLOT(onBookListItemDoubleClicked(QListWidgetItem*)));
 
 			for each (Book book in searchResult)
 			{
@@ -56,14 +71,14 @@ void SearchBook::on_searchBtn_clicked()
 		}
 		else
 		{
-			DialogBox* warningMessage = new DialogBox;
+			QtMessageBox* warningMessage = new QtMessageBox;
 			warningMessage->SetMessage("No matches found!");
 			warningMessage->show();
 		}
 	}
 	else
 	{
-		DialogBox* warningMessage = new DialogBox;
+		QtMessageBox* warningMessage = new QtMessageBox;
 		warningMessage->SetMessage("No search input given!");
 		warningMessage->show();
 	}
@@ -76,6 +91,14 @@ void SearchBook::loadImage(QNetworkReply* reply)
 	//ui.label->setPixmap(bookCoverImage);
 	QListWidgetItem* item = new QListWidgetItem(bookCoverImage, titleAndAuthor);
 	ui.listWidget->addItem(item);
+}
+
+void SearchBook::onBookListItemDoubleClicked(QListWidgetItem* item)
+{
+	SelectedBookDetails* details = new SelectedBookDetails;
+	details->SetTitle(item->text().toStdString());
+	details->LoadImageFromURL("http://images.gr-assets.com/books/1447303603m/2767052.jpg");
+	details->show();
 }
 
 SearchBook::~SearchBook()

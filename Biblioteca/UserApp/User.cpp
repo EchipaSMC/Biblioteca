@@ -4,6 +4,9 @@
 User::User()
 {
 	socket.Connect();
+	this->username = "";
+	this->password = "";
+	this->borrowedBooks.resize(0);
 }
 
 User::User(const std::string& username, const std::string& password, const std::vector<BorrowedBooks>& borrowedBooks)

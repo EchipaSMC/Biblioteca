@@ -90,7 +90,7 @@ void Book::setAuthor(const std::string& author)
 	this->author = author;
 }
 
-void Book::setImgUrl(const std::string& bookId)
+void Book::setImgUrl(const std::string& imageUrl)
 {
 	this->imageUrl = imageUrl;
 }

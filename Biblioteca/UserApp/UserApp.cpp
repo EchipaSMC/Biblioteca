@@ -25,3 +25,4 @@ void UserApp::on_bookSearchBtn_clicked()
     searchBookWidget->show();
     close();
 }
+

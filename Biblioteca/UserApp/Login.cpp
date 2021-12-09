@@ -1,6 +1,6 @@
 #include "Login.h"
-#include "DialogBox.h"
 #include "MainMenu.h"
+#include "QtMessageBox.h"
 
 Login::Login(QWidget* parent)
 	: QWidget(parent)
@@ -22,7 +22,7 @@ void Login::on_loginBtn_clicked() {
 
 	else
 	{
-		DialogBox* warningMessage = new DialogBox;
+		QtMessageBox* warningMessage = new QtMessageBox;
 		warningMessage->SetMessage("Your credentials are wrong!");
 		warningMessage->show();
 	}

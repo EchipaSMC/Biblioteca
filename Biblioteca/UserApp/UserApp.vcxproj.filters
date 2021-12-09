@@ -49,9 +49,6 @@
     <ClCompile Include="Login.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="DialogBox.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="MainMenu.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -68,6 +65,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="BookDetails.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="QtMessageBox.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SelectedBookDetails.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -92,9 +95,6 @@
     <QtMoc Include="Login.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="DialogBox.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
     <QtMoc Include="MainMenu.h">
       <Filter>Header Files</Filter>
     </QtMoc>
@@ -102,6 +102,12 @@
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="BookSearchResult.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="QtMessageBox.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="SelectedBookDetails.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>
@@ -112,9 +118,6 @@
     <QtUic Include="Login.ui">
       <Filter>Form Files</Filter>
     </QtUic>
-    <QtUic Include="DialogBox.ui">
-      <Filter>Form Files</Filter>
-    </QtUic>
     <QtUic Include="MainMenu.ui">
       <Filter>Form Files</Filter>
     </QtUic>
@@ -122,6 +125,12 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="BookSearchResult.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="QtMessageBox.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="SelectedBookDetails.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>
