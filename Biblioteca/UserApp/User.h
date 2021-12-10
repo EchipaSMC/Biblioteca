@@ -63,3 +63,4 @@ private:
 	BookDetails selectedBook;
 	TCPSocket socket;
 };
+extern User user;

@@ -1,6 +1,8 @@
 #include "..\TCPSocket\TCPSocket.cpp"
 #include "User.h"
 
+User user = User();
+
 User::User()
 {
 	socket.Connect();
