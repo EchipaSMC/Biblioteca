@@ -11,7 +11,7 @@ SearchBook::SearchBook(QWidget* parent)
 	ui.listWidget->setViewMode(QListWidget::IconMode);
 	ui.listWidget->setIconSize(QSize(200, 150));
 	ui.listWidget->setResizeMode(QListWidget::Adjust);
-	ui.listWidget->setSpacing(20);
+	ui.listWidget->setSpacing(30);
 }
 
 void SearchBook::on_exitBtn_clicked() {
@@ -28,6 +28,9 @@ void SearchBook::on_loginBtn_clicked()
 void SearchBook::on_searchBtn_clicked()
 {
 	ui.listWidget->clear();
+	disconnect(ui.listWidget, SIGNAL(itemDoubleClicked(QListWidgetItem*)),
+		this, SLOT(onBookListItemDoubleClicked(QListWidgetItem*)));
+
 	std::string searchInput = ui.searchInput->text().toStdString();
 
 	if (searchInput.size())
@@ -38,10 +41,19 @@ void SearchBook::on_searchBtn_clicked()
 		if (true/*searchResult.size()*/)
 		{
 			Book book = Book();
-			book.setImgUrl("https://images.gr-assets.com/books/1447303603m/2767052.jpg");
-			book.setAuthor("Exemplu Autor");
+			book.setImgUrl("https://images-ext-1.discordapp.net/external/qtZoV_oLQ8gGuMnAW8D1fNMb7g1-bnnVAg8NPInLzM8/https/images.gr-assets.com/books/1447303603s/2767052.jpg");
+			book.setAuthor(std::to_string(searchResult.size()));
 			book.setIsbn("Ex12334123");
 			book.setTitle("Exemplu Titlu");
+
+			Book book2 = Book();
+			book2.setImgUrl("https://images-ext-1.discordapp.net/external/qtZoV_oLQ8gGuMnAW8D1fNMb7g1-bnnVAg8NPInLzM8/https/images.gr-assets.com/books/1447303603s/2767052.jpg");
+			book2.setAuthor(std::to_string(searchResult.size()));
+			book2.setIsbn("2");
+			book2.setTitle("2");
+
+			searchResult.push_back(book);
+			searchResult.push_back(book2);
 			searchResult.push_back(book);
 			searchResult.push_back(book);
 			searchResult.push_back(book);
@@ -53,16 +65,15 @@ void SearchBook::on_searchBtn_clicked()
 			connect(ui.listWidget, SIGNAL(itemDoubleClicked(QListWidgetItem*)),
 				this, SLOT(onBookListItemDoubleClicked(QListWidgetItem*)));
 
-			for each (Book book in searchResult)
+			for each (Book bookResult in searchResult)
 			{
-				QString imageURL = QString::fromStdString(book.getImgUrl());
+				QString imageURL = QString::fromStdString(bookResult.getImgUrl());
 
 				if (imageURL.indexOf("https") == 0)
 				{
 					imageURL.remove(4, 1);
 				}
-
-				titleAndAuthor = QString::fromStdString(book.getTitle() + " " + book.getAuthor());
+				titleAndAuthor = QString::fromStdString(bookResult.getTitle() + " " + bookResult.getAuthor());
 
 				QUrl imageNoSecureURL = imageURL;
 				QNetworkRequest request(imageNoSecureURL);
