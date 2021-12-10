@@ -1,6 +1,7 @@
 #include "BorrowedBooksList.h"
 #include "Book.h"
 #include "QtMessageBox.h"
+#include "BorrowedBookDetails.h"
 
 BorrowedBooksList::BorrowedBooksList(QWidget* parent)
 	: QWidget(parent)
@@ -72,7 +73,10 @@ void BorrowedBooksList::loadImage(QNetworkReply* reply)
 
 void BorrowedBooksList::onBorrowedBookListItemDoubleClicked(QListWidgetItem* item)
 {
-	////
+	BorrowedBookDetails* details = new BorrowedBookDetails;
+	details->SetTitle(item->text().toStdString());
+	details->LoadImageFromURL("http://images.gr-assets.com/books/1447303603m/2767052.jpg");
+	details->show();
 }
 
 BorrowedBooksList::~BorrowedBooksList()
