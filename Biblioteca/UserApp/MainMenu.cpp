@@ -1,4 +1,5 @@
 #include "MainMenu.h"
+#include "BorrowedBooksList.h"
 
 MainMenu::MainMenu(QWidget *parent)
 	: QWidget(parent)
@@ -33,6 +34,8 @@ void MainMenu::on_borrowBookBtn_clicked()
 
 void MainMenu::on_borrowedBooksBtn_clicked()
 {
+	BorrowedBooksList* borrowedBooks = new BorrowedBooksList;
+	borrowedBooks->show();
 }
 
 void MainMenu::on_retunBookBtn_clicked()
