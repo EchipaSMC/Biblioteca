@@ -30,6 +30,7 @@ void MainMenu::on_logOutBtn_clicked(){
 
 void MainMenu::on_borrowBookBtn_clicked()
 {
+	//lista borrowed books
 }
 
 void MainMenu::on_borrowedBooksBtn_clicked()
