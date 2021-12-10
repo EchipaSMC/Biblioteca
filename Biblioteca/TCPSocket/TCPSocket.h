@@ -1,30 +1,44 @@
 #pragma once
+#define WIN32_LEAN_AND_MEAN
+
+#include <windows.h>
 #include <winsock2.h>
 #include <ws2tcpip.h>
 #include <stdlib.h>
-#include <stdio.h>
 #include <iostream>
+#include <vector>
 #include <string>
+#include <thread>
+#include <stdio.h>
 
-#pragma comment(lib,"Ws2_32.lib")
+#pragma comment (lib, "Ws2_32.lib")
+#pragma comment (lib, "Mswsock.lib")
+
 class TCPSocket
 {
 private:
-	SOCKET sock;
+
+	SOCKET serverConnection;
+	static SOCKET listenSocket;
 	const static SOCKET badSocket;
-	sockaddr_in addrServer;
+	addrinfo* result;
+	addrinfo* ptr = NULL;
+	addrinfo hints;
 public:
-	TCPSocket();
-	TCPSocket(SOCKET socketHandle);
+	//TCPSocket() = default;
+	TCPSocket(bool isClient = false);
 	~TCPSocket();
 
+	SOCKET GetListenSocket() const;
+	void SetSocket(const SOCKET& socket);
+
 	bool Connect();
+	bool CloseConnection();
 	bool Listen();
-	TCPSocket Accept();
-	bool Send(const std::string& data);
-	bool SendInt(const int& data);
-	bool Receive(std::string& data);
-	bool ReceiveInt(int& data);
+
+	bool ReceiveInt(int& value);
+	bool ReceiveString(std::string& value);
+	bool SendInt(const int& value);
+	bool SendString(const std::string& value);
 
 };
-

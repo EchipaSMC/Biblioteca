@@ -1,132 +1,176 @@
 #include "TCPSocket.h"
 
 const SOCKET TCPSocket::badSocket = INVALID_SOCKET;
+SOCKET TCPSocket::listenSocket = INVALID_SOCKET;
 
-TCPSocket::TCPSocket() :sock(badSocket)
+TCPSocket::TCPSocket(bool isClient)
 {
-	std::string adress = "127.0.0.1";
+	/*std::string adress = "127.0.0.1";
 	std::wstring wideAddress(adress.begin(), adress.end());
-	const wchar_t* wideWchar = wideAddress.c_str();
-	addrServer.sin_family = AF_INET;
-	InetPton(AF_INET, wideWchar, &addrServer.sin_addr.s_addr);
-	addrServer.sin_port = htons(6666);
-	memset(&(addrServer.sin_zero), '\0', 8);
-	sock = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
-	if (sock == INVALID_SOCKET)
+	const wchar_t* wideWchar = wideAddress.c_str();*/
+	if (!isClient)
 	{
-		throw std::string("Error at socket(): ") + std::to_string(WSAGetLastError());
-	}
-}
+		ZeroMemory(&hints, sizeof(hints));
+		hints.ai_family = AF_INET;
+		hints.ai_socktype = SOCK_STREAM;
+		hints.ai_protocol = IPPROTO_TCP;
+		hints.ai_flags = AI_PASSIVE;
 
-TCPSocket::TCPSocket(SOCKET socketHandle) :sock(socketHandle)
-{
-	std::string adress = "127.0.0.1";
-	std::wstring wideAddress(adress.begin(), adress.end());
-	const wchar_t* wideWchar = wideAddress.c_str();
-	addrServer.sin_family = AF_INET;
-	InetPton(AF_INET, wideWchar, &addrServer.sin_addr.s_addr);
-	addrServer.sin_port = htons(6666);
-	memset(&(addrServer.sin_zero), '\0', 8);
+		int iResult = getaddrinfo(NULL, "27015", &hints, &result);
+		if (iResult != 0)
+		{
+			throw std::string("getaddrinfo failed with error: " + std::to_string(iResult));
+		}
+
+		listenSocket = socket(result->ai_family, result->ai_socktype, result->ai_protocol);
+		if (listenSocket == INVALID_SOCKET)
+		{
+			freeaddrinfo(result);
+			throw std::string("Error at socket(): ") + std::to_string(WSAGetLastError());
+		}
+	}
+	else
+	{
+		ZeroMemory(&hints, sizeof(hints));
+		hints.ai_family = AF_UNSPEC;
+		hints.ai_socktype = SOCK_STREAM;
+		hints.ai_protocol = IPPROTO_TCP;
+
+		int iResult = getaddrinfo("127.0.0.1", "27015", &hints, &result);
+		if (iResult != 0)
+		{
+			throw std::string("getaddrinfo failed with error: " + std::to_string(iResult));
+		}
+
+	}
 }
 
 TCPSocket::~TCPSocket()
 {
-	if (sock != badSocket)
+	if (listenSocket != badSocket)
 	{
-		closesocket(sock);
+		closesocket(listenSocket);
 	}
+	if (serverConnection != badSocket)
+	{
+		closesocket(serverConnection);
+	}
+}
+
+SOCKET TCPSocket::GetListenSocket() const
+{
+	return listenSocket;
+}
+
+void TCPSocket::SetSocket(const SOCKET& socket)
+{
+	serverConnection = socket;
 }
 
 bool TCPSocket::Connect()
 {
-	std::cout << "Connecting..." << std::endl;
-	int iResult = connect(sock, (SOCKADDR*)&addrServer, sizeof(addrServer));
-	if (iResult == SOCKET_ERROR) {
-		closesocket(sock);
-		std::cerr << "Unable to connect to server: " << WSAGetLastError() << std::endl;
-		return false;
+	bool connected = false;
+	for (ptr = result; ptr != NULL; ptr = ptr->ai_next)
+	{
+		serverConnection = socket(ptr->ai_family, ptr->ai_socktype, ptr->ai_protocol);
+		if (serverConnection == INVALID_SOCKET)
+		{
+			std::cerr << "Socket failed with error: " << WSAGetLastError() << std::endl;
+			return false;
+		}
+
+		int iResult = connect(serverConnection, ptr->ai_addr, (int)ptr->ai_addrlen);
+		if (iResult == SOCKET_ERROR)
+		{
+			std::cerr << "Could not connect to server, error: " << WSAGetLastError() << std::endl;
+			closesocket(serverConnection);
+			serverConnection = INVALID_SOCKET;
+			continue;
+		}
+		else
+		{
+			connected = true;
+			break;
+		}
 	}
+	return connected;
+}
+
+bool TCPSocket::ReceiveInt(int& value)
+{
+	int iResult = recv(serverConnection, (char*)&value, sizeof(int), NULL);
+	if (iResult == SOCKET_ERROR)
+		return false;
+
+	return true;
+}
+
+bool TCPSocket::ReceiveString(std::string& value)
+{
+	int bufferLength = 0;
+	if (!ReceiveInt(bufferLength))
+		return false;
+
+	char* buffer = new char[bufferLength];
+
+	int iResult = recv(serverConnection, buffer, bufferLength, NULL);
+	value = std::string();
+	std::copy(buffer, buffer + bufferLength, std::back_inserter(value));
+	delete[]buffer;
+
+	if (iResult == SOCKET_ERROR)
+		return false;
+
+	return true;
+}
+
+bool TCPSocket::SendInt(const int& value)
+{
+	int iResult = send(serverConnection, (char*)&value, sizeof(int), NULL);
+	if (iResult == SOCKET_ERROR)
+		return false;
+
+	return true;
+}
+
+bool TCPSocket::SendString(const std::string& value)
+{
+	int bufferLength = value.size();
+	if (!SendInt(bufferLength))
+		return false;
+
+	int iResult = send(serverConnection, value.c_str(), bufferLength, NULL);
+	if (iResult == SOCKET_ERROR)
+		return false;
 
 	return true;
 }
 
 bool TCPSocket::Listen()
 {
-	if (bind(sock, (SOCKADDR*)&addrServer, sizeof(addrServer)) == SOCKET_ERROR) {
+	//Bind socket
+	if (bind(listenSocket, result->ai_addr, (int)result->ai_addrlen) == SOCKET_ERROR) {
 		std::cerr << "Bind failed with error: " << WSAGetLastError() << std::endl;
+		freeaddrinfo(result);
 		return false;
 	}
 
-	if (listen(sock, SOMAXCONN) == SOCKET_ERROR) {
+	freeaddrinfo(result);
+	//Listen for incomin connection requests on the created socket
+	if (listen(listenSocket, SOMAXCONN) == SOCKET_ERROR) {
 		std::cerr << "Listen failed with error: " << WSAGetLastError() << std::endl;
 		return false;
 	}
 	return true;
 }
 
-TCPSocket TCPSocket::Accept()
+bool TCPSocket::CloseConnection()
 {
-	SOCKET clientSocket = accept(sock, NULL, NULL);
-	if (clientSocket == INVALID_SOCKET) {
-		throw std::string("Accept failed with error: ") + std::to_string(WSAGetLastError());
-	}
-	return TCPSocket(clientSocket);
-}
-
-bool TCPSocket::Send(const std::string& data)
-{
-	int size = data.size();
-	int iSendResult = send(sock, (char*)&size, sizeof(int), 0);
-	if (iSendResult == SOCKET_ERROR)
+	if (closesocket(serverConnection == SOCKET_ERROR))
 	{
-		std::cerr << "Send failed with error: " << WSAGetLastError() << std::endl;
-		return false;
-	}
-	iSendResult = send(sock, data.c_str(), data.size(), 0);
-	if (iSendResult == SOCKET_ERROR)
-	{
-		std::cerr << "Send failed with error: " << WSAGetLastError() << std::endl;
-		return false;
-	}
-	return true;
-}
-
-bool TCPSocket::SendInt(const int& data)
-{
-	int iSendResult = send(sock, (char*)&data, sizeof(int), 0);
-	if (iSendResult == SOCKET_ERROR) {
-		std::cerr << "Send failed with error: " << WSAGetLastError() << std::endl;
-		return false;
-	}
-	return true;
-}
-
-bool TCPSocket::Receive(std::string& data)
-{
-	int size = 0;
-	int iReceiveResult = recv(sock, (char*)&size, sizeof(int), 0);
-	if (iReceiveResult < 0)
-	{
-		std::cerr << "Receive failed with error: " << WSAGetLastError();
-		return false;
-	}
-	char* buffer = new char[size];
-	iReceiveResult = recv(sock, buffer, size, 0);
-	if (iReceiveResult < 0)
-	{
-		std::cerr << "Receive failed with error: " << WSAGetLastError();
-		return false;
-	}
-	std::copy(buffer, buffer + size, std::back_inserter(data));
-	return true;
-}
-
-bool TCPSocket::ReceiveInt(int& data)
-{
-	int iReceiveResult = recv(sock, (char*)&data, sizeof(int), 0);
-	if (iReceiveResult < 0)
-	{
-		std::cerr << "Receive failed with error: " << WSAGetLastError();
+		if (WSAGetLastError() == WSAENOTSOCK)
+			return true;
+		std::cerr << "Failed to close socket Error: " << WSAGetLastError() << std::endl;
 		return false;
 	}
 	return true;
