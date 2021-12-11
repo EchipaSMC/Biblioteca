@@ -3,6 +3,6 @@
 int main()
 {
 	Server server;
-	server.RunServer();;
+	server.RunServer();
 	return 0;
 }

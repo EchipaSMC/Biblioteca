@@ -9,7 +9,7 @@ Server::Server()
 void Server::RunServer()
 {
 
-	//DropVirtualTable();
+	DropVirtualTable();
 	PrepareVirtualTable();
 	for (int i = 0; i < 100; i++)
 	{

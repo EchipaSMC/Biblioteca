@@ -16,7 +16,6 @@ class Server
 public:
 	Server();
 	void RunServer();
-	bool ListenForNewConnection();
 	~Server()=default;
 private:
 	Query queryList;
@@ -32,6 +31,7 @@ private:
 
 	void PrepareVirtualTable();
 	void DropVirtualTable();
+	bool ListenForNewConnection();
 
 	bool ProcessData(const int& index);
 	void ClientHandler(const int& index);
