@@ -3,6 +3,8 @@
 
 User user = User();
 
+int User::option = 0;
+
 User::User()
 {
 	socket.Connect();
@@ -57,6 +59,36 @@ std::vector<std::string> User::GetCurrentBookTags() const
 BookDetails User::GetBookDetails() const
 {
 	return selectedBook;
+}
+
+int User::GetOption() const
+{
+	return option;
+}
+
+void User::SetOption(const int& option)
+{
+	this->option = option;
+}
+
+int User::GetBookId() const
+{
+	return bookId;
+}
+
+void User::SetBookId(const int& bookId)
+{
+	this->bookId = bookId;
+}
+
+std::string User::GetKeyword() const
+{
+	return keyword;
+}
+
+void User::SetKeyword(const std::string& keyword)
+{
+	this->keyword = keyword;
 }
 
 const bool& User::operator==(const User& s) const
@@ -255,5 +287,100 @@ bool User::PasswordRequirements(std::string pw)
 
 	if (specialChar == false)
 		return false;
+	return true;
+}
+
+void User::ClientHandler()
+{
+	while (true)
+	{
+		if (option != 0)
+		{
+			if (!user.ProcessData())
+			{
+				break;
+			}
+		}
+	}
+	std::cout << "Lost connection to the server" << std::endl;
+	if (user.socket.CloseConnection())
+	{
+		std::cout << "Socket to server was closed successfully" << std::endl;
+	}
+}
+
+bool User::ProcessData()
+{
+	switch (option)
+	{
+	case 1:
+	{
+		RegisterMenu(user.username, user.password);
+		break;
+	}
+	case 2:
+	{
+		LoginMenu(user.username, user.password);
+		break;
+	}
+	case 3:
+	{
+		DeleteAccount();
+		break;
+	}
+	case 4:
+	{
+		Logout();
+		break;
+	}
+	case 5:
+	{
+		ReturnBook(bookId);
+		break;
+	}
+	case 6:
+	{
+		Borrowing(bookId);
+		break;
+	}
+	case 7:
+	{
+		SearchBooks(keyword);
+		break;
+	}
+	case 8:
+	{
+		ReadBook();		
+		break;
+	}
+	case 9:
+	{
+		ChangePassword(user.password);
+		break;
+	}
+	case 10:
+	{
+		CreateBookDetails(bookId);
+		break;
+	}
+
+	case 11:
+	{
+		std::string returnDate;
+		for (auto &i:user.borrowedBooks)
+		{
+			if (std::stoi(i.getBook().getBookId()) == bookId)
+			{
+				returnDate = i.getReturningDate();
+				break;
+			}
+		}
+		ProlongBorrowDate(bookId, returnDate);
+		break;
+	}
+	default:
+		break;
+	}
+	option = 0;
 	return true;
 }

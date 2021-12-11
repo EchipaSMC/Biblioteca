@@ -39,8 +39,12 @@ public:
 	BookDetails GetBookDetails() const;
 	int GetOption() const;
 	void SetOption(const int& option);
+	int GetBookId()const;
+	void SetBookId(const int & bookId);
+	std::string GetKeyword()const;
+	void SetKeyword(const std::string& keyword);
 
-	inline void StartSubroutine() { clientThread = std::thread(ClientHandler); };
+	inline void StartSubroutine() { clientThread = std::thread(ClientHandler); DetachThread(); };
 	inline void DetachThread() { clientThread.detach(); };
 
 	const bool& operator==(const User& s) const;
@@ -73,5 +77,8 @@ private:
 
 	static void ClientHandler();
 	bool ProcessData();
+
+	int bookId;// setter + getter
+	std::string keyword;
 };
 extern User user;
