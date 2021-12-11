@@ -19,6 +19,9 @@ BorrowedBooksList::BorrowedBooksList(QWidget* parent)
 
 	if (true/*borrowedBooks.size()*/)
 	{
+		disconnect(ui.borrowedBooksList, SIGNAL(itemDoubleClicked(QListWidgetItem*)),
+			this, SLOT(onBorrowedBookListItemDoubleClicked(QListWidgetItem*)));
+		
 		Book book = Book();
 		book.setImgUrl("https://images-ext-1.discordapp.net/external/qtZoV_oLQ8gGuMnAW8D1fNMb7g1-bnnVAg8NPInLzM8/https/images.gr-assets.com/books/1447303603s/2767052.jpg");
 		book.setAuthor(std::to_string(borrowedBooks.size()));
@@ -57,9 +60,6 @@ BorrowedBooksList::BorrowedBooksList(QWidget* parent)
 		warningMessage->SetMessage("No borrowed books found!");
 		warningMessage->show();
 	}
-
-	disconnect(ui.borrowedBooksList, SIGNAL(itemDoubleClicked(QListWidgetItem*)),
-		this, SLOT(onBorrowedBookListItemDoubleClicked(QListWidgetItem*)));
 }
 
 void BorrowedBooksList::loadImage(QNetworkReply* reply)

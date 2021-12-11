@@ -93,6 +93,7 @@
   <ItemGroup>
     <QtRcc Include="UserApp.qrc" />
     <QtUic Include="BookSearchResult.ui" />
+    <QtUic Include="BorrowedBookDetails.ui" />
     <QtUic Include="BorrowedBooksList.ui" />
     <QtUic Include="Login.ui" />
     <QtUic Include="MainMenu.ui" />
@@ -105,6 +106,7 @@
     <ClCompile Include="Book.cpp" />
     <ClCompile Include="BookDetails.cpp" />
     <ClCompile Include="BookSearchResult.cpp" />
+    <ClCompile Include="BorrowedBookDetails.cpp" />
     <ClCompile Include="BorrowedBooks.cpp" />
     <ClCompile Include="BorrowedBooksList.cpp" />
     <ClCompile Include="Login.cpp" />
@@ -120,6 +122,7 @@
   <ItemGroup>
     <ClInclude Include="Book.h" />
     <ClInclude Include="BookDetails.h" />
+    <QtMoc Include="BorrowedBookDetails.h" />
     <ClInclude Include="BorrowedBooks.h" />
     <QtMoc Include="QtMessageBox.h" />
     <QtMoc Include="SelectedBookDetails.h" />

@@ -27,7 +27,7 @@ enum Instructions {
 class User {
 public:
 	User();
-	~User()=default;
+	~User() = default;
 	User(const std::string& username, const std::string& password, const std::vector<BorrowedBooks>& borrowedBooks);
 	User(const std::string& username, const std::string& password);
 	User(const User& user);
@@ -61,6 +61,6 @@ private:
 	std::vector<BorrowedBooks> borrowedBooks;
 	std::vector<std::string> currentBookTags;
 	BookDetails selectedBook;
-	TCPSocket socket;
+	TCPSocket socket = TCPSocket(true);
 };
 extern User user;

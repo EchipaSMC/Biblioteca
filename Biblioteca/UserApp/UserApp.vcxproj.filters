@@ -76,6 +76,9 @@
     <ClCompile Include="BorrowedBooksList.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="BorrowedBookDetails.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Book.h">
@@ -116,6 +119,9 @@
     <QtMoc Include="BorrowedBooksList.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="BorrowedBookDetails.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="SearchBook.ui">
@@ -140,6 +146,9 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="BorrowedBooksList.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="BorrowedBookDetails.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>
