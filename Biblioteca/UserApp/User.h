@@ -37,6 +37,11 @@ public:
 	std::vector<BorrowedBooks> GetBorrowedBooks() const;
 	std::vector<std::string> GetCurrentBookTags() const;
 	BookDetails GetBookDetails() const;
+	int GetOption() const;
+	void SetOption(const int& option);
+
+	inline void StartSubroutine() { clientThread = std::thread(ClientHandler); };
+	inline void DetachThread() { clientThread.detach(); };
 
 	const bool& operator==(const User& s) const;
 
@@ -62,5 +67,11 @@ private:
 	std::vector<std::string> currentBookTags;
 	BookDetails selectedBook;
 	TCPSocket socket = TCPSocket(true);
+
+	std::thread clientThread;
+	static int option;
+
+	static void ClientHandler();
+	bool ProcessData();
 };
 extern User user;
