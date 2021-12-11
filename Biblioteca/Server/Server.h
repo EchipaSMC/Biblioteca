@@ -16,6 +16,7 @@ class Server
 public:
 	Server();
 	void RunServer();
+	bool ListenForNewConnection();
 	~Server()=default;
 private:
 	Query queryList;
@@ -25,21 +26,26 @@ private:
 	std::vector<Tags> tags;
 	UserServer user;
 	std::vector<BorrowedBooks> borrowedBooks;
-	TCPSocket client;
+	TCPSocket clientConnections[100];
+	std::thread connectionThreads[100];
+	int connectionCounter = 0;
 
 	void PrepareVirtualTable();
 	void DropVirtualTable();
 
-	void Register();
-	void Login();
-	void DeleteUser();
-	void Logout();
-	void ReturnBook();
-	void BorrowBook();
-	void SearchBook();
-	void ReadBook();
-	void ChangePassword();
-	void PrepareBookDetails();
-	void ProlongBorrowDate();
+	bool ProcessData(const int& index);
+	void ClientHandler(const int& index);
+
+	void Register(const int& index);
+	void Login(const int& index);
+	void DeleteUser(const int& index);
+	void Logout(const int& index);
+	void ReturnBook(const int& index);
+	void BorrowBook(const int& index);
+	void SearchBook(const int& index);
+	void ReadBook(const int& index);
+	void ChangePassword(const int& index);
+	void PrepareBookDetails(const int& index);
+	void ProlongBorrowDate(const int& index);
 };
 

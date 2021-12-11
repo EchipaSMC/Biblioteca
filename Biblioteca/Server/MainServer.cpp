@@ -2,6 +2,7 @@
 #include "Server.h"
 int main()
 {
-	//Database db("dbCarti.db");
 	Server server;
+	server.RunServer();;
+	return 0;
 }

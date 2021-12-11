@@ -3,11 +3,27 @@
 const SOCKET TCPSocket::badSocket = INVALID_SOCKET;
 SOCKET TCPSocket::listenSocket = INVALID_SOCKET;
 
+struct WinsockInitializer
+{
+	WinsockInitializer()
+	{
+		WSADATA wsaData;
+		int iResult = WSAStartup(MAKEWORD(2, 2), &wsaData);
+		if (iResult != NO_ERROR) {
+			throw std::string("WSAStartup Failed with error: ") + std::to_string(iResult);
+		}
+	}
+
+	~WinsockInitializer()
+	{
+		WSACleanup();
+	}
+};
+
+WinsockInitializer globalInitializer;
+
 TCPSocket::TCPSocket(bool isClient)
 {
-	/*std::string adress = "127.0.0.1";
-	std::wstring wideAddress(adress.begin(), adress.end());
-	const wchar_t* wideWchar = wideAddress.c_str();*/
 	if (!isClient)
 	{
 		ZeroMemory(&hints, sizeof(hints));
@@ -154,7 +170,6 @@ bool TCPSocket::Listen()
 		freeaddrinfo(result);
 		return false;
 	}
-
 	freeaddrinfo(result);
 	//Listen for incomin connection requests on the created socket
 	if (listen(listenSocket, SOMAXCONN) == SOCKET_ERROR) {
@@ -175,22 +190,3 @@ bool TCPSocket::CloseConnection()
 	}
 	return true;
 }
-
-struct WinsockInitializer
-{
-	WinsockInitializer()
-	{
-		WSADATA wsaData;
-		int iResult = WSAStartup(MAKEWORD(2, 2), &wsaData);
-		if (iResult != NO_ERROR) {
-			throw std::string("WSAStartup Failed with error: ") + std::to_string(iResult);
-		}
-	}
-
-	~WinsockInitializer()
-	{
-		WSACleanup();
-	}
-};
-
-WinsockInitializer globalInitializer;
