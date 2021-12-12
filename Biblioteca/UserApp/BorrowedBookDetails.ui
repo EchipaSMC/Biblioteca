@@ -6,20 +6,20 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1241</width>
-    <height>661</height>
+    <width>1190</width>
+    <height>690</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>BorrowedBookDetails</string>
+   <string>Details</string>
   </property>
   <widget class="QWidget" name="verticalLayoutWidget">
    <property name="geometry">
     <rect>
      <x>100</x>
-     <y>50</y>
-     <width>311</width>
-     <height>441</height>
+     <y>80</y>
+     <width>281</width>
+     <height>321</height>
     </rect>
    </property>
    <layout class="QVBoxLayout" name="verticalLayout">
@@ -31,43 +31,117 @@
       <property name="text">
        <string/>
       </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QLabel" name="bookTitle">
-      <property name="text">
-       <string/>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
       </property>
      </widget>
     </item>
    </layout>
   </widget>
-  <widget class="QPushButton" name="returnBook">
+  <widget class="QWidget" name="verticalLayoutWidget_2">
    <property name="geometry">
     <rect>
-     <x>120</x>
-     <y>510</y>
-     <width>121</width>
-     <height>51</height>
+     <x>100</x>
+     <y>450</y>
+     <width>281</width>
+     <height>151</height>
     </rect>
    </property>
-   <property name="text">
-    <string>Return book</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="prolongBDate">
-   <property name="geometry">
-    <rect>
-     <x>270</x>
-     <y>510</y>
-     <width>121</width>
-     <height>51</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Prolong borrowing
+   <layout class="QVBoxLayout" name="verticalLayout_2">
+    <property name="leftMargin">
+     <number>70</number>
+    </property>
+    <property name="rightMargin">
+     <number>70</number>
+    </property>
+    <item>
+     <widget class="QPushButton" name="returnBook">
+      <property name="text">
+       <string>Return book</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="prolongBDate">
+      <property name="text">
+       <string>Prolong borrowing
  date</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QWidget" name="verticalLayoutWidget_3">
+   <property name="geometry">
+    <rect>
+     <x>560</x>
+     <y>80</y>
+     <width>531</width>
+     <height>521</height>
+    </rect>
    </property>
+   <layout class="QVBoxLayout" name="verticalLayout_3">
+    <item>
+     <widget class="QLabel" name="bookTitle">
+      <property name="text">
+       <string/>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QLabel" name="bookAuthor">
+      <property name="text">
+       <string/>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QLabel" name="bookRating">
+      <property name="text">
+       <string/>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QLabel" name="bookLanguage">
+      <property name="text">
+       <string/>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QLabel" name="bookISBN">
+      <property name="text">
+       <string/>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QLabel" name="bookTags">
+      <property name="text">
+       <string/>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+    </item>
+   </layout>
   </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>

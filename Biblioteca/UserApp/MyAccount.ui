@@ -38,13 +38,6 @@
      </widget>
     </item>
     <item>
-     <widget class="QPushButton" name="retunBookBtn">
-      <property name="text">
-       <string>Return a Book</string>
-      </property>
-     </widget>
-    </item>
-    <item>
      <widget class="QPushButton" name="logOutBtn">
       <property name="text">
        <string>Log Out</string>

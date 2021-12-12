@@ -2,6 +2,7 @@
 #include "Book.h"
 #include "QtMessageBox.h"
 #include "BorrowedBookDetails.h"
+#include "BookDetails.h"
 
 BorrowedBooksList::BorrowedBooksList(QWidget* parent)
 	: QWidget(parent)
@@ -15,9 +16,9 @@ BorrowedBooksList::BorrowedBooksList(QWidget* parent)
 	ui.borrowedBooksList->clear();
 
 
-	std::vector<Book> borrowedBooks;// = user.GetBorrowedBooks(); //= send input to server and receive a vector (of books) containing all the books matching the search input
+	std::vector<Book> borrowedBooks;//user.GetBorrowedBooks(); //= send input to server and receive a vector (of books) containing all the books matching the search input
 
-	if (true/*borrowedBooks.size()*/)
+	if (borrowedBooks.size())
 	{
 		disconnect(ui.borrowedBooksList, SIGNAL(itemDoubleClicked(QListWidgetItem*)),
 			this, SLOT(onBorrowedBookListItemDoubleClicked(QListWidgetItem*)));
