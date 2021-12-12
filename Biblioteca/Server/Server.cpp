@@ -7,12 +7,7 @@ Server::Server()
 
 void Server::RunServer()
 {
-<<<<<<< HEAD
-
-	DropVirtualTable();
-=======
 	//DropVirtualTable();
->>>>>>> 6e4c0ca (Now User And Server Work Properly (threads))
 	PrepareVirtualTable();
 	for (int i = 0; i < 100; i++)
 	{
