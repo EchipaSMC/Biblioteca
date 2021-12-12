@@ -26,5 +26,5 @@ private slots:
 private:
 	std::string userSearchInput;
 	Ui::SearchBook ui;
-	QString titleAndAuthor;
+	std::vector<QString> titleAndAuthor;
 };

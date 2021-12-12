@@ -27,56 +27,37 @@ void SearchBook::on_loginBtn_clicked()
 
 void SearchBook::on_searchBtn_clicked()
 {
+	ui.listWidget->blockSignals(true);
 	ui.listWidget->clear();
+	ui.listWidget->blockSignals(false);
 	disconnect(ui.listWidget, SIGNAL(itemDoubleClicked(QListWidgetItem*)),
 		this, SLOT(onBookListItemDoubleClicked(QListWidgetItem*)));
-
 	std::string searchInput = ui.searchInput->text().toStdString();
 
 	if (searchInput.size())
 	{
-		//user.SearchBooks(searchInput);
 		user.SetKeyword(searchInput);
 		user.SetOption(searchBook);
 		std::this_thread::sleep_for(std::chrono::milliseconds(750));
-		std::vector<Book> searchResult = user.GetSearchedBooks(); //= send input to server and receive a vector (of books) containing all the books matching the search input
+		std::vector<Book> searchResult = user.GetSearchedBooks();
 
 		if (searchResult.size())
 		{
-			Book book = Book();
-			book.setImgUrl("https://images-ext-1.discordapp.net/external/qtZoV_oLQ8gGuMnAW8D1fNMb7g1-bnnVAg8NPInLzM8/https/images.gr-assets.com/books/1447303603s/2767052.jpg");
-			book.setAuthor(std::to_string(searchResult.size()));
-			book.setIsbn("Ex12334123");
-			book.setTitle("Exemplu Titlu");
-
-			Book book2 = Book();
-			book2.setImgUrl("https://images-ext-1.discordapp.net/external/qtZoV_oLQ8gGuMnAW8D1fNMb7g1-bnnVAg8NPInLzM8/https/images.gr-assets.com/books/1447303603s/2767052.jpg");
-			book2.setAuthor(std::to_string(searchResult.size()));
-			book2.setIsbn("2");
-			book2.setTitle("2");
-
-			searchResult.push_back(book);
-			searchResult.push_back(book2);
-			searchResult.push_back(book);
-			searchResult.push_back(book);
-			searchResult.push_back(book);
-			searchResult.push_back(book);
-
 			QNetworkAccessManager* nam = new QNetworkAccessManager(this);
 			connect(nam, &QNetworkAccessManager::finished, this, &SearchBook::loadImage);
-
 			connect(ui.listWidget, SIGNAL(itemDoubleClicked(QListWidgetItem*)),
 				this, SLOT(onBookListItemDoubleClicked(QListWidgetItem*)));
-
+			titleAndAuthor.clear();
 			for each (Book bookResult in searchResult)
 			{
+				
 				QString imageURL = QString::fromStdString(bookResult.getImgUrl());
 
 				if (imageURL.indexOf("https") == 0)
 				{
 					imageURL.remove(4, 1);
 				}
-				titleAndAuthor = QString::fromStdString(bookResult.getTitle() + " " + bookResult.getAuthor());
+				titleAndAuthor.push_back(QString( QString::fromStdString(bookResult.getTitle() + " " + bookResult.getAuthor())));
 
 				QUrl imageNoSecureURL = imageURL;
 				QNetworkRequest request(imageNoSecureURL);
@@ -100,11 +81,15 @@ void SearchBook::on_searchBtn_clicked()
 
 void SearchBook::loadImage(QNetworkReply* reply)
 {
+	static int currentTitleAndAuthor = 0;
 	QPixmap bookCoverImage;
 	bookCoverImage.loadFromData(reply->readAll());
 	//ui.label->setPixmap(bookCoverImage);
-	QListWidgetItem* item = new QListWidgetItem(bookCoverImage, titleAndAuthor);
+	QListWidgetItem* item = new QListWidgetItem(bookCoverImage, titleAndAuthor[currentTitleAndAuthor]);
 	ui.listWidget->addItem(item);
+	currentTitleAndAuthor++;
+	if (currentTitleAndAuthor == titleAndAuthor.size())
+		currentTitleAndAuthor -= titleAndAuthor.size();
 }
 
 void SearchBook::onBookListItemDoubleClicked(QListWidgetItem* item)
