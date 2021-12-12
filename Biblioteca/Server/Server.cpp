@@ -7,7 +7,7 @@ Server::Server()
 
 void Server::RunServer()
 {
-	//DropVirtualTable();
+	DropVirtualTable();
 	PrepareVirtualTable();
 	for (int i = 0; i < 100; i++)
 	{
@@ -269,7 +269,7 @@ void Server::ReturnBook(const int& index)
 	Database::getResult.clear();
 
 	clientConnections[index].ReceiveInt(borrowedBookIndex);
-	auto stmt = database.CreateStatement(database.GetDatabase(), queryList.BorrowedBooksDelete(borrowedBooks[borrowedBookIndex].GetUserId(), borrowedBooks[borrowedBookIndex].GetBookId()));
+	stmt = database.CreateStatement(database.GetDatabase(), queryList.BorrowedBooksDelete(borrowedBooks[borrowedBookIndex].GetUserId(), borrowedBooks[borrowedBookIndex].GetBookId()));
 	database.Run(stmt.get(), Database::DumpCurrentRow);
 	borrowedBooks.erase(borrowedBooks.begin() + borrowedBookIndex, borrowedBooks.begin() + borrowedBookIndex + 1);
 	Database::getResult.str(std::string());
@@ -294,7 +294,7 @@ void Server::BorrowBook(const int& index)
 	clientConnections[index].ReceiveInt(bookId);
 	clientConnections[index].ReceiveString(borrowedDate);
 	clientConnections[index].ReceiveString(returningDate);
-	auto stmt = database.CreateStatement(database.GetDatabase(), queryList.BorrowedBooksInsert(user.GetUserId(), bookId, borrowedDate, returningDate));
+	stmt = database.CreateStatement(database.GetDatabase(), queryList.BorrowedBooksInsert(user.GetUserId(), bookId, borrowedDate, returningDate));
 	database.Run(stmt.get(), Database::DumpCurrentRow);
 
 	borrowedBooks.push_back(BorrowedBooks(user.GetUserId(), bookId, borrowedDate, returningDate));
@@ -378,7 +378,7 @@ void Server::ChangePassword(const int& index)
 
 	std::string newPassword;
 	clientConnections[index].ReceiveString(newPassword);
-	auto stmt = database.CreateStatement(database.GetDatabase(), queryList.UserChangePassword(user.GetUserId(), newPassword));
+	stmt = database.CreateStatement(database.GetDatabase(), queryList.UserChangePassword(user.GetUserId(), newPassword));
 	database.Run(stmt.get(), Database::DumpCurrentRow);
 	user.SetPassword(newPassword);
 
@@ -431,7 +431,7 @@ void Server::ProlongBorrowDate(const int& index)
 	std::string newReturnDate;
 	clientConnections[index].ReceiveInt(bookId);
 	clientConnections[index].ReceiveString(newReturnDate);
-	auto stmt = database.CreateStatement(database.GetDatabase(), queryList.BorrowedBooksUpdateReturnDate(user.GetUserId(), bookId, newReturnDate));
+	stmt = database.CreateStatement(database.GetDatabase(), queryList.BorrowedBooksUpdateReturnDate(user.GetUserId(), bookId, newReturnDate));
 	database.Run(stmt.get(), Database::DumpCurrentRow);
 	Database::getResult.str(std::string());
 	Database::getResult.clear();
