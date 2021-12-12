@@ -27,4 +27,5 @@ private:
 	std::string userSearchInput;
 	Ui::SearchBook ui;
 	std::vector<QString> titleAndAuthor;
+	QNetworkAccessManager* nam;
 };

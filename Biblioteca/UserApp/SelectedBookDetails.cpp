@@ -17,10 +17,15 @@ void SelectedBookDetails::SetTitle(std::string message)
 
 void SelectedBookDetails::LoadImageFromURL(std::string message)
 {
+	QString imageURL= QString::fromStdString(message);
+	if (imageURL.indexOf("https") == 0)
+	{
+		imageURL.remove(4, 1);
+	}
 	QNetworkAccessManager* nam = new QNetworkAccessManager(this);
 	connect(nam, &QNetworkAccessManager::finished, this, &SelectedBookDetails::loadImage);
 
-	QUrl imageNoSecureURL = QString::fromStdString(message);
+	QUrl imageNoSecureURL = imageURL;
 	QNetworkRequest request(imageNoSecureURL);
 	nam->get(request);
 }

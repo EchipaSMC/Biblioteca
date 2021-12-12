@@ -310,7 +310,7 @@ void Server::SearchBook(const int& index)
 	clientConnections[index].ReceiveString(keyword);
 	auto stmt = database.CreateStatement(database.GetDatabase(), queryList.BooksNumOfBookSearch(keyword));
 	database.Run(stmt.get(), Database::DumpCurrentRow);
-	std::getline(Database::getResult, resultsFound,'|');
+	std::getline(Database::getResult, resultsFound, '|');
 	clientConnections[index].SendInt(std::stoi(resultsFound));
 	Database::getResult.str(std::string());
 	Database::getResult.clear();
@@ -323,7 +323,7 @@ void Server::SearchBook(const int& index)
 		std::getline(Database::getResult, data);
 		book = Books(data);
 		bookToSend = "";
-		bookToSend += std::to_string(book.GetBookId()) + "|" + book.GetOriginalTitle() + "|"
+		bookToSend += std::to_string(book.GetId()) + "|" + book.GetOriginalTitle() + "|"
 			+ book.GetAuthors() + "|" + book.GetISBN() + "|" + book.GetSmallImageURL();
 		clientConnections[index].SendString(bookToSend);
 	}
@@ -403,7 +403,9 @@ void Server::PrepareBookDetails(const int& index)
 	database.Run(stmt.get(), Database::DumpCurrentRow);
 	while (std::getline(Database::getResult, result))
 	{
-		bookDetails += result + " ";
+		bookDetails += result;
+		bookDetails.erase(bookDetails.end()-1, bookDetails.end());
+		bookDetails += " ";
 	}
 	bookDetails += '|';
 	Database::getResult.str(std::string());

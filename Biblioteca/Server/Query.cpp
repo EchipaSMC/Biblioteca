@@ -51,7 +51,7 @@ std::string Query::RatingsGetRatings(const int& bestBookId) const
 }
 std::string Query::TagsGetAllTags(const int& goodReadsBookId)
 {
-	std::string query = "SELECT tag_id,tag_name FROM Tags WHERE tag_id IN (SELECT tag_id FROM BookTags INNER JOIN Books o ON goodreads_book_id = o.best_book_id WHERE goodreads_book_id = ";
+	std::string query = "SELECT tag_name FROM Tags WHERE tag_id IN (SELECT tag_id FROM BookTags INNER JOIN Books o ON goodreads_book_id = o.best_book_id WHERE goodreads_book_id = ";
 	query += std::to_string(goodReadsBookId) + ")";
 	return query;
 }

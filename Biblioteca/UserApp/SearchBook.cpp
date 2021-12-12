@@ -12,6 +12,10 @@ SearchBook::SearchBook(QWidget* parent)
 	ui.listWidget->setIconSize(QSize(200, 150));
 	ui.listWidget->setResizeMode(QListWidget::Adjust);
 	ui.listWidget->setSpacing(30);
+	nam = new QNetworkAccessManager(this);
+	connect(nam, &QNetworkAccessManager::finished, this, &SearchBook::loadImage);
+	connect(ui.listWidget, SIGNAL(itemDoubleClicked(QListWidgetItem*)),
+		this, SLOT(onBookListItemDoubleClicked(QListWidgetItem*)));
 }
 
 void SearchBook::on_exitBtn_clicked() {
@@ -30,38 +34,35 @@ void SearchBook::on_searchBtn_clicked()
 	ui.listWidget->blockSignals(true);
 	ui.listWidget->clear();
 	ui.listWidget->blockSignals(false);
-	disconnect(ui.listWidget, SIGNAL(itemDoubleClicked(QListWidgetItem*)),
-		this, SLOT(onBookListItemDoubleClicked(QListWidgetItem*)));
+	/*disconnect(ui.listWidget, SIGNAL(itemDoubleClicked(QListWidgetItem*)),
+		this, SLOT(onBookListItemDoubleClicked(QListWidgetItem*)));*/
 	std::string searchInput = ui.searchInput->text().toStdString();
 
 	if (searchInput.size())
 	{
 		user.SetKeyword(searchInput);
 		user.SetOption(searchBook);
-		std::this_thread::sleep_for(std::chrono::milliseconds(750));
+		std::this_thread::sleep_for(std::chrono::milliseconds(1000));
 		std::vector<Book> searchResult = user.GetSearchedBooks();
 
 		if (searchResult.size())
 		{
-			QNetworkAccessManager* nam = new QNetworkAccessManager(this);
-			connect(nam, &QNetworkAccessManager::finished, this, &SearchBook::loadImage);
-			connect(ui.listWidget, SIGNAL(itemDoubleClicked(QListWidgetItem*)),
-				this, SLOT(onBookListItemDoubleClicked(QListWidgetItem*)));
+			//QNetworkAccessManager* nam = new QNetworkAccessManager(this);
 			titleAndAuthor.clear();
-			for each (Book bookResult in searchResult)
+			for (auto &book:searchResult)
 			{
 				
-				QString imageURL = QString::fromStdString(bookResult.getImgUrl());
+				QString imageURL = QString::fromStdString(book.getImgUrl());
 
 				if (imageURL.indexOf("https") == 0)
 				{
 					imageURL.remove(4, 1);
 				}
-				titleAndAuthor.push_back(QString( QString::fromStdString(bookResult.getTitle() + " " + bookResult.getAuthor())));
-
+				titleAndAuthor.push_back(QString( QString::fromStdString(book.getTitle() + " " + book.getAuthor())));
 				QUrl imageNoSecureURL = imageURL;
 				QNetworkRequest request(imageNoSecureURL);
 				nam->get(request);
+				std::this_thread::sleep_for(std::chrono::milliseconds(20));
 			}
 		}
 		else
@@ -84,7 +85,6 @@ void SearchBook::loadImage(QNetworkReply* reply)
 	static int currentTitleAndAuthor = 0;
 	QPixmap bookCoverImage;
 	bookCoverImage.loadFromData(reply->readAll());
-	//ui.label->setPixmap(bookCoverImage);
 	QListWidgetItem* item = new QListWidgetItem(bookCoverImage, titleAndAuthor[currentTitleAndAuthor]);
 	ui.listWidget->addItem(item);
 	currentTitleAndAuthor++;
@@ -94,14 +94,28 @@ void SearchBook::loadImage(QNetworkReply* reply)
 
 void SearchBook::onBookListItemDoubleClicked(QListWidgetItem* item)
 {
-	SelectedBookDetails* details = new SelectedBookDetails;
-	details->SetTitle(item->text().toStdString());
-	details->LoadImageFromURL("http://images.gr-assets.com/books/1447303603m/2767052.jpg");
-	details->show();
+	std::vector<Book> searchResult = user.GetSearchedBooks();
+	for (int i = 0; i < searchResult.size(); i++)
+	{
+		if (item->text().toStdString() == std::string(searchResult[i].getTitle() + " " + searchResult[i].getAuthor()))
+		{
+			user.SetBookId(std::stoi(searchResult[i].getBookId()));
+			break;
+		}
+	}
+	user.SetOption(bookDetails);
+	std::this_thread::sleep_for(std::chrono::milliseconds(700));
+	BookDetails currentBook = user.GetBookDetails();
+	SelectedBookDetails* bookDetails = new SelectedBookDetails;
+	bookDetails->SetTitle(item->text().toStdString());
+	bookDetails->LoadImageFromURL(currentBook.GetImageUrl());
+	bookDetails->show();
+	
 }
 
 SearchBook::~SearchBook()
 {
+	delete nam;
 }
 
 std::string SearchBook::GetSearchInput()
