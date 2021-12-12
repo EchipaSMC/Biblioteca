@@ -7,8 +7,12 @@ Server::Server()
 
 void Server::RunServer()
 {
+<<<<<<< HEAD
 
 	DropVirtualTable();
+=======
+	//DropVirtualTable();
+>>>>>>> 6e4c0ca (Now User And Server Work Properly (threads))
 	PrepareVirtualTable();
 	for (int i = 0; i < 100; i++)
 	{
@@ -89,7 +93,7 @@ bool Server::ProcessData(const int& index)
 	default:
 		break;
 	}
-	
+
 }
 
 void Server::ClientHandler(const int& index)
@@ -120,7 +124,7 @@ bool Server::ListenForNewConnection()
 		{
 			std::cout << "Client connected" << std::endl;
 			clientConnections[connectionCounter].SetSocket(clientSocket);
-			connectionThreads[connectionCounter] = std::thread(&Server::ClientHandler,this, connectionCounter);
+			connectionThreads[connectionCounter] = std::thread(&Server::ClientHandler, this, connectionCounter);
 			connectionCounter++;
 			return true;
 		}
@@ -197,8 +201,30 @@ void Server::Login(const int& index)
 
 void Server::DeleteUser(const int& index)
 {
-	auto stmt = database.CreateStatement(database.GetDatabase(), queryList.UserServerUserDelete(user.GetUsername(), user.GetPassword()));
+	std::string username, password, result;
+	int userId;
+	clientConnections[index].ReceiveString(username);
+	clientConnections[index].ReceiveString(password);
+	auto stmt = database.CreateStatement(database.GetDatabase(), queryList.UserServerUserSearch(username, password));
 	database.Run(stmt.get(), Database::DumpCurrentRow);
+	std::getline(Database::getResult, result);
+	user = UserServer(result);
+	Database::getResult.str(std::string());
+	Database::getResult.clear();
+
+	stmt = database.CreateStatement(database.GetDatabase(), queryList.BorrowedBooksSearch(user.GetUserId()));
+	database.Run(stmt.get(), Database::DumpCurrentRow);
+
+	while (std::getline(Database::getResult, result))
+	{
+		borrowedBooks.push_back(BorrowedBooks(result));
+	}
+	Database::getResult.str(std::string());
+	Database::getResult.clear();
+
+	stmt = database.CreateStatement(database.GetDatabase(), queryList.UserServerUserDelete(username, password));
+	database.Run(stmt.get(), Database::DumpCurrentRow);
+
 	Database::getResult.str(std::string());
 	Database::getResult.clear();
 
@@ -210,6 +236,7 @@ void Server::DeleteUser(const int& index)
 		Database::getResult.clear();
 	}
 	borrowedBooks.clear();
+	user = UserServer();
 }
 
 void Server::Logout(const int& index)
@@ -225,17 +252,48 @@ void Server::Logout(const int& index)
 
 void Server::ReturnBook(const int& index)
 {
+	std::string username, password, result;
 	int borrowedBookIndex;
+	clientConnections[index].ReceiveString(username);
+	clientConnections[index].ReceiveString(password);
+	auto stmt = database.CreateStatement(database.GetDatabase(), queryList.UserServerUserSearch(username, password));
+	database.Run(stmt.get(), Database::DumpCurrentRow);
+	std::getline(Database::getResult, result);
+	user = UserServer(result);
+	Database::getResult.str(std::string());
+	Database::getResult.clear();
+
+	stmt = database.CreateStatement(database.GetDatabase(), queryList.BorrowedBooksSearch(user.GetUserId()));
+	database.Run(stmt.get(), Database::DumpCurrentRow);
+
+	while (std::getline(Database::getResult, result))
+	{
+		borrowedBooks.push_back(BorrowedBooks(result));
+	}
+	Database::getResult.str(std::string());
+	Database::getResult.clear();
+
 	clientConnections[index].ReceiveInt(borrowedBookIndex);
 	auto stmt = database.CreateStatement(database.GetDatabase(), queryList.BorrowedBooksDelete(borrowedBooks[borrowedBookIndex].GetUserId(), borrowedBooks[borrowedBookIndex].GetBookId()));
 	database.Run(stmt.get(), Database::DumpCurrentRow);
 	borrowedBooks.erase(borrowedBooks.begin() + borrowedBookIndex, borrowedBooks.begin() + borrowedBookIndex + 1);
 	Database::getResult.str(std::string());
 	Database::getResult.clear();
+	user = UserServer();
 }
 
 void Server::BorrowBook(const int& index)
 {
+	std::string username, password, result;
+	clientConnections[index].ReceiveString(username);
+	clientConnections[index].ReceiveString(password);
+	auto stmt = database.CreateStatement(database.GetDatabase(), queryList.UserServerUserSearch(username, password));
+	database.Run(stmt.get(), Database::DumpCurrentRow);
+	std::getline(Database::getResult, result);
+	user = UserServer(result);
+	Database::getResult.str(std::string());
+	Database::getResult.clear();
+
 	int bookId;
 	std::string borrowedDate, returningDate;
 	clientConnections[index].ReceiveInt(bookId);
@@ -248,6 +306,7 @@ void Server::BorrowBook(const int& index)
 
 	Database::getResult.str(std::string());
 	Database::getResult.clear();
+	user = UserServer();
 }
 
 void Server::SearchBook(const int& index)
@@ -312,6 +371,16 @@ void Server::ReadBook(const int& index)
 
 void Server::ChangePassword(const int& index)
 {
+	std::string username, password, result;
+	clientConnections[index].ReceiveString(username);
+	clientConnections[index].ReceiveString(password);
+	auto stmt = database.CreateStatement(database.GetDatabase(), queryList.UserServerUserSearch(username, password));
+	database.Run(stmt.get(), Database::DumpCurrentRow);
+	std::getline(Database::getResult, result);
+	user = UserServer(result);
+	Database::getResult.str(std::string());
+	Database::getResult.clear();
+
 	std::string newPassword;
 	clientConnections[index].ReceiveString(newPassword);
 	auto stmt = database.CreateStatement(database.GetDatabase(), queryList.UserChangePassword(user.GetUserId(), newPassword));
@@ -320,6 +389,7 @@ void Server::ChangePassword(const int& index)
 
 	Database::getResult.str(std::string());
 	Database::getResult.clear();
+	user = UserServer();
 }
 
 void Server::PrepareBookDetails(const int& index)
@@ -352,6 +422,16 @@ void Server::PrepareBookDetails(const int& index)
 
 void Server::ProlongBorrowDate(const int& index)
 {
+	std::string username, password, result;
+	clientConnections[index].ReceiveString(username);
+	clientConnections[index].ReceiveString(password);
+	auto stmt = database.CreateStatement(database.GetDatabase(), queryList.UserServerUserSearch(username, password));
+	database.Run(stmt.get(), Database::DumpCurrentRow);
+	std::getline(Database::getResult, result);
+	user = UserServer(result);
+	Database::getResult.str(std::string());
+	Database::getResult.clear();
+
 	int bookId;
 	std::string newReturnDate;
 	clientConnections[index].ReceiveInt(bookId);
@@ -360,11 +440,6 @@ void Server::ProlongBorrowDate(const int& index)
 	database.Run(stmt.get(), Database::DumpCurrentRow);
 	Database::getResult.str(std::string());
 	Database::getResult.clear();
-
-	for (auto& i : borrowedBooks)
-	{
-		if (i.GetBookId() == bookId)
-			i.SetReturnDate(newReturnDate);
-	}
+	user = UserServer();
 }
 
