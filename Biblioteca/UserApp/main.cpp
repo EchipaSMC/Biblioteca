@@ -5,6 +5,7 @@
 
 int main(int argc, char *argv[])
 {
+    user.StartSubroutine();
     QApplication a(argc, argv);
     MainMenu gui;
     gui.show();

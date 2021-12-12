@@ -11,7 +11,7 @@
 #include "..\TCPSocket\TCPSocket.h"
 
 enum Instructions {
-	registerUser = 0,
+	registerUser = 1,
 	loginUser,
 	deleteAccount,
 	logout,

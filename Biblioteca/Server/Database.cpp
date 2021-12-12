@@ -1,5 +1,5 @@
 #include "Database.h"
-
+std::stringstream Database::getResult;
 Database::Database():db(database(nullptr, sqlite3_close))
 {
 }
@@ -61,7 +61,7 @@ database Database::OpenDatabase(const std::string& name)
 		std::exit(EXIT_FAILURE);
 	}
 	else {
-		std::cout << "Opened database " << name << " with succes";
+		std::cout << "Opened database " << name << " with succes"<<std::endl;
 	}
 	if (sqlite3_enable_load_extension(db, 1) != SQLITE_OK)
 	{
@@ -107,9 +107,9 @@ bool Database::DumpCurrentRow(sqlite3_stmt* stmt)
 			{
 				//std::cout << "<BLOOOB>";
 			}
-			std::cout << "|";
+			getResult << "|";
 		}
-		std::cout << std::endl;
+		getResult << std::endl;
 		return true;
 	}
 	return false;

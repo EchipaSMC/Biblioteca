@@ -1,6 +1,5 @@
 #include "Server.h"
 #include "..\TCPSocket\TCPSocket.cpp"
-std::stringstream Database::getResult;
 Server::Server()
 {
 	database = Database("dbCarti.db");
@@ -257,8 +256,10 @@ void Server::SearchBook(const int& index)
 	clientConnections[index].ReceiveString(keyword);
 	auto stmt = database.CreateStatement(database.GetDatabase(), queryList.BooksNumOfBookSearch(keyword));
 	database.Run(stmt.get(), Database::DumpCurrentRow);
-	std::getline(Database::getResult, resultsFound);
+	std::getline(Database::getResult, resultsFound,'|');
 	clientConnections[index].SendInt(std::stoi(resultsFound));
+	Database::getResult.str(std::string());
+	Database::getResult.clear();
 
 	stmt = database.CreateStatement(database.GetDatabase(), queryList.BooksBookSearch(keyword));
 	database.Run(stmt.get(), Database::DumpCurrentRow);

@@ -36,9 +36,12 @@ void SearchBook::on_searchBtn_clicked()
 	if (searchInput.size())
 	{
 		//user.SearchBooks(searchInput);
-		std::vector<Book> searchResult;// = user.GetSearchedBooks(); //= send input to server and receive a vector (of books) containing all the books matching the search input
+		user.SetKeyword(searchInput);
+		user.SetOption(searchBook);
+		std::this_thread::sleep_for(std::chrono::milliseconds(750));
+		std::vector<Book> searchResult = user.GetSearchedBooks(); //= send input to server and receive a vector (of books) containing all the books matching the search input
 
-		if (true/*searchResult.size()*/)
+		if (searchResult.size())
 		{
 			Book book = Book();
 			book.setImgUrl("https://images-ext-1.discordapp.net/external/qtZoV_oLQ8gGuMnAW8D1fNMb7g1-bnnVAg8NPInLzM8/https/images.gr-assets.com/books/1447303603s/2767052.jpg");

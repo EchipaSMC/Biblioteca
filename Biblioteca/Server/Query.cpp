@@ -4,7 +4,7 @@ std::string Query::BooksBookSearch(const std::string& searchInput) const
 {
 	std::string query = "Select * from Books where id in (SELECT rank from demo where editdist3(word,'";
 	query += searchInput;
-	query += "')/100 < 5);";
+	query += "')/100 < 10);";
 	return query;
 }
 std::string Query::BooksNumOfBookSearch(const std::string& searchInput) const
