@@ -30,6 +30,21 @@ void SelectedBookDetails::LoadImageFromURL(std::string message)
 	nam->get(request);
 }
 
+void SelectedBookDetails::SetAuthor(std::string author)
+{
+	ui.bookAuthor->setText(QString::fromStdString(author));
+}
+
+void SelectedBookDetails::SetRating(std::string rating)
+{
+	ui.bookRating->setText(QString::fromStdString(rating));
+}
+
+void SelectedBookDetails::SetTags(std::string tags)
+{
+	ui.bookRating->setText(QString::fromStdString(tags));
+}
+
 void SelectedBookDetails::loadImage(QNetworkReply* reply) 
 {
 	QPixmap bookCoverImage;

@@ -49,16 +49,16 @@ void SearchBook::on_searchBtn_clicked()
 		{
 			//QNetworkAccessManager* nam = new QNetworkAccessManager(this);
 			titleAndAuthor.clear();
-			for (auto &book:searchResult)
+			for (auto& book : searchResult)
 			{
-				
+
 				QString imageURL = QString::fromStdString(book.getImgUrl());
 
 				if (imageURL.indexOf("https") == 0)
 				{
 					imageURL.remove(4, 1);
 				}
-				titleAndAuthor.push_back(QString( QString::fromStdString(book.getTitle() + " " + book.getAuthor())));
+				titleAndAuthor.push_back(QString(QString::fromStdString(book.getTitle() + " - " + book.getAuthor())));
 				QUrl imageNoSecureURL = imageURL;
 				QNetworkRequest request(imageNoSecureURL);
 				nam->get(request);
@@ -85,12 +85,14 @@ void SearchBook::loadImage(QNetworkReply* reply)
 	static int currentTitleAndAuthor = 0;
 	QPixmap bookCoverImage;
 	bookCoverImage.loadFromData(reply->readAll());
-	QListWidgetItem* item = new QListWidgetItem(bookCoverImage, titleAndAuthor[currentTitleAndAuthor]);
+	QString first20Characters = QStringRef(&titleAndAuthor[currentTitleAndAuthor], 0, 20).toString() + "...";
+	QListWidgetItem* item = new QListWidgetItem(bookCoverImage, first20Characters);
 	ui.listWidget->addItem(item);
 	currentTitleAndAuthor++;
 	if (currentTitleAndAuthor == titleAndAuthor.size())
 		currentTitleAndAuthor -= titleAndAuthor.size();
 }
+
 
 void SearchBook::onBookListItemDoubleClicked(QListWidgetItem* item)
 {
@@ -110,7 +112,6 @@ void SearchBook::onBookListItemDoubleClicked(QListWidgetItem* item)
 	bookDetails->SetTitle(item->text().toStdString());
 	bookDetails->LoadImageFromURL(currentBook.GetImageUrl());
 	bookDetails->show();
-	
 }
 
 SearchBook::~SearchBook()
