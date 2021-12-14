@@ -112,6 +112,15 @@ bool TCPSocket::Connect()
 	return connected;
 }
 
+bool TCPSocket::ReceiveBool(bool& value)
+{
+	int iResult = recv(serverConnection, (char*)&value, sizeof(bool), NULL);
+	if (iResult == SOCKET_ERROR)
+		return false;
+
+	return true;
+}
+
 bool TCPSocket::ReceiveInt(int& value)
 {
 	int iResult = recv(serverConnection, (char*)&value, sizeof(int), NULL);
@@ -134,6 +143,15 @@ bool TCPSocket::ReceiveString(std::string& value)
 	std::copy(buffer, buffer + bufferLength, std::back_inserter(value));
 	delete[]buffer;
 
+	if (iResult == SOCKET_ERROR)
+		return false;
+
+	return true;
+}
+
+bool TCPSocket::SendBool(const bool& value)
+{
+	int iResult = send(serverConnection, (char*)&value, sizeof(bool), NULL);
 	if (iResult == SOCKET_ERROR)
 		return false;
 

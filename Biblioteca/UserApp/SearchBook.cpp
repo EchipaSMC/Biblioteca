@@ -34,8 +34,6 @@ void SearchBook::on_searchBtn_clicked()
 	ui.listWidget->blockSignals(true);
 	ui.listWidget->clear();
 	ui.listWidget->blockSignals(false);
-	//disconnect(ui.listWidget, SIGNAL(itemDoubleClicked(QListWidgetItem*)),
-	//	this, SLOT(onBookListItemDoubleClicked(QListWidgetItem*)));
 	std::string searchInput = ui.searchInput->text().toStdString();
 
 	if (searchInput.size())

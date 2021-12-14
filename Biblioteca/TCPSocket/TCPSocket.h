@@ -36,8 +36,10 @@ public:
 	bool CloseConnection();
 	bool Listen();
 
+	bool ReceiveBool(bool& value);
 	bool ReceiveInt(int& value);
 	bool ReceiveString(std::string& value);
+	bool SendBool(const bool& value);
 	bool SendInt(const int& value);
 	bool SendString(const std::string& value);
 
