@@ -1,6 +1,8 @@
 #include "BookDetails.h"
 
-BookDetails::BookDetails(std::vector<std::string> tags, float averageRating, int ratings1, int ratings2, int ratings3, int ratings4, int ratings5, std::string languageCode, std::string imageUrl):
+BookDetails::BookDetails(std::string author, std::string title, std::vector<std::string> tags, float averageRating, int ratings1, int ratings2, int ratings3, int ratings4, int ratings5, std::string languageCode, std::string imageUrl) :
+	author(author),
+	title(title),
 	tags(tags),
 	averageRating(averageRating),
 	ratings1(ratings1),
@@ -17,6 +19,12 @@ BookDetails::BookDetails(std::string data)
 {
 	std::stringstream getData(data),tagData;
 	std::string word;
+
+	std::getline(getData, word, '|');
+	author = word;
+
+	std::getline(getData, word, '|');
+	title = word;
 
 	std::getline(getData, word, '|');
 	tagData<<word;
@@ -65,6 +73,16 @@ const BookDetails& BookDetails::operator=(const BookDetails& bookDetails)
 	return *this;
 }
 
+std::string BookDetails::GetAuthor() const
+{
+	return author;
+}
+
+std::string BookDetails::GetTitle() const
+{
+	return title;
+}
+
 std::vector<std::string> BookDetails::GetTags() const
 {
 	return tags;
@@ -108,6 +126,16 @@ std::string BookDetails::GetLanguageCode() const
 std::string BookDetails::GetImageUrl() const
 {
 	return imageUrl;
+}
+
+void BookDetails::SetAuthor(const std::string& author)
+{
+	this->author = author;
+}
+
+void BookDetails::SetTitle(const std::string& title)
+{
+	this->title = title;
 }
 
 void BookDetails::SetTags(const std::vector<std::string>& tags)
