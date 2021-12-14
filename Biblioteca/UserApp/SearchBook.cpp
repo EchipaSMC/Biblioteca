@@ -34,8 +34,8 @@ void SearchBook::on_searchBtn_clicked()
 	ui.listWidget->blockSignals(true);
 	ui.listWidget->clear();
 	ui.listWidget->blockSignals(false);
-	/*disconnect(ui.listWidget, SIGNAL(itemDoubleClicked(QListWidgetItem*)),
-		this, SLOT(onBookListItemDoubleClicked(QListWidgetItem*)));*/
+	//disconnect(ui.listWidget, SIGNAL(itemDoubleClicked(QListWidgetItem*)),
+	//	this, SLOT(onBookListItemDoubleClicked(QListWidgetItem*)));
 	std::string searchInput = ui.searchInput->text().toStdString();
 
 	if (searchInput.size())
@@ -47,7 +47,6 @@ void SearchBook::on_searchBtn_clicked()
 
 		if (searchResult.size())
 		{
-			//QNetworkAccessManager* nam = new QNetworkAccessManager(this);
 			titleAndAuthor.clear();
 			for (auto& book : searchResult)
 			{
@@ -85,12 +84,13 @@ void SearchBook::loadImage(QNetworkReply* reply)
 	static int currentTitleAndAuthor = 0;
 	QPixmap bookCoverImage;
 	bookCoverImage.loadFromData(reply->readAll());
-	QString first20Characters = QStringRef(&titleAndAuthor[currentTitleAndAuthor], 0, 20).toString() + "...";
-	QListWidgetItem* item = new QListWidgetItem(bookCoverImage, first20Characters);
+	QListWidgetItem* item = new QListWidgetItem(bookCoverImage, titleAndAuthor[currentTitleAndAuthor]);
+	item->setSizeHint(QSize(100,150));
 	ui.listWidget->addItem(item);
 	currentTitleAndAuthor++;
 	if (currentTitleAndAuthor == titleAndAuthor.size())
 		currentTitleAndAuthor -= titleAndAuthor.size();
+	reply->deleteLater();
 }
 
 
@@ -99,7 +99,7 @@ void SearchBook::onBookListItemDoubleClicked(QListWidgetItem* item)
 	std::vector<Book> searchResult = user.GetSearchedBooks();
 	for (int i = 0; i < searchResult.size(); i++)
 	{
-		if (item->text().toStdString() == std::string(searchResult[i].getTitle() + " " + searchResult[i].getAuthor()))
+		if (item->text().toStdString() == std::string(searchResult[i].getTitle() + " "+"-"+" " + searchResult[i].getAuthor()))
 		{
 			user.SetBookId(std::stoi(searchResult[i].getBookId()));
 			break;
