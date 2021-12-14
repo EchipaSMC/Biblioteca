@@ -11,13 +11,19 @@ std::string Query::BooksNumOfBookSearch(const std::string& searchInput) const
 {
 	std::string query = "Select count(*) from Books where id in (SELECT rank from demo where editdist3(word,'";
 	query += searchInput;
-	query += "')/100 < 5);";
+	query += "')/100 < 5 ORDER BY editdist3(word,'" + searchInput + "')); ";
 	return query;
 }
 std::string Query::BorrowedBooksSearch(const int& userIdSearch) const
 {
 	std::string query = "SELECT * FROM BorrowedBooks WHERE user_id=";
 	query += std::to_string(userIdSearch);
+	return query;
+}
+std::string Query::BorrowedBooksBookAlreadyBorrowed(const int& userId, const int& bookId) const
+{
+	std::string query = "SELECT COUNT(*) FROM BorrowedBooks WHERE user_id = '";
+	query += std::to_string(userId) + "' AND book_id = '" + std::to_string(bookId) + "'";
 	return query;
 }
 std::string Query::BorrowedBooksInsert(const int& userId, const int& bookId, const std::string& borrowedDate, const std::string& returningDate) const
@@ -57,10 +63,10 @@ std::string Query::TagsGetAllTags(const int& goodReadsBookId)
 }
 std::string Query::UserServerUserSearch(const std::string& usernameSearch, const std::string& passwordSearch) const
 {
-	std::string query = "SELECT * FROM User	WHERE username=";
+	std::string query = "SELECT * FROM User	WHERE username='";
 	query += usernameSearch;
-	query += " AND password=";
-	query += passwordSearch;
+	query += "' AND password='";
+	query += passwordSearch + "'";
 	return query;
 }
 std::string Query::UserServerUserInsert(const std::string& username, const std::string& password) const

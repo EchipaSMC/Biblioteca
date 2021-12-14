@@ -46,6 +46,7 @@ public:
 	std::string GetKeyword()const;
 	void SetKeyword(const std::string& keyword);
 	bool GetServerError()const;
+	bool GetLoginStatus()const;
 
 	inline void StartSubroutine() { clientThread = std::thread(ClientHandler); DetachThread(); };
 	inline void DetachThread() { clientThread.detach(); };
@@ -74,7 +75,7 @@ private:
 	std::vector<BorrowedBooks> borrowedBooks;
 	std::vector<std::string> currentBookTags;
 	BookDetails selectedBook;
-	TCPSocket socket = TCPSocket(true);
+	TCPSocket client = TCPSocket(true);
 
 	std::thread clientThread;
 	static int option;

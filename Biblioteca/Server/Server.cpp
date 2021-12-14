@@ -194,6 +194,8 @@ void Server::Login(const int& index)
 		clientConnections[index].SendInt(borrowedBooks.size());
 		for (auto& elem : borrowedBooks)
 		{
+			Database::getResult.str(std::string());
+			Database::getResult.clear();
 			stmt = database.CreateStatement(database.GetDatabase(), queryList.BookGetBookByID(elem.GetBookId()));
 			database.Run(stmt.get(), Database::DumpCurrentRow);
 
@@ -295,6 +297,7 @@ void Server::ReturnBook(const int& index)
 
 void Server::BorrowBook(const int& index)
 {
+	bool bookAlreadyBorrwed = false;
 	std::string username, password, result;
 	clientConnections[index].ReceiveString(username);
 	clientConnections[index].ReceiveString(password);
@@ -310,11 +313,24 @@ void Server::BorrowBook(const int& index)
 	clientConnections[index].ReceiveInt(bookId);
 	clientConnections[index].ReceiveString(borrowedDate);
 	clientConnections[index].ReceiveString(returningDate);
-	stmt = database.CreateStatement(database.GetDatabase(), queryList.BorrowedBooksInsert(user.GetUserId(), bookId, borrowedDate, returningDate));
+
+	stmt = database.CreateStatement(database.GetDatabase(), queryList.BorrowedBooksBookAlreadyBorrowed(user.GetUserId(), bookId));
 	database.Run(stmt.get(), Database::DumpCurrentRow);
+	std::getline(Database::getResult, result);
+	if (std::stoi(result) != 0)
+	{
+		bookAlreadyBorrwed = true;
+	}
+	clientConnections[index].SendBool(bookAlreadyBorrwed);
+	Database::getResult.str(std::string());
+	Database::getResult.clear();
+	if (!bookAlreadyBorrwed)
+	{
+		stmt = database.CreateStatement(database.GetDatabase(), queryList.BorrowedBooksInsert(user.GetUserId(), bookId, borrowedDate, returningDate));
+		database.Run(stmt.get(), Database::DumpCurrentRow);
 
-	borrowedBooks.push_back(BorrowedBooks(user.GetUserId(), bookId, borrowedDate, returningDate));
-
+		borrowedBooks.push_back(BorrowedBooks(user.GetUserId(), bookId, borrowedDate, returningDate));
+	}
 	Database::getResult.str(std::string());
 	Database::getResult.clear();
 	user = UserServer();
@@ -416,13 +432,12 @@ void Server::PrepareBookDetails(const int& index)
 
 	book = Books(result);
 	bookDetails = "";
-	bookDetails += book.GetAuthors() + "|" + book.GetTitle() + "|";
 	stmt = database.CreateStatement(database.GetDatabase(), queryList.TagsGetAllTags(book.GetBestBookId()));
 	database.Run(stmt.get(), Database::DumpCurrentRow);
 	while (std::getline(Database::getResult, result))
 	{
 		bookDetails += result;
-		bookDetails.erase(bookDetails.end()-1, bookDetails.end());
+		bookDetails.erase(bookDetails.end() - 1, bookDetails.end());
 		bookDetails += " ";
 	}
 	bookDetails += '|';

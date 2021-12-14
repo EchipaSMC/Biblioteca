@@ -7,7 +7,7 @@ int User::option = 0;
 
 User::User()
 {
-	socket.Connect();
+	client.Connect();
 	this->username = "";
 	this->password = "";
 	this->borrowedBooks.resize(0);
@@ -16,7 +16,7 @@ User::User()
 
 User::User(const std::string& username, const std::string& password, const std::vector<BorrowedBooks>& borrowedBooks)
 {
-	socket.Connect();
+	client.Connect();
 	this->username = username;
 	this->borrowedBooks = borrowedBooks;
 	this->password = password;
@@ -25,7 +25,7 @@ User::User(const std::string& username, const std::string& password, const std::
 
 User::User(const std::string& username, const std::string& password)
 {
-	socket.Connect();
+	client.Connect();
 	this->username = username;
 	this->password = password;
 	this->borrowedBooks.resize(0);
@@ -110,6 +110,11 @@ bool User::GetServerError() const
 	return serverError;
 }
 
+bool User::GetLoginStatus() const
+{
+	return isLoggedIn;
+}
+
 const bool& User::operator==(const User& s) const
 {
 	return (this == &s);
@@ -117,10 +122,10 @@ const bool& User::operator==(const User& s) const
 
 void User::RegisterMenu(std::string username, std::string password)
 {
-	socket.SendInt(registerUser);
-	socket.SendString(username);
-	socket.SendString(password);
-	socket.ReceiveBool(serverError);
+	client.SendInt(registerUser);
+	client.SendString(username);
+	client.SendString(password);
+	client.ReceiveBool(serverError);
 	if (!serverError)
 	{
 		user.username = username;
@@ -136,22 +141,22 @@ void User::RegisterMenu(std::string username, std::string password)
 
 void User::LoginMenu(std::string username, std::string password)
 {
-	socket.SendInt(loginUser);
+	client.SendInt(loginUser);
 	int borrowedBooksSize;
-	socket.SendString(username);
-	socket.SendString(password);
-	socket.ReceiveBool(serverError);
+	client.SendString(username);
+	client.SendString(password);
+	client.ReceiveBool(serverError);
 	if (serverError)
 	{
 		user.username = username;
 		user.password = password;
 		user.isLoggedIn = true;
-		socket.ReceiveInt(borrowedBooksSize);
+		client.ReceiveInt(borrowedBooksSize);
 		borrowedBooks.resize(borrowedBooksSize);
 		for (int i = 0; i < borrowedBooksSize; i++)
 		{
 			std::string bookToAdd;
-			socket.ReceiveString(bookToAdd);
+			client.ReceiveString(bookToAdd);
 			borrowedBooks[i] = BorrowedBooks(bookToAdd);
 		}
 	}
@@ -165,9 +170,9 @@ void User::LoginMenu(std::string username, std::string password)
 
 void User::DeleteAccount()
 {
-	socket.SendInt(deleteAccount);
-	socket.SendString(username);
-	socket.SendString(password);
+	client.SendInt(deleteAccount);
+	client.SendString(username);
+	client.SendString(password);
 	username = "";
 	password = "";
 	searchedBooks.clear();
@@ -177,7 +182,7 @@ void User::DeleteAccount()
 
 void User::Logout()
 {
-	socket.SendInt(logout);
+	client.SendInt(logout);
 	username = "";
 	password = "";
 	searchedBooks.clear();
@@ -188,10 +193,10 @@ void User::Logout()
 
 void User::ReturnBook(int bookToReturnId)
 {
-	socket.SendInt(returnBook);
-	socket.SendString(username);
-	socket.SendString(password);
-	socket.SendInt(bookToReturnId);
+	client.SendInt(returnBook);
+	client.SendString(username);
+	client.SendString(password);
+	client.SendInt(bookToReturnId);
 	for (auto& book : borrowedBooks)
 	{
 		if (stoi(book.getBook().getBookId()) == bookToReturnId)
@@ -203,9 +208,9 @@ void User::ReturnBook(int bookToReturnId)
 
 void User::Borrowing(int bookToBorrowId)
 {
-	socket.SendInt(borrowBook);
-	socket.SendString(username);
-	socket.SendString(password);
+	client.SendInt(borrowBook);
+	client.SendString(username);
+	client.SendString(password);
 	std::string date;
 	time_t now = time(0);
 	tm currentDate;
@@ -213,8 +218,8 @@ void User::Borrowing(int bookToBorrowId)
 	date = "";
 	date += std::to_string(currentDate.tm_year + 1900) + '-' + std::to_string(currentDate.tm_mon) + '-' + std::to_string(currentDate.tm_mday);
 
-	socket.SendInt(bookToBorrowId);
-	socket.SendString(date);
+	client.SendInt(bookToBorrowId);
+	client.SendString(date);
 
 	const time_t one_day = 24 * 60 * 60;
 	time_t date_seconds = mktime(&currentDate) + (14 * one_day);
@@ -223,60 +228,62 @@ void User::Borrowing(int bookToBorrowId)
 
 	date = "";
 	date += std::to_string(currentDate.tm_year + 1900) + '-' + std::to_string(currentDate.tm_mon) + '-' + std::to_string(currentDate.tm_mday);
-	socket.SendString(date);
+	client.SendString(date);
+
+	client.ReceiveBool(serverError);
 }
 
 void User::SearchBooks(const std::string& keyword)
 {
-	socket.SendInt(searchBook);
+	client.SendInt(searchBook);
 	int size;
 	std::string book;
-	socket.SendString(keyword);
-	socket.ReceiveInt(size);
+	client.SendString(keyword);
+	client.ReceiveInt(size);
 	searchedBooks.resize(size);
 	for (int i = 0; i < searchedBooks.size(); i++)
 	{
-		socket.ReceiveString(book);
+		client.ReceiveString(book);
 		searchedBooks[i] = Book(book);
 	}
 }
 
 void User::ReadBook()
 {
-	socket.SendInt(readBook);
+	client.SendInt(readBook);
 	int IdBook;
 	std::string tags;
 	std::cin >> IdBook;
-	socket.SendInt(IdBook);
-	socket.ReceiveString(tags);
+	client.SendInt(IdBook);
+	client.ReceiveString(tags);
 }
 
 void User::ChangePassword(std::string newPassword)
 {
 	if (PasswordRequirements(newPassword))
 	{
-		socket.SendInt(changePassword);
-		socket.SendString(username);
-		socket.SendString(password);
-		socket.SendString(newPassword);
+		client.SendInt(changePassword);
+		client.SendString(username);
+		client.SendString(password);
+		client.SendString(newPassword);
 		this->password = newPassword;
 	}
 }
 
 void User::CreateBookDetails(const int& bookId)
 {
-	socket.SendInt(bookDetails);
-	socket.SendInt(bookId);
+	client.SendInt(bookDetails);
+	client.SendInt(bookId);
 	std::string bookDetailsData;
-	socket.ReceiveString(bookDetailsData);
+	client.ReceiveString(bookDetailsData);
 	selectedBook = BookDetails(bookDetailsData);
 }
 
 void User::ProlongBorrowDate(const int& bookId, const std::string& returnDate)
 {
-	socket.SendInt(prolongBorrowDate);
-	socket.SendString(username);
-	socket.SendString(password);
+	client.SendInt(prolongBorrowDate);
+	client.SendString(username);
+	client.SendString(password);
 	std::stringstream iss(returnDate);
 	std::string date;
 	time_t now = time(0);
@@ -297,8 +304,8 @@ void User::ProlongBorrowDate(const int& bookId, const std::string& returnDate)
 	date = "";
 	date += std::to_string(retDate.tm_year + 1900) + '-' + std::to_string(retDate.tm_mon) + '-' + std::to_string(retDate.tm_mday);
 
-	socket.SendInt(bookId);
-	socket.SendString(date);
+	client.SendInt(bookId);
+	client.SendString(date);
 }
 
 bool User::PasswordRequirements(std::string pw)
@@ -354,7 +361,7 @@ void User::ClientHandler()
 		}
 	}
 	std::cout << "Lost connection to the server" << std::endl;
-	if (user.socket.CloseConnection())
+	if (user.client.CloseConnection())
 	{
 		std::cout << "Socket to server was closed successfully" << std::endl;
 	}

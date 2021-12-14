@@ -5,25 +5,22 @@
 #include <QtNetwork/qnetworkaccessmanager.h>
 #include <QtNetwork/qnetworkreply.h>
 #include <qimagereader.h>
-
+#include "Book.h"
+#include "BookDetails.h"
 class SelectedBookDetails : public QWidget
 {
 	Q_OBJECT
 
 public:
-	SelectedBookDetails(QWidget *parent = Q_NULLPTR);
+	SelectedBookDetails(Book book,BookDetails bookDetails,QWidget *parent = Q_NULLPTR);
 	~SelectedBookDetails();
-
-	void SetTitle(std::string message);
-	void LoadImageFromURL(std::string message);
-	void SetAuthor(std::string author);
-	void SetRating(std::string rating);
-	void SetISBN(std::string isbn);
-	void SetTags(std::string tags);
 
 private slots:
 	void loadImage(QNetworkReply* reply);
+	void on_borrowBtn_clicked();
 
 private:
+	Book book;
+	BookDetails bookDetails;
 	Ui::SelectedBookDetails ui;
 };

@@ -96,7 +96,8 @@ void SearchBook::loadImage(QNetworkReply* reply)
 void SearchBook::onBookListItemDoubleClicked(QListWidgetItem* item)
 {
 	std::vector<Book> searchResult = user.GetSearchedBooks();
-	for (int i = 0; i < searchResult.size(); i++)
+	int i;
+	for (i = 0; i < searchResult.size(); i++)
 	{
 		if (item->text().toStdString() == std::string(searchResult[i].getTitle() + " "+"-"+" " + searchResult[i].getAuthor()))
 		{
@@ -107,14 +108,7 @@ void SearchBook::onBookListItemDoubleClicked(QListWidgetItem* item)
 	user.SetOption(bookDetails);
 	std::this_thread::sleep_for(std::chrono::milliseconds(700));
 	BookDetails currentBook = user.GetBookDetails();
-	SelectedBookDetails* bookDetails = new SelectedBookDetails;
-
-	bookDetails->SetAuthor(currentBook.GetAuthor());
-	//bookDetails->SetISBN(currentBook.);
-	bookDetails->SetRating(std::to_string(currentBook.GetAverageRating()));
-	//bookDetails.securrentBook.GetLanguageCode());
-	bookDetails->SetTitle(currentBook.GetTitle());
-	bookDetails->LoadImageFromURL(currentBook.GetImageUrl());
+	SelectedBookDetails* bookDetails = new SelectedBookDetails(searchResult[i],currentBook);
 	bookDetails->show();
 }
 
