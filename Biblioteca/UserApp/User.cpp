@@ -45,6 +45,16 @@ std::string User::GetUsername() const
 	return username;
 }
 
+void User::SetUsername(const std::string& username)
+{
+	this->username = username;
+}
+
+void User::SetPassword(const std::string& password)
+{
+	this->password = password;
+}
+
 std::vector<Book> User::GetSearchedBooks() const
 {
 	return searchedBooks;
@@ -108,10 +118,15 @@ void User::RegisterMenu(std::string username, std::string password)
 	socket.ReceiveBool(serverError);
 	if (!serverError)
 	{
-		this->username = username;
-		this->password = password;
-		isLoggedIn = true;
+		user.username = username;
+		user.password = password;
 	}
+	else
+	{
+		user.username = "";
+		user.password = "";
+	}
+	user.isLoggedIn = false;
 }
 
 void User::LoginMenu(std::string username, std::string password)
@@ -121,10 +136,11 @@ void User::LoginMenu(std::string username, std::string password)
 	socket.SendString(username);
 	socket.SendString(password);
 	socket.ReceiveBool(serverError);
-	if(!serverError)
+	if (!serverError)
 	{
-		this->username = username;
-		this->password = password;
+		user.username = username;
+		user.password = password;
+		user.isLoggedIn = true;
 		socket.ReceiveInt(borrowedBooksSize);
 		borrowedBooks.resize(borrowedBooksSize);
 		for (int i = 0; i < borrowedBooksSize; i++)
@@ -133,7 +149,12 @@ void User::LoginMenu(std::string username, std::string password)
 			socket.ReceiveString(bookToAdd);
 			borrowedBooks[i] = BorrowedBooks(bookToAdd);
 		}
-		isLoggedIn = true;
+	}
+	else
+	{
+		user.username = "";
+		user.password = "";
+		user.isLoggedIn = false;
 	}
 }
 
@@ -186,15 +207,15 @@ void User::Borrowing(int bookToBorrowId)
 	localtime_s(&currentDate, &now);
 	date = "";
 	date += std::to_string(currentDate.tm_year + 1900) + '-' + std::to_string(currentDate.tm_mon) + '-' + std::to_string(currentDate.tm_mday);
-	
+
 	socket.SendInt(bookToBorrowId);
 	socket.SendString(date);
-	
+
 	const time_t one_day = 24 * 60 * 60;
 	time_t date_seconds = mktime(&currentDate) + (14 * one_day);
 
 	localtime_s(&currentDate, &date_seconds);
-	
+
 	date = "";
 	date += std::to_string(currentDate.tm_year + 1900) + '-' + std::to_string(currentDate.tm_mon) + '-' + std::to_string(currentDate.tm_mday);
 	socket.SendString(date);
@@ -373,7 +394,7 @@ bool User::ProcessData()
 	}
 	case 8:
 	{
-		ReadBook();		
+		ReadBook();
 		break;
 	}
 	case 9:
@@ -390,7 +411,7 @@ bool User::ProcessData()
 	case 11:
 	{
 		std::string returnDate;
-		for (auto &i:user.borrowedBooks)
+		for (auto& i : user.borrowedBooks)
 		{
 			if (std::stoi(i.getBook().getBookId()) == bookId)
 			{

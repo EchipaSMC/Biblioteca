@@ -13,12 +13,12 @@
   <property name="windowTitle">
    <string>Sign in</string>
   </property>
-  <widget class="QWidget" name="">
+  <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
      <x>20</x>
      <y>160</y>
-     <width>1151</width>
+     <width>1300</width>
      <height>351</height>
     </rect>
    </property>
@@ -74,6 +74,13 @@
        <number>100</number>
       </property>
      </layout>
+    </item>
+    <item>
+     <widget class="QPushButton" name="registerBtn">
+      <property name="text">
+       <string>Register</string>
+      </property>
+     </widget>
     </item>
     <item>
      <widget class="QPushButton" name="loginBtn">

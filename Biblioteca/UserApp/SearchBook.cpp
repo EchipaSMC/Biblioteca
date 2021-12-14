@@ -108,11 +108,11 @@ void SearchBook::onBookListItemDoubleClicked(QListWidgetItem* item)
 	BookDetails currentBook = user.GetBookDetails();
 	SelectedBookDetails* bookDetails = new SelectedBookDetails;
 
-	bookDetails->SetAuthor(currentBook.getAuthor());
-	bookDetails->SetISBN(currentBook.getISBN());
-	bookDetails->SetRating(currentBook.getRating());
-	bookDetails->SetLanguage(currentBook.getLanguage());
-	bookDetails->SetTitle(item->text().toStdString());
+	bookDetails->SetAuthor(currentBook.GetAuthor());
+	//bookDetails->SetISBN(currentBook.);
+	bookDetails->SetRating(std::to_string(currentBook.GetAverageRating()));
+	//bookDetails.securrentBook.GetLanguageCode());
+	bookDetails->SetTitle(currentBook.GetTitle());
 	bookDetails->LoadImageFromURL(currentBook.GetImageUrl());
 	bookDetails->show();
 }

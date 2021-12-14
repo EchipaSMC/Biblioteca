@@ -8,7 +8,18 @@ Login::Login(QWidget* parent)
 	ui.setupUi(this);
 }
 
-void Login::on_loginBtn_clicked() {
+void Login::on_registerBtn_clicked()
+{
+	QString usernameInput = ui.usernameInput->text();
+	QString passwordInput = ui.passwordInput->text();
+	user.SetUsername(usernameInput.toStdString());
+	user.SetPassword(passwordInput.toStdString());
+	user.SetOption(registerUser);
+	std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+}
+
+void Login::on_loginBtn_clicked() 
+{
 	QString usernameInput = ui.usernameInput->text();
 	QString passwordInput = ui.passwordInput->text();
 

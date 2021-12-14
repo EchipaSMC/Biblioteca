@@ -139,7 +139,12 @@ void Server::Register(const int& index)
 	{
 		userExists = true;
 	}
-	else queryList.UserServerUserInsert(username, password);
+	else
+	{
+		stmt = database.CreateStatement(database.GetDatabase(), queryList.UserServerUserInsert(username, password));
+		database.Run(stmt.get(), Database::DumpCurrentRow);
+		std::getline(Database::getResult, result, '|');
+	}
 	clientConnections[index].SendBool(userExists);
 	Database::getResult.str(std::string());
 	Database::getResult.clear();

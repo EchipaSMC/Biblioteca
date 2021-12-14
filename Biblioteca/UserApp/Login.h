@@ -14,6 +14,7 @@ public:
 	~Login();
 
 private slots:
+	void on_registerBtn_clicked();
 	void on_loginBtn_clicked();
 	void on_exitBtn_clicked();
 	void on_bookSearchBtn_clicked();
