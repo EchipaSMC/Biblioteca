@@ -47,5 +47,7 @@ private:
 	void ChangePassword(const int& index);
 	void PrepareBookDetails(const int& index);
 	void ProlongBorrowDate(const int& index);
+
+	void RemoveInvalidCharacters(std::string& string);
 };
 

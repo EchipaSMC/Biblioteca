@@ -17,7 +17,7 @@ std::string Query::BooksNumOfBookSearch(const std::string& searchInput) const
 std::string Query::BorrowedBooksSearch(const int& userIdSearch) const
 {
 	std::string query = "SELECT * FROM BorrowedBooks WHERE user_id=";
-	query += userIdSearch;
+	query += std::to_string(userIdSearch);
 	return query;
 }
 std::string Query::BorrowedBooksInsert(const int& userId, const int& bookId, const std::string& borrowedDate, const std::string& returningDate) const

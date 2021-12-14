@@ -156,6 +156,8 @@ void Server::Login(const int& index)
 	std::string username, password, result, data, bookToSend;
 	clientConnections[index].ReceiveString(username);
 	clientConnections[index].ReceiveString(password);
+	RemoveInvalidCharacters(username);
+	RemoveInvalidCharacters(password);
 	auto stmt = database.CreateStatement(database.GetDatabase(), queryList.UserServerUsersLogin(username, password));
 	database.Run(stmt.get(), Database::DumpCurrentRow);
 	std::getline(Database::getResult, result, '|');
@@ -322,6 +324,7 @@ void Server::SearchBook(const int& index)
 {
 	std::string keyword, resultsFound, data, bookToSend;
 	clientConnections[index].ReceiveString(keyword);
+	RemoveInvalidCharacters(keyword);
 	auto stmt = database.CreateStatement(database.GetDatabase(), queryList.BooksNumOfBookSearch(keyword));
 	database.Run(stmt.get(), Database::DumpCurrentRow);
 	std::getline(Database::getResult, resultsFound, '|');
@@ -453,5 +456,10 @@ void Server::ProlongBorrowDate(const int& index)
 	Database::getResult.str(std::string());
 	Database::getResult.clear();
 	user = UserServer();
+}
+
+void Server::RemoveInvalidCharacters(std::string& string)
+{
+	string.erase(std::remove(string.begin(), string.end(), '\''), string.end());
 }
 

@@ -141,7 +141,7 @@ void User::LoginMenu(std::string username, std::string password)
 	socket.SendString(username);
 	socket.SendString(password);
 	socket.ReceiveBool(serverError);
-	if (!serverError)
+	if (serverError)
 	{
 		user.username = username;
 		user.password = password;

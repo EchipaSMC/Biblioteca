@@ -281,7 +281,7 @@
     </item>
    </layout>
   </widget>
-  <widget class="QPushButton" name="pushButton">
+  <widget class="QPushButton" name="borrowBtn">
    <property name="geometry">
     <rect>
      <x>160</x>
