@@ -45,6 +45,7 @@ public:
 	void SetBookId(const int & bookId);
 	std::string GetKeyword()const;
 	void SetKeyword(const std::string& keyword);
+	bool GetServerError()const;
 
 	inline void StartSubroutine() { clientThread = std::thread(ClientHandler); DetachThread(); };
 	inline void DetachThread() { clientThread.detach(); };

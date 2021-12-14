@@ -14,7 +14,7 @@ BorrowedBooksList::BorrowedBooksList(QWidget* parent)
 	ui.borrowedBooksList->setSpacing(30);
 
 	ui.borrowedBooksList->clear();
-
+	setAttribute(Qt::WA_DeleteOnClose);
 
 	std::vector<Book> borrowedBooks;//user.GetBorrowedBooks(); //= send input to server and receive a vector (of books) containing all the books matching the search input
 
@@ -76,7 +76,7 @@ void BorrowedBooksList::loadImage(QNetworkReply* reply)
 void BorrowedBooksList::onBorrowedBookListItemDoubleClicked(QListWidgetItem* item)
 {
 	BorrowedBookDetails* details = new BorrowedBookDetails;
-	BookDetails book2 = BookDetails("ad afa afds|4.0|2|3|4|5|1|en|https://images-ext-1.discordapp.net/external/qtZoV_oLQ8gGuMnAW8D1fNMb7g1-bnnVAg8NPInLzM8/https/images.gr-assets.com/books/1447303603s/2767052.jpg");
+	BookDetails book2 = BookDetails("Titlue|Autor|ad afa afds|4.0|2|3|4|5|1|en|https://images-ext-1.discordapp.net/external/qtZoV_oLQ8gGuMnAW8D1fNMb7g1-bnnVAg8NPInLzM8/https/images.gr-assets.com/books/1447303603s/2767052.jpg");
 	details->SetLanguage(book2.GetLanguageCode());
 	details->SetRating(std::to_string(book2.GetAverageRating()));
 

@@ -105,6 +105,11 @@ void User::SetKeyword(const std::string& keyword)
 	this->keyword = keyword;
 }
 
+bool User::GetServerError() const
+{
+	return serverError;
+}
+
 const bool& User::operator==(const User& s) const
 {
 	return (this == &s);
@@ -323,6 +328,8 @@ bool User::PasswordRequirements(std::string pw)
 			specialChar = true;
 		}
 	}
+	if (pw.find('\'') != std::string::npos)
+		return false;
 	if (UpperLetter == false || LowerLetter == false)
 		return false;
 

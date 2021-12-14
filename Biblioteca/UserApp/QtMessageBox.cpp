@@ -4,6 +4,7 @@ QtMessageBox::QtMessageBox(QWidget *parent)
 	: QWidget(parent)
 {
 	ui.setupUi(this);
+	setAttribute(Qt::WA_DeleteOnClose);
 }
 
 QtMessageBox::~QtMessageBox()

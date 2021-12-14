@@ -4,6 +4,7 @@ BorrowedBookDetails::BorrowedBookDetails(QWidget *parent)
 	: QWidget(parent)
 {
 	ui.setupUi(this);
+	setAttribute(Qt::WA_DeleteOnClose);
 }
 
 BorrowedBookDetails::~BorrowedBookDetails()

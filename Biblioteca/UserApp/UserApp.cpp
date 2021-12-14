@@ -6,6 +6,7 @@ UserApp::UserApp(QWidget* parent)
     : QMainWindow(parent)
 {
     ui.setupUi(this);
+    setAttribute(Qt::WA_DeleteOnClose);
 }
 
 void UserApp::on_exitBtn_clicked() {

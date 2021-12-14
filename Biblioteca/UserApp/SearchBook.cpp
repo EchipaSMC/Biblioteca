@@ -16,6 +16,7 @@ SearchBook::SearchBook(QWidget* parent)
 	connect(nam, &QNetworkAccessManager::finished, this, &SearchBook::loadImage);
 	connect(ui.listWidget, SIGNAL(itemDoubleClicked(QListWidgetItem*)),
 		this, SLOT(onBookListItemDoubleClicked(QListWidgetItem*)));
+	setAttribute(Qt::WA_DeleteOnClose);
 }
 
 void SearchBook::on_exitBtn_clicked() {
