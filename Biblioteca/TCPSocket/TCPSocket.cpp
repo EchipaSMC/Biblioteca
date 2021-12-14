@@ -52,7 +52,7 @@ TCPSocket::TCPSocket(bool isClient)
 		hints.ai_socktype = SOCK_STREAM;
 		hints.ai_protocol = IPPROTO_TCP;
 
-		int iResult = getaddrinfo("127.0.0.1", "27015", &hints, &result);
+		int iResult = getaddrinfo("localhost", "27015", &hints, &result);
 		if (iResult != 0)
 		{
 			throw std::string("getaddrinfo failed with error: " + std::to_string(iResult));

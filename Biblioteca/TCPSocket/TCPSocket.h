@@ -25,7 +25,6 @@ private:
 	addrinfo* ptr = NULL;
 	addrinfo hints;
 public:
-	//TCPSocket() = default;
 	TCPSocket(bool isClient = false);
 	~TCPSocket();
 

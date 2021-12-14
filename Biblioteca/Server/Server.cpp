@@ -128,21 +128,26 @@ bool Server::ListenForNewConnection()
 
 void Server::Register(const int& index)
 {
+	bool userExists = false;
 	std::string username, password, result;
 	clientConnections[index].ReceiveString(username);
 	clientConnections[index].ReceiveString(password);
 	auto stmt = database.CreateStatement(database.GetDatabase(), queryList.UserServerCheckExistingUsers(username));
 	database.Run(stmt.get(), Database::DumpCurrentRow);
 	std::getline(Database::getResult, result, '|');
-	if (std::stoi(result) == 0)
-		queryList.UserServerUserInsert(username, password);
-	else std::cout << "User already exists";
+	if (std::stoi(result) != 0)
+	{
+		userExists = true;
+	}
+	else queryList.UserServerUserInsert(username, password);
+	clientConnections[index].SendBool(userExists);
 	Database::getResult.str(std::string());
 	Database::getResult.clear();
 }
 
 void Server::Login(const int& index)
 {
+	bool correctInput = false;
 	std::string username, password, result, data, bookToSend;
 	clientConnections[index].ReceiveString(username);
 	clientConnections[index].ReceiveString(password);
@@ -152,6 +157,7 @@ void Server::Login(const int& index)
 
 	if (std::stoi(result) == 1)
 	{
+		correctInput = true;
 		Database::getResult.str(std::string());
 		Database::getResult.clear();
 
@@ -163,35 +169,38 @@ void Server::Login(const int& index)
 		user.SetUserId(std::stoi(result));
 	}
 	else
-		std::cout << "error login!";
+		correctInput = false;
 
 	Database::getResult.str(std::string());
 	Database::getResult.clear();
-
-	stmt = database.CreateStatement(database.GetDatabase(), queryList.BorrowedBooksSearch(user.GetUserId()));
-	database.Run(stmt.get(), Database::DumpCurrentRow);
-
-	while (std::getline(Database::getResult, result))
+	clientConnections[index].SendBool(correctInput);
+	if (correctInput)
 	{
-		borrowedBooks.push_back(BorrowedBooks(result));
-	}
-
-	clientConnections[index].SendInt(borrowedBooks.size());
-	for (auto& elem : borrowedBooks)
-	{
-		stmt = database.CreateStatement(database.GetDatabase(), queryList.BookGetBookByID(elem.GetBookId()));
+		stmt = database.CreateStatement(database.GetDatabase(), queryList.BorrowedBooksSearch(user.GetUserId()));
 		database.Run(stmt.get(), Database::DumpCurrentRow);
 
-		std::getline(Database::getResult, data);
-		book = Books(data);
-		bookToSend = "";
-		bookToSend += std::to_string(book.GetBookId()) + "|" + book.GetOriginalTitle() + "|"
-			+ book.GetAuthors() + "|" + book.GetISBN() + "|" + book.GetSmallImageURL() + "|" + elem.GetBorrowDate() + "|" + elem.GetReturnDate();
-		clientConnections[index].SendString(bookToSend);
-	}
+		while (std::getline(Database::getResult, result))
+		{
+			borrowedBooks.push_back(BorrowedBooks(result));
+		}
 
-	Database::getResult.str(std::string());
-	Database::getResult.clear();
+		clientConnections[index].SendInt(borrowedBooks.size());
+		for (auto& elem : borrowedBooks)
+		{
+			stmt = database.CreateStatement(database.GetDatabase(), queryList.BookGetBookByID(elem.GetBookId()));
+			database.Run(stmt.get(), Database::DumpCurrentRow);
+
+			std::getline(Database::getResult, data);
+			book = Books(data);
+			bookToSend = "";
+			bookToSend += std::to_string(book.GetBookId()) + "|" + book.GetOriginalTitle() + "|"
+				+ book.GetAuthors() + "|" + book.GetISBN() + "|" + book.GetSmallImageURL() + "|" + elem.GetBorrowDate() + "|" + elem.GetReturnDate();
+			clientConnections[index].SendString(bookToSend);
+		}
+
+		Database::getResult.str(std::string());
+		Database::getResult.clear();
+	}
 }
 
 void Server::DeleteUser(const int& index)
@@ -366,6 +375,7 @@ void Server::ReadBook(const int& index)
 
 void Server::ChangePassword(const int& index)
 {
+
 	std::string username, password, result;
 	clientConnections[index].ReceiveString(username);
 	clientConnections[index].ReceiveString(password);
@@ -398,7 +408,7 @@ void Server::PrepareBookDetails(const int& index)
 
 	book = Books(result);
 	bookDetails = "";
-
+	bookDetails += book.GetAuthors() + "|" + book.GetTitle() + "|";
 	stmt = database.CreateStatement(database.GetDatabase(), queryList.TagsGetAllTags(book.GetBestBookId()));
 	database.Run(stmt.get(), Database::DumpCurrentRow);
 	while (std::getline(Database::getResult, result))

@@ -11,6 +11,7 @@ User::User()
 	this->username = "";
 	this->password = "";
 	this->borrowedBooks.resize(0);
+	isLoggedIn = false;
 }
 
 User::User(const std::string& username, const std::string& password, const std::vector<BorrowedBooks>& borrowedBooks)
@@ -19,6 +20,7 @@ User::User(const std::string& username, const std::string& password, const std::
 	this->username = username;
 	this->borrowedBooks = borrowedBooks;
 	this->password = password;
+	isLoggedIn = true;
 }
 
 User::User(const std::string& username, const std::string& password)
@@ -27,6 +29,7 @@ User::User(const std::string& username, const std::string& password)
 	this->username = username;
 	this->password = password;
 	this->borrowedBooks.resize(0);
+	isLoggedIn = true;
 }
 
 User::User(const User& user)
@@ -34,6 +37,7 @@ User::User(const User& user)
 	this->username = user.username;
 	this->borrowedBooks = user.borrowedBooks;
 	this->password = user.password;
+	this->isLoggedIn = user.isLoggedIn;
 }
 
 std::string User::GetUsername() const
@@ -101,8 +105,13 @@ void User::RegisterMenu(std::string username, std::string password)
 	socket.SendInt(registerUser);
 	socket.SendString(username);
 	socket.SendString(password);
-	this->username = username;
-	this->password = password;
+	socket.ReceiveBool(serverError);
+	if (!serverError)
+	{
+		this->username = username;
+		this->password = password;
+		isLoggedIn = true;
+	}
 }
 
 void User::LoginMenu(std::string username, std::string password)
@@ -111,15 +120,20 @@ void User::LoginMenu(std::string username, std::string password)
 	int borrowedBooksSize;
 	socket.SendString(username);
 	socket.SendString(password);
-	this->username = username;
-	this->password = password;
-	socket.ReceiveInt(borrowedBooksSize);
-	borrowedBooks.resize(borrowedBooksSize);
-	for (int i = 0; i < borrowedBooksSize; i++)
+	socket.ReceiveBool(serverError);
+	if(!serverError)
 	{
-		std::string bookToAdd;
-		socket.ReceiveString(bookToAdd);
-		borrowedBooks[i]=BorrowedBooks(bookToAdd);
+		this->username = username;
+		this->password = password;
+		socket.ReceiveInt(borrowedBooksSize);
+		borrowedBooks.resize(borrowedBooksSize);
+		for (int i = 0; i < borrowedBooksSize; i++)
+		{
+			std::string bookToAdd;
+			socket.ReceiveString(bookToAdd);
+			borrowedBooks[i] = BorrowedBooks(bookToAdd);
+		}
+		isLoggedIn = true;
 	}
 }
 

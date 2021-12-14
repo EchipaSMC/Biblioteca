@@ -64,6 +64,7 @@ public:
 	bool PasswordRequirements(std::string pw);
 
 private:
+	bool isLoggedIn,serverError;
 	std::string username;
 	std::string password;
 	std::vector<Book> searchedBooks;
@@ -78,7 +79,7 @@ private:
 	static void ClientHandler();
 	bool ProcessData();
 
-	int bookId;// setter + getter
+	int bookId;
 	std::string keyword;
 };
 extern User user;
