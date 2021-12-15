@@ -5,6 +5,11 @@
 #include <QtNetwork/qnetworkaccessmanager.h>
 #include <QtNetwork/qnetworkreply.h>
 #include <qimagereader.h>
+#include "Login.h"
+#include "Book.h"
+#include "QtMessageBox.h"
+#include "BorrowedBookDetails.h"
+#include "BookDetails.h"
 
 class BorrowedBooksList : public QWidget
 {
@@ -13,12 +18,15 @@ class BorrowedBooksList : public QWidget
 public:
 	BorrowedBooksList(QWidget *parent = Q_NULLPTR);
 	~BorrowedBooksList();
+	void loadBooks();
 
 private slots:
 	void onBorrowedBookListItemDoubleClicked(QListWidgetItem* item);
 	void loadImage(QNetworkReply* reply);
+	void on_logOutBtn_clicked();
 
 private:
+	QNetworkAccessManager* nam;
 	Ui::BorrowedBooksList ui;
 	QString titleAndAuthor;
 };

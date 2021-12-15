@@ -185,7 +185,7 @@ void Server::Login(const int& index)
 	{
 		stmt = database.CreateStatement(database.GetDatabase(), queryList.BorrowedBooksSearch(user.GetUserId()));
 		database.Run(stmt.get(), Database::DumpCurrentRow);
-
+		//borrowedBooks.clear();
 		while (std::getline(Database::getResult, result))
 		{
 			borrowedBooks.push_back(BorrowedBooks(result));

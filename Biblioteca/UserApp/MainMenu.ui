@@ -16,7 +16,7 @@
   <widget class="QTabWidget" name="tabWidget">
    <property name="geometry">
     <rect>
-     <x>20</x>
+     <x>10</x>
      <y>20</y>
      <width>1241</width>
      <height>661</height>
@@ -35,14 +35,9 @@
      <string>Log In</string>
     </attribute>
    </widget>
-   <widget class="BorrowedBooksList" name="myAccount">
+   <widget class="BorrowedBooksList" name="borrowedBookList">
     <attribute name="title">
-     <string>My Account</string>
-    </attribute>
-   </widget>
-   <widget class="BookSearchResult" name="searchResult">
-    <attribute name="title">
-     <string>Search Result</string>
+     <string>MyAccount</string>
     </attribute>
    </widget>
   </widget>
@@ -59,12 +54,6 @@
    <class>Login</class>
    <extends>QWidget</extends>
    <header>Login.h</header>
-   <container>1</container>
-  </customwidget>
-  <customwidget>
-   <class>BookSearchResult</class>
-   <extends>QWidget</extends>
-   <header>BookSearchResult.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>

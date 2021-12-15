@@ -1,13 +1,13 @@
 #include "MainMenu.h"
 #include "BorrowedBooksList.h"
 
-MainMenu::MainMenu(QWidget *parent)
+MainMenu::MainMenu(QWidget* parent)
 	: QWidget(parent)
 {
 	ui.setupUi(this);
 	ui.tabWidget->setCurrentWidget(ui.searchBook);
-	ui.tabWidget->setTabVisible(ui.tabWidget->indexOf(ui.myAccount), false);
-	ui.tabWidget->setTabVisible(ui.tabWidget->indexOf(ui.searchResult), false);
+	ui.tabWidget->setTabVisible(ui.tabWidget->indexOf(ui.borrowedBookList), false);
+	//ui.tabWidget->setTabVisible(ui.tabWidget->indexOf(ui.searchResult), false);
 }
 
 MainMenu::~MainMenu()
@@ -16,16 +16,15 @@ MainMenu::~MainMenu()
 
 void MainMenu::on_loginBtn_clicked() {
 	ui.tabWidget->setTabVisible(ui.tabWidget->indexOf(ui.login), false);
-	ui.tabWidget->setTabVisible(ui.tabWidget->indexOf(ui.myAccount), true);
-	ui.tabWidget->setCurrentWidget(ui.myAccount);
-	//use user data
+	ui.tabWidget->setTabVisible(ui.tabWidget->indexOf(ui.borrowedBookList), true);
+	ui.tabWidget->setCurrentWidget(ui.borrowedBookList);
+	ui.borrowedBookList->loadBooks();
 }
 
-void MainMenu::on_logOutBtn_clicked(){
+void MainMenu::on_logOutBtn_clicked() {
+
 	ui.tabWidget->setTabVisible(ui.tabWidget->indexOf(ui.login), true);
-	ui.tabWidget->setTabVisible(ui.tabWidget->indexOf(ui.myAccount), false);
-	ui.tabWidget->setCurrentWidget(ui.login);
-	//delete last user data
+	ui.tabWidget->setTabVisible(ui.tabWidget->indexOf(ui.borrowedBookList), false);
 }
 
 void MainMenu::on_borrowBookBtn_clicked()
@@ -35,8 +34,9 @@ void MainMenu::on_borrowBookBtn_clicked()
 
 void MainMenu::on_borrowedBooksBtn_clicked()
 {
-	BorrowedBooksList* borrowedBooks = new BorrowedBooksList;
-	borrowedBooks->show();
+
+	//BorrowedBooksList* borrowedBooks = new BorrowedBooksList;
+	//borrowedBooks->show();
 }
 
 void MainMenu::on_retunBookBtn_clicked()

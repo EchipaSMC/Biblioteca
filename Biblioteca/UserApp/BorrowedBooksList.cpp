@@ -1,8 +1,4 @@
 #include "BorrowedBooksList.h"
-#include "Book.h"
-#include "QtMessageBox.h"
-#include "BorrowedBookDetails.h"
-#include "BookDetails.h"
 
 BorrowedBooksList::BorrowedBooksList(QWidget* parent)
 	: QWidget(parent)
@@ -13,55 +9,13 @@ BorrowedBooksList::BorrowedBooksList(QWidget* parent)
 	ui.borrowedBooksList->setResizeMode(QListWidget::Adjust);
 	ui.borrowedBooksList->setSpacing(30);
 
-	ui.borrowedBooksList->clear();
 	setAttribute(Qt::WA_DeleteOnClose);
+	nam = new QNetworkAccessManager(this);
+	connect(nam, &QNetworkAccessManager::finished, this, &BorrowedBooksList::loadImage);
 
-	std::vector<Book> borrowedBooks;//user.GetBorrowedBooks(); //= send input to server and receive a vector (of books) containing all the books matching the search input
+	connect(ui.borrowedBooksList, SIGNAL(itemDoubleClicked(QListWidgetItem*)),
+		this, SLOT(onBorrowedBookListItemDoubleClicked(QListWidgetItem*)));
 
-	if (/*borrowedBooks.size()*/true)
-	{
-		disconnect(ui.borrowedBooksList, SIGNAL(itemDoubleClicked(QListWidgetItem*)),
-			this, SLOT(onBorrowedBookListItemDoubleClicked(QListWidgetItem*)));
-		
-		Book book = Book();
-		book.setImgUrl("https://images-ext-1.discordapp.net/external/qtZoV_oLQ8gGuMnAW8D1fNMb7g1-bnnVAg8NPInLzM8/https/images.gr-assets.com/books/1447303603s/2767052.jpg");
-		book.setAuthor(std::to_string(borrowedBooks.size()));
-		book.setIsbn("Ex12334123");
-		book.setTitle("Exemplu Titlu");
-		
-
-		borrowedBooks.push_back(book);
-		borrowedBooks.push_back(book);
-		borrowedBooks.push_back(book);
-		borrowedBooks.push_back(book);
-
-		QNetworkAccessManager* nam = new QNetworkAccessManager(this);
-		connect(nam, &QNetworkAccessManager::finished, this, &BorrowedBooksList::loadImage);
-
-		connect(ui.borrowedBooksList, SIGNAL(itemDoubleClicked(QListWidgetItem*)),
-			this, SLOT(onBorrowedBookListItemDoubleClicked(QListWidgetItem*)));
-
-		for each (Book borrowedBook in borrowedBooks)
-		{
-			QString imageURL = QString::fromStdString(borrowedBook.getImgUrl());
-
-			if (imageURL.indexOf("https") == 0)
-			{
-				imageURL.remove(4, 1);
-			}
-			titleAndAuthor = QString::fromStdString(borrowedBook.getTitle() + " " + borrowedBook.getAuthor());
-
-			QUrl imageNoSecureURL = imageURL;
-			QNetworkRequest request(imageNoSecureURL);
-			nam->get(request);
-		}
-	}
-	else
-	{
-		QtMessageBox* warningMessage = new QtMessageBox;
-		warningMessage->SetMessage("No borrowed books found!");
-		warningMessage->show();
-	}
 }
 
 void BorrowedBooksList::loadImage(QNetworkReply* reply)
@@ -71,6 +25,12 @@ void BorrowedBooksList::loadImage(QNetworkReply* reply)
 	//ui.label->setPixmap(bookCoverImage);
 	QListWidgetItem* item = new QListWidgetItem(bookCoverImage, titleAndAuthor);
 	ui.borrowedBooksList->addItem(item);
+	reply->deleteLater();
+}
+
+void BorrowedBooksList::on_logOutBtn_clicked()
+{
+	user.SetOption(logout);
 }
 
 void BorrowedBooksList::onBorrowedBookListItemDoubleClicked(QListWidgetItem* item)
@@ -87,4 +47,40 @@ void BorrowedBooksList::onBorrowedBookListItemDoubleClicked(QListWidgetItem* ite
 
 BorrowedBooksList::~BorrowedBooksList()
 {
+	delete nam;
+}
+
+void BorrowedBooksList::loadBooks()
+{
+	ui.borrowedBooksList->blockSignals(true);
+	ui.borrowedBooksList->clear();
+	ui.borrowedBooksList->blockSignals(false);
+	std::vector<BorrowedBooks> borrowedBooks = user.GetBorrowedBooks(); //= send input to server and receive a vector (of books) containing all the books matching the search input
+
+	if (borrowedBooks.size())
+	{
+		Book borrowedBook;
+		for (auto& book : borrowedBooks)
+		{
+			borrowedBook = book.getBook();
+			QString imageURL = QString::fromStdString(borrowedBook.getImgUrl());
+
+			if (imageURL.indexOf("https") == 0)
+			{
+				imageURL.remove(4, 1);
+			}
+			titleAndAuthor = QString::fromStdString(borrowedBook.getTitle() + " " + borrowedBook.getAuthor());
+
+			QUrl imageNoSecureURL = imageURL;
+			QNetworkRequest request(imageNoSecureURL);
+			nam->get(request);
+		}
+	}
+	else
+		if (user.GetLoginStatus())
+		{
+			QtMessageBox* warningMessage = new QtMessageBox;
+			warningMessage->SetMessage("No borrowed books found!");
+			warningMessage->show();
+		}
 }

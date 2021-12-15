@@ -146,6 +146,7 @@ void User::LoginMenu(std::string username, std::string password)
 	client.SendString(username);
 	client.SendString(password);
 	client.ReceiveBool(serverError);
+	borrowedBooks.clear();
 	if (serverError)
 	{
 		user.username = username;

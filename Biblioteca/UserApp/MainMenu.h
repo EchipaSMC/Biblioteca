@@ -21,4 +21,5 @@ private slots:
 
 private:
 	Ui::MainMenu ui;
+	int lastIndex;
 };

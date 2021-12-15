@@ -4,13 +4,14 @@
 #include "ui_Login.h"
 #include "SearchBook.h"
 #include "UserApp.h"
+#include"BorrowedBooksList.h"
 
 class Login : public QWidget
 {
 	Q_OBJECT
 
 public:
-	Login(QWidget *parent = Q_NULLPTR);
+	Login(QWidget* parent = Q_NULLPTR);
 	~Login();
 
 private slots:

@@ -59,7 +59,6 @@ void Login::on_loginBtn_clicked()
 
 	if (user.GetServerError())
 	{
-		close();
 	}
 	else
 	{
