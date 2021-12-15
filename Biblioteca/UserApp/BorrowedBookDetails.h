@@ -3,25 +3,22 @@
 #include <QWidget>
 #include "ui_BorrowedBookDetails.h"
 #include <QtNetwork/qnetworkreply.h>
+#include "BorrowedBooks.h"
+#include "BookDetails.h"
 
 class BorrowedBookDetails : public QWidget
 {
 	Q_OBJECT
 
 public:
-	BorrowedBookDetails(QWidget *parent = Q_NULLPTR);
+	BorrowedBookDetails(BorrowedBooks borrowedBook, BookDetails bookDetails, QWidget* parent = Q_NULLPTR);
 	~BorrowedBookDetails();
-	void SetTitle(std::string message);
-	void SetAuthor(std::string message);
-	void SetRating(std::string rating);
-	void SetISBN(std::string ISBN);
-	void SetLanguage(std::string language);
-	void SetTags(std::string tags);
-	void LoadImageFromURL(std::string message);
 
 private slots:
 	void loadImage(QNetworkReply* reply);
 
 private:
+	BorrowedBooks borrowedBook;
+	BookDetails bookDetails;
 	Ui::BorrowedBookDetails ui;
 };

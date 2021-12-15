@@ -175,7 +175,7 @@
      <widget class="QLabel" name="bookTags">
       <property name="font">
        <font>
-        <pointsize>16</pointsize>
+        <pointsize>8</pointsize>
        </font>
       </property>
       <property name="text">

@@ -20,11 +20,15 @@ BorrowedBooksList::BorrowedBooksList(QWidget* parent)
 
 void BorrowedBooksList::loadImage(QNetworkReply* reply)
 {
+	static int currentTitleAndAuthor = 0;
 	QPixmap bookCoverImage;
 	bookCoverImage.loadFromData(reply->readAll());
-	//ui.label->setPixmap(bookCoverImage);
-	QListWidgetItem* item = new QListWidgetItem(bookCoverImage, titleAndAuthor);
+	QListWidgetItem* item = new QListWidgetItem(bookCoverImage, titleAndAuthor[currentTitleAndAuthor]);
+	item->setSizeHint(QSize(100, 150));
 	ui.borrowedBooksList->addItem(item);
+	currentTitleAndAuthor++;
+	if (currentTitleAndAuthor == titleAndAuthor.size())
+		currentTitleAndAuthor -= titleAndAuthor.size();
 	reply->deleteLater();
 }
 
@@ -35,14 +39,21 @@ void BorrowedBooksList::on_logOutBtn_clicked()
 
 void BorrowedBooksList::onBorrowedBookListItemDoubleClicked(QListWidgetItem* item)
 {
-	BorrowedBookDetails* details = new BorrowedBookDetails;
-	BookDetails book2 = BookDetails("Titlue|Autor|ad afa afds|4.0|2|3|4|5|1|en|https://images-ext-1.discordapp.net/external/qtZoV_oLQ8gGuMnAW8D1fNMb7g1-bnnVAg8NPInLzM8/https/images.gr-assets.com/books/1447303603s/2767052.jpg");
-	details->SetLanguage(book2.GetLanguageCode());
-	details->SetRating(std::to_string(book2.GetAverageRating()));
-
-	details->SetTitle(item->text().toStdString());
-	details->LoadImageFromURL("http://images.gr-assets.com/books/1447303603m/2767052.jpg");
-	details->show();
+	std::vector<BorrowedBooks> borrowedBooks = user.GetBorrowedBooks();
+	int i;
+	for (i = 0; i < borrowedBooks.size(); i++)
+	{
+		if (item->text().toStdString() == std::string(borrowedBooks[i].getBook().getTitle() + " " + "-" + " " + borrowedBooks[i].getBook().getAuthor()))
+		{
+			user.SetBookId(std::stoi(borrowedBooks[i].getBook().getBookId()));
+			break;
+		}
+	}
+	user.SetOption(bookDetails);
+	std::this_thread::sleep_for(std::chrono::milliseconds(700));
+	BookDetails currentBook = user.GetBookDetails();
+	BorrowedBookDetails* bookDetails = new BorrowedBookDetails(borrowedBooks[i], currentBook);
+	bookDetails->show();
 }
 
 BorrowedBooksList::~BorrowedBooksList()
@@ -69,7 +80,7 @@ void BorrowedBooksList::loadBooks()
 			{
 				imageURL.remove(4, 1);
 			}
-			titleAndAuthor = QString::fromStdString(borrowedBook.getTitle() + " " + borrowedBook.getAuthor());
+			titleAndAuthor.push_back(QString::fromStdString(borrowedBook.getTitle() + " - " + borrowedBook.getAuthor()));
 
 			QUrl imageNoSecureURL = imageURL;
 			QNetworkRequest request(imageNoSecureURL);

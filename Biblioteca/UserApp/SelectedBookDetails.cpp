@@ -11,7 +11,10 @@ SelectedBookDetails::SelectedBookDetails(Book book, BookDetails bookDetails, QWi
 	ui.bookAuthor->setText(QString::fromStdString(book.getAuthor()));
 	ui.bookISBN->setText(QString::fromStdString(book.getIsbn()));
 	ui.bookTitle->setText(QString::fromStdString(book.getTitle()));
-	ui.bookRating->setText(QString::fromStdString(std::to_string(bookDetails.GetAverageRating()) + "/5"));
+	std::string averageRating = std::to_string(bookDetails.GetAverageRating());
+	auto it = std::find(averageRating.begin(), averageRating.end(), '.');
+	averageRating.erase(it+3,averageRating.end());
+	ui.bookRating->setText(QString::fromStdString(averageRating+ "/5"));
 	ui.bookLanguage->setText(QString::fromStdString(bookDetails.GetLanguageCode()));
 	ui.bookTags->setText(QString::fromStdString(bookDetails.GetTags()));
 	//ui.bookTags->updateGeometry();

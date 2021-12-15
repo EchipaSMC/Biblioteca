@@ -185,7 +185,6 @@ void Server::Login(const int& index)
 	{
 		stmt = database.CreateStatement(database.GetDatabase(), queryList.BorrowedBooksSearch(user.GetUserId()));
 		database.Run(stmt.get(), Database::DumpCurrentRow);
-		//borrowedBooks.clear();
 		while (std::getline(Database::getResult, result))
 		{
 			borrowedBooks.push_back(BorrowedBooks(result));
@@ -202,7 +201,7 @@ void Server::Login(const int& index)
 			std::getline(Database::getResult, data);
 			book = Books(data);
 			bookToSend = "";
-			bookToSend += std::to_string(book.GetBookId()) + "|" + book.GetOriginalTitle() + "|"
+			bookToSend += std::to_string(book.GetId()) + "|" + book.GetOriginalTitle() + "|"
 				+ book.GetAuthors() + "|" + book.GetISBN() + "|" + book.GetSmallImageURL() + "|" + elem.GetBorrowDate() + "|" + elem.GetReturnDate();
 			clientConnections[index].SendString(bookToSend);
 		}

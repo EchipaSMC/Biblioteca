@@ -1,54 +1,42 @@
 #include "BorrowedBookDetails.h"
 
-BorrowedBookDetails::BorrowedBookDetails(QWidget *parent)
-	: QWidget(parent)
+BorrowedBookDetails::BorrowedBookDetails(BorrowedBooks borrowedBook, BookDetails bookDetails, QWidget *parent)
+	: QWidget(parent),
+	borrowedBook(borrowedBook),
+	bookDetails(bookDetails)
 {
 	ui.setupUi(this);
+
+	ui.bookAuthor->setText(QString::fromStdString(borrowedBook.getBook().getAuthor()));
+	ui.bookISBN->setText(QString::fromStdString(borrowedBook.getBook().getIsbn()));
+	ui.bookTitle->setText(QString::fromStdString(borrowedBook.getBook().getTitle()));
+	std::string averageRating = std::to_string(bookDetails.GetAverageRating());
+	auto it = std::find(averageRating.begin(), averageRating.end(), '.');
+	averageRating.erase(it + 3, averageRating.end());
+	ui.bookRating->setText(QString::fromStdString(averageRating + "/5"));
+	ui.bookLanguage->setText(QString::fromStdString(bookDetails.GetLanguageCode()));
+	ui.bookTags->setText(QString::fromStdString(bookDetails.GetTags()));
+	//ui.bookTags->updateGeometry();
+	ui.bookTags->setWordWrap(true);
+	ui.bookTags->setFixedSize(QSize(269, 81));
+	QString imageURL = QString::fromStdString(bookDetails.GetImageUrl());
+	if (imageURL.indexOf("https") == 0)
+	{
+		imageURL.remove(4, 1);
+	}
+	QNetworkAccessManager* nam = new QNetworkAccessManager(this);
+	connect(nam, &QNetworkAccessManager::finished, this, &BorrowedBookDetails::loadImage);
+
+	QUrl imageNoSecureURL = imageURL;
+	QNetworkRequest request(imageNoSecureURL);
+	nam->get(request);
+
 	setAttribute(Qt::WA_DeleteOnClose);
+	
 }
 
 BorrowedBookDetails::~BorrowedBookDetails()
 {
-}
-
-void BorrowedBookDetails::SetTitle(std::string message)
-{
-	ui.bookTitle->setText(QString::fromStdString(message));
-}
-
-void BorrowedBookDetails::SetAuthor(std::string message)
-{
-	ui.bookAuthor->setText(QString::fromStdString(message));
-}
-
-void BorrowedBookDetails::SetRating(std::string rating)
-{
-	ui.bookRating->setText(QString::fromStdString(rating+"/5.0"));
-}
-
-void BorrowedBookDetails::SetISBN(std::string ISBN)
-{
-	ui.bookISBN->setText(QString::fromStdString(ISBN));
-}
-
-void BorrowedBookDetails::SetLanguage(std::string language)
-{
-	ui.bookLanguage->setText(QString::fromStdString(language));
-}
-
-void BorrowedBookDetails::SetTags(std::string tags)
-{
-	ui.bookTags->setText(QString::fromStdString(tags));
-}
-
-void BorrowedBookDetails::LoadImageFromURL(std::string message)
-{
-	QNetworkAccessManager* nam = new QNetworkAccessManager(this);
-	connect(nam, &QNetworkAccessManager::finished, this, &BorrowedBookDetails::loadImage);
-
-	QUrl imageNoSecureURL = QString::fromStdString(message);
-	QNetworkRequest request(imageNoSecureURL);
-	nam->get(request);
 }
 
 void BorrowedBookDetails::loadImage(QNetworkReply* reply)

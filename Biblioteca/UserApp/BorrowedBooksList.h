@@ -28,5 +28,5 @@ private slots:
 private:
 	QNetworkAccessManager* nam;
 	Ui::BorrowedBooksList ui;
-	QString titleAndAuthor;
+	std::vector<QString> titleAndAuthor;
 };

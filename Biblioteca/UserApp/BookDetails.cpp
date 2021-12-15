@@ -25,7 +25,6 @@ BookDetails::BookDetails(std::string data)
 
 	std::getline(getData, word, '|');
 	averageRating = std::stof(word);
-	averageRating = std::ceilf(averageRating * 100) / 100;
 
 	std::getline(getData, word, '|');
 	ratings1 = std::stoi(word);
