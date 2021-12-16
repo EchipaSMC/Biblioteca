@@ -46,7 +46,7 @@
      <x>10</x>
      <y>569</y>
      <width>1171</width>
-     <height>51</height>
+     <height>100</height>
     </rect>
    </property>
    <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -60,6 +60,20 @@
      <widget class="QPushButton" name="logOutBtn">
       <property name="text">
        <string>Logout</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="deleteUserBtn">
+      <property name="text">
+       <string>Delete your account</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="changePasswordBtn">
+      <property name="text">
+       <string>Change your password</string>
       </property>
      </widget>
     </item>

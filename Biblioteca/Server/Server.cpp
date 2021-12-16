@@ -265,7 +265,7 @@ void Server::Logout(const int& index)
 void Server::ReturnBook(const int& index)
 {
 	std::string username, password, result;
-	int borrowedBookIndex;
+	int bookId;
 	clientConnections[index].ReceiveString(username);
 	clientConnections[index].ReceiveString(password);
 	auto stmt = database.CreateStatement(database.GetDatabase(), queryList.UserServerUserSearch(username, password));
@@ -275,20 +275,9 @@ void Server::ReturnBook(const int& index)
 	Database::getResult.str(std::string());
 	Database::getResult.clear();
 
-	stmt = database.CreateStatement(database.GetDatabase(), queryList.BorrowedBooksSearch(user.GetUserId()));
+	clientConnections[index].ReceiveInt(bookId);
+	stmt = database.CreateStatement(database.GetDatabase(), queryList.BorrowedBooksDelete(user.GetUserId(), bookId));
 	database.Run(stmt.get(), Database::DumpCurrentRow);
-
-	while (std::getline(Database::getResult, result))
-	{
-		borrowedBooks.push_back(BorrowedBooks(result));
-	}
-	Database::getResult.str(std::string());
-	Database::getResult.clear();
-
-	clientConnections[index].ReceiveInt(borrowedBookIndex);
-	stmt = database.CreateStatement(database.GetDatabase(), queryList.BorrowedBooksDelete(borrowedBooks[borrowedBookIndex].GetUserId(), borrowedBooks[borrowedBookIndex].GetBookId()));
-	database.Run(stmt.get(), Database::DumpCurrentRow);
-	borrowedBooks.erase(borrowedBooks.begin() + borrowedBookIndex, borrowedBooks.begin() + borrowedBookIndex + 1);
 	Database::getResult.str(std::string());
 	Database::getResult.clear();
 	user = UserServer();

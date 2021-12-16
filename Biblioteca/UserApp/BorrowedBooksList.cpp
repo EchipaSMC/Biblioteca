@@ -37,6 +37,16 @@ void BorrowedBooksList::on_logOutBtn_clicked()
 	user.SetOption(logout);
 }
 
+void BorrowedBooksList::on_deleteUserBtn_clicked()
+{
+	user.SetOption(deleteAccount);
+}
+
+void BorrowedBooksList::on_changePasswordBtn_clicked()
+{
+	//
+}
+
 void BorrowedBooksList::onBorrowedBookListItemDoubleClicked(QListWidgetItem* item)
 {
 	std::vector<BorrowedBooks> borrowedBooks = user.GetBorrowedBooks();

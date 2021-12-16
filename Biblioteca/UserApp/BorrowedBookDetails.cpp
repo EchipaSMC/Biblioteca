@@ -39,6 +39,18 @@ BorrowedBookDetails::~BorrowedBookDetails()
 {
 }
 
+void BorrowedBookDetails::on_returnBook_clicked()
+{
+	user.SetBookId(std::stoi(borrowedBook.getBook().getBookId()));
+	user.SetOption(returnBook);
+}
+
+void BorrowedBookDetails::on_prolongBDate_clicked()
+{
+	user.SetBookId(std::stoi(borrowedBook.getBook().getBookId()));
+	user.SetOption(prolongBorrowDate);
+}
+
 void BorrowedBookDetails::loadImage(QNetworkReply* reply)
 {
 	QPixmap bookCoverImage;

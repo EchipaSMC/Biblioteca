@@ -198,13 +198,15 @@ void User::ReturnBook(int bookToReturnId)
 	client.SendString(username);
 	client.SendString(password);
 	client.SendInt(bookToReturnId);
-	for (auto& book : borrowedBooks)
+	int i;
+	for (i = 0; i < borrowedBooks.size(); i++)
 	{
-		if (stoi(book.getBook().getBookId()) == bookToReturnId)
+		if (std::stoi(borrowedBooks[i].getBook().getBookId()) == bookToReturnId)
 		{
-			borrowedBooks.erase(borrowedBooks.begin() + bookToReturnId, borrowedBooks.begin() + bookToReturnId + 1);
+			break;
 		}
 	}
+	borrowedBooks.erase(borrowedBooks.begin() + i, borrowedBooks.begin() + i + 1);
 }
 
 void User::Borrowing(int bookToBorrowId)
@@ -303,7 +305,7 @@ void User::ProlongBorrowDate(const int& bookId, const std::string& returnDate)
 
 	localtime_s(&retDate, &date_seconds);
 	date = "";
-	date += std::to_string(retDate.tm_year + 1900) + '-' + std::to_string(retDate.tm_mon) + '-' + std::to_string(retDate.tm_mday);
+	date += std::to_string(retDate.tm_year + 1900) + '-' + std::to_string(retDate.tm_mon + 1) + '-' + std::to_string(retDate.tm_mday);
 
 	client.SendInt(bookId);
 	client.SendString(date);

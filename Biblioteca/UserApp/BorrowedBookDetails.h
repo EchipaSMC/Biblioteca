@@ -5,6 +5,7 @@
 #include <QtNetwork/qnetworkreply.h>
 #include "BorrowedBooks.h"
 #include "BookDetails.h"
+#include "User.h"
 
 class BorrowedBookDetails : public QWidget
 {
@@ -16,6 +17,8 @@ public:
 
 private slots:
 	void loadImage(QNetworkReply* reply);
+	void on_returnBook_clicked();
+	void on_prolongBDate_clicked();
 
 private:
 	BorrowedBooks borrowedBook;
