@@ -24,6 +24,7 @@ private slots:
 	void onBorrowedBookListItemDoubleClicked(QListWidgetItem* item);
 	void loadImage(QNetworkReply* reply);
 	void on_changePasswordBtn_clicked();
+	void on_refreshBtn_clicked();
 
 private:
 	QNetworkAccessManager* nam;

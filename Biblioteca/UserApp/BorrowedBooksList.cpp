@@ -39,6 +39,11 @@ void BorrowedBooksList::on_changePasswordBtn_clicked()
 	passwordChange->show();
 }
 
+void BorrowedBooksList::on_refreshBtn_clicked()
+{
+	loadBooks();
+}
+
 void BorrowedBooksList::onBorrowedBookListItemDoubleClicked(QListWidgetItem* item)
 {
 	std::vector<BorrowedBooks> borrowedBooks = user.GetBorrowedBooks();
