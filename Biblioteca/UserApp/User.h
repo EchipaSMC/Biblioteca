@@ -68,6 +68,7 @@ public:
 
 	bool PasswordRequirements(std::string pw);
 	bool CheckMaxProlongedDate(const BorrowedBooks& borrowedBooks);
+	bool CheckOverdueBooks();
 
 private:
 	bool isLoggedIn,serverError;

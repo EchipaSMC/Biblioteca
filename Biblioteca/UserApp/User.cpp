@@ -408,6 +408,34 @@ bool User::CheckMaxProlongedDate(const BorrowedBooks& borrowedBooks)
 	return true;
 }
 
+bool User::CheckOverdueBooks()
+{
+	std::stringstream iss;
+	std::string date;
+	time_t now = time(0);
+	tm retDate;
+	double dateDifference;
+	for (auto& i : borrowedBooks)
+	{
+		iss.str(std::string());
+		iss.clear();
+		iss << i.getReturningDate();
+		date = std::string();
+		localtime_s(&retDate, &now);
+		
+		std::getline(iss, date, '-');
+		retDate.tm_year = stoi(date) - 1900;
+		std::getline(iss, date, '-');
+		retDate.tm_mon = stoi(date) - 1;
+		std::getline(iss, date, '-');
+		retDate.tm_mday = stoi(date);
+		dateDifference = std::difftime( std::mktime(&retDate), now);
+		if (dateDifference < 0)
+			return false;
+	}
+	return true;
+}
+
 void User::ClientHandler()
 {
 	while (true)

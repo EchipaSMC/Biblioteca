@@ -47,6 +47,7 @@ void BorrowedBookDetails::on_returnBook_clicked()
 {
 	user.SetBookId(std::stoi(borrowedBook.getBook().getBookId()));
 	user.SetOption(returnBook);
+	close();
 }
 
 void BorrowedBookDetails::on_prolongBDate_clicked()
