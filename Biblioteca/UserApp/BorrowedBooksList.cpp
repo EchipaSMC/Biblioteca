@@ -33,21 +33,10 @@ void BorrowedBooksList::loadImage(QNetworkReply* reply)
 	reply->deleteLater();
 }
 
-void BorrowedBooksList::on_logOutBtn_clicked()
-{
-	user.SetOption(logout);
-}
-
-void BorrowedBooksList::on_deleteUserBtn_clicked()
-{
-	user.SetOption(deleteAccount);
-}
-
 void BorrowedBooksList::on_changePasswordBtn_clicked()
 {
 	PasswordChange* passwordChange=new PasswordChange;
 	passwordChange->show();
-
 }
 
 void BorrowedBooksList::onBorrowedBookListItemDoubleClicked(QListWidgetItem* item)

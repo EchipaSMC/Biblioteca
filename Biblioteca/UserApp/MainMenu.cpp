@@ -14,6 +14,13 @@ MainMenu::~MainMenu()
 {
 }
 
+void MainMenu::DeleteUserLogout()
+{
+	ui.tabWidget->setTabVisible(ui.tabWidget->indexOf(ui.login), true);
+	ui.tabWidget->setTabVisible(ui.tabWidget->indexOf(ui.borrowedBookList), false);
+	emit on_yesBtn_clicked();
+}
+
 void MainMenu::on_loginBtn_clicked() {
 	ui.tabWidget->setTabVisible(ui.tabWidget->indexOf(ui.login), false);
 	ui.tabWidget->setTabVisible(ui.tabWidget->indexOf(ui.borrowedBookList), true);
@@ -21,43 +28,16 @@ void MainMenu::on_loginBtn_clicked() {
 	ui.borrowedBookList->loadBooks();
 }
 
-void MainMenu::on_logOutBtn_clicked() {
-
+void MainMenu::on_logOutBtn_clicked() 
+{
+	user.SetOption(logout);
 	ui.tabWidget->setTabVisible(ui.tabWidget->indexOf(ui.login), true);
 	ui.tabWidget->setTabVisible(ui.tabWidget->indexOf(ui.borrowedBookList), false);
 }
 
-void MainMenu::on_borrowBookBtn_clicked()
+void MainMenu::on_deleteUserBtn_clicked()
 {
-	//lista borrowed books
+	user.SetOption(deleteAccount);
+	ui.tabWidget->setTabVisible(ui.tabWidget->indexOf(ui.login), true);
+	ui.tabWidget->setTabVisible(ui.tabWidget->indexOf(ui.borrowedBookList), false);
 }
-
-void MainMenu::on_borrowedBooksBtn_clicked()
-{
-
-	//BorrowedBooksList* borrowedBooks = new BorrowedBooksList;
-	//borrowedBooks->show();
-}
-
-void MainMenu::on_retunBookBtn_clicked()
-{
-}
-
-//void MainMenu::on_searchBtn_clicked()
-//{
-//	SearchBook currentWidget = ui.tabWidget->widget(ui.tabWidget->indexOf(ui.searchBook));
-//	std::string searchInputText = currentWidget.GetSearchInput();
-//
-//	if (searchInputText.size()>0)
-//	{
-//		ui.tabWidget->setTabVisible(ui.tabWidget->indexOf(ui.searchResult), true);
-//		ui.tabWidget->setCurrentWidget(ui.searchResult);
-//	}
-//	else
-//	{
-//		DialogBox* warningMessage = new DialogBox;
-//		warningMessage->SetMessage("No search input given!");
-//		warningMessage->show();
-//	}
-//	
-//}
