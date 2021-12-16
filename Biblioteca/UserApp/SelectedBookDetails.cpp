@@ -42,19 +42,28 @@ void SelectedBookDetails::on_borrowBtn_clicked()
 {
 	if (user.GetLoginStatus())
 	{
-		user.SetOption(borrowBook);
-		user.SetBookId(std::stoi(book.getBookId()));
-		std::this_thread::sleep_for(std::chrono::milliseconds(1000));
-		if (user.GetServerError())
+		if (user.GetBorrowedBooks().size() != 5)
 		{
-			QtMessageBox* warningMessage = new QtMessageBox;
-			warningMessage->SetMessage("You already borrowed this book!");
-			warningMessage->show();
+			user.SetOption(borrowBook);
+			user.SetBookId(std::stoi(book.getBookId()));
+			std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+			if (user.GetServerError())
+			{
+				QtMessageBox* warningMessage = new QtMessageBox;
+				warningMessage->SetMessage("You already borrowed this book!");
+				warningMessage->show();
+			}
+			else
+			{
+				QtMessageBox* warningMessage = new QtMessageBox;
+				warningMessage->SetMessage("You have borrowed the book.\nPlease return it in 2 weeks.");
+				warningMessage->show();
+			}
 		}
 		else
 		{
 			QtMessageBox* warningMessage = new QtMessageBox;
-			warningMessage->SetMessage("You have borrowed the book.\nPlease return it in 2 weeks.");
+			warningMessage->SetMessage("You can't have more than \n5 books borrowed at a time!");
 			warningMessage->show();
 		}
 	}

@@ -35,7 +35,7 @@ void BorrowedBooksList::loadImage(QNetworkReply* reply)
 
 void BorrowedBooksList::on_changePasswordBtn_clicked()
 {
-	PasswordChange* passwordChange=new PasswordChange;
+	PasswordChange* passwordChange = new PasswordChange;
 	passwordChange->show();
 }
 
@@ -74,7 +74,7 @@ void BorrowedBooksList::loadBooks()
 	ui.borrowedBooksList->clear();
 	ui.borrowedBooksList->blockSignals(false);
 	std::vector<BorrowedBooks> borrowedBooks = user.GetBorrowedBooks(); //= send input to server and receive a vector (of books) containing all the books matching the search input
-
+	titleAndAuthor.clear();
 	if (borrowedBooks.size())
 	{
 		Book borrowedBook;
@@ -92,6 +92,7 @@ void BorrowedBooksList::loadBooks()
 			QUrl imageNoSecureURL = imageURL;
 			QNetworkRequest request(imageNoSecureURL);
 			nam->get(request);
+			std::this_thread::sleep_for(std::chrono::milliseconds(30));
 		}
 	}
 	else
