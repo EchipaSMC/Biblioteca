@@ -11,11 +11,14 @@ BorrowedBookDetails::BorrowedBookDetails(BorrowedBooks borrowedBook, BookDetails
 	ui.bookISBN->setText(QString::fromStdString(borrowedBook.getBook().getIsbn()));
 	ui.bookTitle->setText(QString::fromStdString(borrowedBook.getBook().getTitle()));
 	std::string averageRating = std::to_string(bookDetails.GetAverageRating());
+	ui.ReturnDate->setText(QString::fromStdString(borrowedBook.getReturningDate()));
+	ui.BorrowDate->setText(QString::fromStdString(borrowedBook.getBorrowDate()));
 	auto it = std::find(averageRating.begin(), averageRating.end(), '.');
 	averageRating.erase(it + 3, averageRating.end());
 	ui.bookRating->setText(QString::fromStdString(averageRating + "/5"));
 	ui.bookLanguage->setText(QString::fromStdString(bookDetails.GetLanguageCode()));
 	ui.bookTags->setText(QString::fromStdString(bookDetails.GetTags()));
+	
 	//ui.bookTags->updateGeometry();
 	ui.bookTags->setWordWrap(true);
 	ui.bookTags->setFixedSize(QSize(269, 81));
