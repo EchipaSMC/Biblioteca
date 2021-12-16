@@ -33,6 +33,7 @@ public:
 	User(const User& user);
 
 	std::string GetUsername() const;
+	std::string GetPassword() const;
 	void SetUsername(const std::string& username);
 	void SetPassword(const std::string& password);
 	std::vector<Book> GetSearchedBooks() const;

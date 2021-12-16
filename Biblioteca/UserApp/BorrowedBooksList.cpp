@@ -1,4 +1,5 @@
 #include "BorrowedBooksList.h"
+#include "PasswordChange.h"
 
 BorrowedBooksList::BorrowedBooksList(QWidget* parent)
 	: QWidget(parent)
@@ -44,7 +45,9 @@ void BorrowedBooksList::on_deleteUserBtn_clicked()
 
 void BorrowedBooksList::on_changePasswordBtn_clicked()
 {
-	//
+	PasswordChange* passwordChange=new PasswordChange;
+	passwordChange->show();
+
 }
 
 void BorrowedBooksList::onBorrowedBookListItemDoubleClicked(QListWidgetItem* item)

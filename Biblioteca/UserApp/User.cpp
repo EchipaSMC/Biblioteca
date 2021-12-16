@@ -45,6 +45,11 @@ std::string User::GetUsername() const
 	return username;
 }
 
+std::string User::GetPassword() const
+{
+	return password;
+}
+
 void User::SetUsername(const std::string& username)
 {
 	this->username = username;
@@ -317,8 +322,6 @@ bool User::PasswordRequirements(std::string pw)
 	bool LowerLetter = false;
 	bool isDigit = false;
 	bool specialChar = false;
-	if (pw.size() < 8)
-		return false;
 	for (int i = 0; i < pw.length(); i++)
 	{
 		if (isupper(pw[i]))
@@ -416,7 +419,7 @@ bool User::ProcessData()
 	}
 	case 9:
 	{
-		ChangePassword(user.password);
+		ChangePassword(keyword);
 		break;
 	}
 	case 10:

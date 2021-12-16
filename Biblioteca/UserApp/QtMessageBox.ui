@@ -6,20 +6,24 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>313</width>
-    <height>153</height>
+    <width>357</width>
+    <height>199</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Warning</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true">background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:1 rgba(255, 0, 0, 148));
+background-color: rgb(255, 255, 255);</string>
+  </property>
   <widget class="QWidget" name="verticalLayoutWidget">
    <property name="geometry">
     <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>311</width>
-     <height>151</height>
+     <x>30</x>
+     <y>30</y>
+     <width>291</width>
+     <height>141</height>
     </rect>
    </property>
    <layout class="QVBoxLayout" name="verticalLayout">
@@ -46,6 +50,9 @@
         <height>153</height>
        </size>
       </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(255, 255, 255);</string>
+      </property>
       <property name="text">
        <string>Message</string>
       </property>
@@ -67,6 +74,9 @@
         <width>100</width>
         <height>16777215</height>
        </size>
+      </property>
+      <property name="styleSheet">
+       <string notr="true"/>
       </property>
       <property name="text">
        <string>Ok</string>

@@ -98,6 +98,7 @@
     <QtUic Include="Login.ui" />
     <QtUic Include="MainMenu.ui" />
     <QtUic Include="MyAccount.ui" />
+    <QtUic Include="PasswordChange.ui" />
     <QtUic Include="QtMessageBox.ui" />
     <QtUic Include="SearchBook.ui" />
     <QtUic Include="SelectedBookDetails.ui" />
@@ -112,6 +113,7 @@
     <ClCompile Include="Login.cpp" />
     <ClCompile Include="MainMenu.cpp" />
     <ClCompile Include="MyAccount.cpp" />
+    <ClCompile Include="PasswordChange.cpp" />
     <ClCompile Include="QtMessageBox.cpp" />
     <ClCompile Include="SearchBook.cpp" />
     <ClCompile Include="SelectedBookDetails.cpp" />
@@ -127,6 +129,7 @@
     <QtMoc Include="QtMessageBox.h" />
     <QtMoc Include="SelectedBookDetails.h" />
     <QtMoc Include="BorrowedBooksList.h" />
+    <QtMoc Include="PasswordChange.h" />
     <ClInclude Include="User.h" />
     <QtMoc Include="MyAccount.h" />
     <QtMoc Include="MainMenu.h" />
