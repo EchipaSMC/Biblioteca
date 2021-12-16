@@ -176,9 +176,9 @@ void User::DeleteAccount()
 	client.SendString(password);
 	username = "";
 	password = "";
-	searchedBooks.clear();
 	borrowedBooks.clear();
 	currentBookTags.clear();
+	isLoggedIn = false;
 }
 
 void User::Logout()
@@ -186,10 +186,10 @@ void User::Logout()
 	client.SendInt(logout);
 	username = "";
 	password = "";
-	searchedBooks.clear();
 	borrowedBooks.clear();
 	currentBookTags.clear();
 	selectedBook = BookDetails();
+	isLoggedIn = false;
 }
 
 void User::ReturnBook(int bookToReturnId)
