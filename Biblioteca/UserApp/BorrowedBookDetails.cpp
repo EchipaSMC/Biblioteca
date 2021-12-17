@@ -1,6 +1,6 @@
 #include "BorrowedBookDetails.h"
 
-BorrowedBookDetails::BorrowedBookDetails(BorrowedBooks borrowedBook, BookDetails bookDetails, QWidget *parent)
+BorrowedBookDetails::BorrowedBookDetails(BorrowedBooks borrowedBook, BookDetails bookDetails, QWidget* parent)
 	: QWidget(parent),
 	borrowedBook(borrowedBook),
 	bookDetails(bookDetails)
@@ -17,8 +17,8 @@ BorrowedBookDetails::BorrowedBookDetails(BorrowedBooks borrowedBook, BookDetails
 	averageRating.erase(it + 3, averageRating.end());
 	ui.bookRating->setText(QString::fromStdString(averageRating + "/5"));
 	ui.bookLanguage->setText(QString::fromStdString(bookDetails.GetLanguageCode()));
-	ui.bookTags->setText(QString::fromStdString(bookDetails.GetTags()));
-	
+	ui.bookTags->setText("#" + QString::fromStdString(bookDetails.GetTags().substr(0, 160) + "...").replace(" ", " #"));
+
 	//ui.bookTags->updateGeometry();
 	ui.bookTags->setWordWrap(true);
 	ui.bookTags->setFixedSize(QSize(269, 81));
@@ -35,7 +35,7 @@ BorrowedBookDetails::BorrowedBookDetails(BorrowedBooks borrowedBook, BookDetails
 	nam->get(request);
 
 	setAttribute(Qt::WA_DeleteOnClose);
-	
+
 }
 
 BorrowedBookDetails::~BorrowedBookDetails()

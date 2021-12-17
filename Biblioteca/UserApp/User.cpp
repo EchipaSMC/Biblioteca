@@ -224,7 +224,7 @@ void User::Borrowing(int bookToBorrowId)
 	tm currentDate;
 	localtime_s(&currentDate, &now);
 	date = "";
-	date += std::to_string(currentDate.tm_year + 1900) + '-' + std::to_string(currentDate.tm_mon) + '-' + std::to_string(currentDate.tm_mday);
+	date += std::to_string(currentDate.tm_year + 1900) + '-' + std::to_string(currentDate.tm_mon + 1) + '-' + std::to_string(currentDate.tm_mday);
 
 	client.SendInt(bookToBorrowId);
 	client.SendString(date);
@@ -235,7 +235,7 @@ void User::Borrowing(int bookToBorrowId)
 	localtime_s(&currentDate, &date_seconds);
 
 	date = "";
-	date += std::to_string(currentDate.tm_year + 1900) + '-' + std::to_string(currentDate.tm_mon) + '-' + std::to_string(currentDate.tm_mday);
+	date += std::to_string(currentDate.tm_year + 1900) + '-' + std::to_string(currentDate.tm_mon + 1) + '-' + std::to_string(currentDate.tm_mday);
 	client.SendString(date);
 
 	client.ReceiveBool(serverError);

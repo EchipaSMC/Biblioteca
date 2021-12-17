@@ -1,4 +1,5 @@
 #include "BookDetails.h"
+#include <algorithm>
 
 BookDetails::BookDetails(std::string tags, float averageRating, int ratings1, int ratings2, int ratings3, int ratings4, int ratings5, std::string languageCode, std::string imageUrl) :
 
