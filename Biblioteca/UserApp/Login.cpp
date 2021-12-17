@@ -37,6 +37,8 @@ void Login::on_registerBtn_clicked()
 				QtMessageBox* warningMessage = new QtMessageBox;
 				warningMessage->SetMessage("You have been registered! \nYou can now log in!");
 				warningMessage->show();
+				ui.usernameInput->clear();
+				ui.passwordInput->clear();
 			}
 			else
 			{
@@ -54,17 +56,11 @@ void Login::on_loginBtn_clicked()
 
 	user.SetUsername(usernameInput.toStdString());
 	user.SetPassword(passwordInput.toStdString());
-	user.SetOption(loginUser);
-	std::this_thread::sleep_for(std::chrono::milliseconds(1000));
 
 	if (user.GetServerError())
 	{
-	}
-	else
-	{
-		QtMessageBox* warningMessage = new QtMessageBox;
-		warningMessage->SetMessage("Your credentials are wrong!");
-		warningMessage->show();
+		ui.usernameInput->clear();
+		ui.passwordInput->clear();
 	}
 }
 

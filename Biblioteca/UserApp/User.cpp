@@ -216,6 +216,7 @@ void User::ReturnBook(int bookToReturnId)
 
 void User::Borrowing(int bookToBorrowId)
 {
+	BorrowedBooks borrowedBook;
 	client.SendInt(borrowBook);
 	client.SendString(username);
 	client.SendString(password);
@@ -228,6 +229,7 @@ void User::Borrowing(int bookToBorrowId)
 
 	client.SendInt(bookToBorrowId);
 	client.SendString(date);
+	borrowedBook.setBorrowingDate(date);
 
 	const time_t one_day = 24 * 60 * 60;
 	time_t date_seconds = mktime(&currentDate) + (14 * one_day);
@@ -237,8 +239,18 @@ void User::Borrowing(int bookToBorrowId)
 	date = "";
 	date += std::to_string(currentDate.tm_year + 1900) + '-' + std::to_string(currentDate.tm_mon + 1) + '-' + std::to_string(currentDate.tm_mday);
 	client.SendString(date);
-
+	borrowedBook.setReturningDate(date);
 	client.ReceiveBool(serverError);
+
+	for (auto& i : searchedBooks)
+	{
+		if (std::stoi(i.getBookId()) == bookId)
+		{
+			borrowedBook.setBook(i);
+			borrowedBooks.push_back(borrowedBook);
+			break;
+		}
+	}
 }
 
 void User::SearchBooks(const std::string& keyword)
@@ -301,7 +313,7 @@ void User::ProlongBorrowDate(const int& bookId, const std::string& returnDate)
 	std::getline(iss, date, '-');
 	retDate.tm_year = stoi(date) - 1900;
 	std::getline(iss, date, '-');
-	retDate.tm_mon = stoi(date);
+	retDate.tm_mon = stoi(date) - 1;
 	std::getline(iss, date, '-');
 	retDate.tm_mday = stoi(date);
 
@@ -311,6 +323,12 @@ void User::ProlongBorrowDate(const int& bookId, const std::string& returnDate)
 	localtime_s(&retDate, &date_seconds);
 	date = "";
 	date += std::to_string(retDate.tm_year + 1900) + '-' + std::to_string(retDate.tm_mon + 1) + '-' + std::to_string(retDate.tm_mday);
+
+	for (auto& i : borrowedBooks)
+	{
+		if (std::stoi(i.getBook().getBookId()) == bookId)
+			i.setReturningDate(date);
+	}
 
 	client.SendInt(bookId);
 	client.SendString(date);
@@ -351,6 +369,70 @@ bool User::PasswordRequirements(std::string pw)
 
 	if (specialChar == false)
 		return false;
+	return true;
+}
+
+bool User::CheckMaxProlongedDate(const BorrowedBooks& borrowedBooks)
+{
+	std::stringstream iss(borrowedBooks.getBorrowDate());
+	std::string date;
+	time_t now = time(0);
+	tm borrowDate, retDate;
+	localtime_s(&borrowDate, &now);
+
+	std::getline(iss, date, '-');
+	borrowDate.tm_year = stoi(date) - 1900;
+	std::getline(iss, date, '-');
+	borrowDate.tm_mon = stoi(date) - 1;
+	std::getline(iss, date, '-');
+	borrowDate.tm_mday = stoi(date);
+
+	iss.str(std::string());
+	iss.clear();
+	iss << borrowedBooks.getReturningDate();
+	date = std::string();
+	localtime_s(&retDate, &now);
+
+	std::getline(iss, date, '-');
+	retDate.tm_year = stoi(date) - 1900;
+	std::getline(iss, date, '-');
+	retDate.tm_mon = stoi(date) - 1;
+	std::getline(iss, date, '-');
+	retDate.tm_mday = stoi(date);
+
+	std::time_t borrowSeconds = std::mktime(&borrowDate);
+	std::time_t returnSeconds = std::mktime(&retDate);
+	double daysBorrowed = std::difftime(returnSeconds, borrowSeconds) / (60 * 60 * 24);
+	if (daysBorrowed >= 42.)
+		return false;
+	return true;
+}
+
+bool User::CheckOverdueBooks()
+{
+	std::stringstream iss;
+	std::string date;
+	time_t now = time(0);
+	tm retDate;
+	double dateDifference;
+	for (auto& i : borrowedBooks)
+	{
+		iss.str(std::string());
+		iss.clear();
+		iss << i.getReturningDate();
+		date = std::string();
+		localtime_s(&retDate, &now);
+		
+		std::getline(iss, date, '-');
+		retDate.tm_year = stoi(date) - 1900;
+		std::getline(iss, date, '-');
+		retDate.tm_mon = stoi(date) - 1;
+		std::getline(iss, date, '-');
+		retDate.tm_mday = stoi(date);
+		dateDifference = std::difftime( std::mktime(&retDate), now);
+		if (dateDifference < 0)
+			return false;
+	}
 	return true;
 }
 

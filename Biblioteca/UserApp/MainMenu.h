@@ -11,14 +11,15 @@ public:
 	MainMenu(QWidget *parent = Q_NULLPTR);
 	~MainMenu();
 
+public slots:
+	void DeleteUserLogout();
+
 private slots:
 	void on_loginBtn_clicked();
 	void on_logOutBtn_clicked();
-	void on_borrowBookBtn_clicked();
-	void on_borrowedBooksBtn_clicked();
-	void on_retunBookBtn_clicked();
-	//void on_searchBtn_clicked();
-
+	void on_deleteUserBtn_clicked();
+signals:
+	void on_yesBtn_clicked();
 private:
 	Ui::MainMenu ui;
 	int lastIndex;
