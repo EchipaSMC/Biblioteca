@@ -6,6 +6,7 @@ BorrowedBookDetails::BorrowedBookDetails(BorrowedBooks borrowedBook, BookDetails
 	bookDetails(bookDetails)
 {
 	ui.setupUi(this);
+	setWindowFlags(Qt::Dialog | Qt::MSWindowsFixedSizeDialogHint);
 
 	ui.bookAuthor->setText(QString::fromStdString(borrowedBook.getBook().getAuthor()));
 	ui.bookISBN->setText(QString::fromStdString(borrowedBook.getBook().getIsbn()));

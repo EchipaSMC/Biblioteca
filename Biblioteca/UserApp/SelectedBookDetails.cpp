@@ -8,6 +8,7 @@ SelectedBookDetails::SelectedBookDetails(Book book, BookDetails bookDetails, QWi
 	bookDetails(bookDetails)
 {
 	ui.setupUi(this);
+	setWindowFlags(Qt::Dialog | Qt::MSWindowsFixedSizeDialogHint);
 	ui.bookAuthor->setText(QString::fromStdString(book.getAuthor()));
 	ui.bookISBN->setText(QString::fromStdString(book.getIsbn()));
 	ui.bookTitle->setText(QString::fromStdString(book.getTitle()));

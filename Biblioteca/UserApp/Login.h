@@ -3,8 +3,6 @@
 #include <QWidget>
 #include "ui_Login.h"
 #include "SearchBook.h"
-#include "UserApp.h"
-#include"BorrowedBooksList.h"
 
 class Login : public QWidget
 {

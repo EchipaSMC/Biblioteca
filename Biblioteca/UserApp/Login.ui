@@ -31,6 +31,12 @@
     </property>
     <item>
      <widget class="QLabel" name="label">
+      <property name="font">
+       <font>
+        <family>Bahnschrift SemiBold</family>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
       <property name="text">
        <string>Username</string>
       </property>
@@ -40,10 +46,20 @@
      </widget>
     </item>
     <item>
-     <widget class="QLineEdit" name="usernameInput"/>
+     <widget class="QLineEdit" name="usernameInput">
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(255, 255, 255);</string>
+      </property>
+     </widget>
     </item>
     <item>
      <widget class="QLabel" name="label_2">
+      <property name="font">
+       <font>
+        <family>Bahnschrift SemiBold</family>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
       <property name="text">
        <string>Password</string>
       </property>
@@ -54,6 +70,9 @@
     </item>
     <item>
      <widget class="QLineEdit" name="passwordInput">
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(255, 255, 255);</string>
+      </property>
       <property name="echoMode">
        <enum>QLineEdit::Password</enum>
       </property>
@@ -77,6 +96,14 @@
     </item>
     <item>
      <widget class="QPushButton" name="loginBtn">
+      <property name="font">
+       <font>
+        <family>Bahnschrift SemiBold</family>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(197, 198, 200);</string>
+      </property>
       <property name="text">
        <string>Login</string>
       </property>
@@ -84,6 +111,14 @@
     </item>
     <item>
      <widget class="QPushButton" name="registerBtn">
+      <property name="font">
+       <font>
+        <family>Bahnschrift SemiBold</family>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(197, 198, 200);</string>
+      </property>
       <property name="text">
        <string>Register</string>
       </property>

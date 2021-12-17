@@ -1,4 +1,3 @@
-#include "UserApp.h"
 #include <QtWidgets/QApplication>
 #include "MainMenu.h"
 #include "Login.h"

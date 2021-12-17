@@ -422,14 +422,14 @@ bool User::CheckOverdueBooks()
 		iss << i.getReturningDate();
 		date = std::string();
 		localtime_s(&retDate, &now);
-		
+
 		std::getline(iss, date, '-');
 		retDate.tm_year = stoi(date) - 1900;
 		std::getline(iss, date, '-');
 		retDate.tm_mon = stoi(date) - 1;
 		std::getline(iss, date, '-');
 		retDate.tm_mday = stoi(date);
-		dateDifference = std::difftime( std::mktime(&retDate), now);
+		dateDifference = std::difftime(std::mktime(&retDate), now);
 		if (dateDifference < 0)
 			return false;
 	}

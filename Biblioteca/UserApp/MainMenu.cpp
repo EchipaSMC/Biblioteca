@@ -4,6 +4,7 @@
 MainMenu::MainMenu(QWidget* parent)
 	: QWidget(parent)
 {
+	setWindowFlags(Qt::Dialog | Qt::MSWindowsFixedSizeDialogHint);
 	ui.setupUi(this);
 	ui.tabWidget->setCurrentWidget(ui.searchBook);
 	ui.tabWidget->setTabVisible(ui.tabWidget->indexOf(ui.borrowedBookList), false);

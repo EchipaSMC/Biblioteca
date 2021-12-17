@@ -4,6 +4,7 @@ QtMessageBox::QtMessageBox(QWidget *parent)
 	: QWidget(parent)
 {
 	ui.setupUi(this);
+	setWindowFlags(Qt::Dialog | Qt::MSWindowsFixedSizeDialogHint);
 	setAttribute(Qt::WA_DeleteOnClose);
 }
 

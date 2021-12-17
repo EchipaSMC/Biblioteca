@@ -1,5 +1,4 @@
 #include "SearchBook.h"
-#include "UserApp.h"
 #include "Login.h"
 #include "QtMessageBox.h"
 #include "SelectedBookDetails.h"
@@ -39,6 +38,9 @@ void SearchBook::on_searchBtn_clicked()
 
 	if (searchInput.size())
 	{
+		std::for_each(searchInput.begin(), searchInput.end(), [](char& character) {
+			character  = ::tolower(character);
+			});
 		user.SetKeyword(searchInput);
 		user.SetOption(searchBook);
 		std::this_thread::sleep_for(std::chrono::milliseconds(1000));
@@ -49,7 +51,6 @@ void SearchBook::on_searchBtn_clicked()
 			titleAndAuthor.clear();
 			for (auto& book : searchResult)
 			{
-
 				QString imageURL = QString::fromStdString(book.getImgUrl());
 
 				if (imageURL.indexOf("https") == 0)
@@ -84,7 +85,8 @@ void SearchBook::loadImage(QNetworkReply* reply)
 	QPixmap bookCoverImage;
 	bookCoverImage.loadFromData(reply->readAll());
 	QListWidgetItem* item = new QListWidgetItem(bookCoverImage, titleAndAuthor[currentTitleAndAuthor]);
-	item->setSizeHint(QSize(100,150));
+	item->setSizeHint(QSize(100, 150));
+	//item->setBackgroundColor(QColor(251, 206, 79));
 	ui.listWidget->addItem(item);
 	currentTitleAndAuthor++;
 	if (currentTitleAndAuthor == titleAndAuthor.size())
@@ -99,7 +101,7 @@ void SearchBook::onBookListItemDoubleClicked(QListWidgetItem* item)
 	int i;
 	for (i = 0; i < searchResult.size(); i++)
 	{
-		if (item->text().toStdString() == std::string(searchResult[i].getTitle() + " "+"-"+" " + searchResult[i].getAuthor()))
+		if (item->text().toStdString() == std::string(searchResult[i].getTitle() + " " + "-" + " " + searchResult[i].getAuthor()))
 		{
 			user.SetBookId(std::stoi(searchResult[i].getBookId()));
 			break;
@@ -108,7 +110,7 @@ void SearchBook::onBookListItemDoubleClicked(QListWidgetItem* item)
 	user.SetOption(bookDetails);
 	std::this_thread::sleep_for(std::chrono::milliseconds(700));
 	BookDetails currentBook = user.GetBookDetails();
-	SelectedBookDetails* bookDetails = new SelectedBookDetails(searchResult[i],currentBook);
+	SelectedBookDetails* bookDetails = new SelectedBookDetails(searchResult[i], currentBook);
 	bookDetails->show();
 }
 

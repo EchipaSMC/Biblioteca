@@ -13,6 +13,10 @@
   <property name="windowTitle">
    <string>Borrowed Books</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true">background-color: rgb(235, 253, 255);
+</string>
+  </property>
   <widget class="QWidget" name="verticalLayoutWidget">
    <property name="geometry">
     <rect>
@@ -36,7 +40,11 @@
      <number>30</number>
     </property>
     <item>
-     <widget class="QListWidget" name="borrowedBooksList"/>
+     <widget class="QListWidget" name="borrowedBooksList">
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(255, 255, 255);</string>
+      </property>
+     </widget>
     </item>
    </layout>
   </widget>
@@ -64,6 +72,14 @@
     </property>
     <item>
      <widget class="QPushButton" name="refreshBtn">
+      <property name="font">
+       <font>
+        <family>Bahnschrift SemiBold</family>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(197, 198, 200);</string>
+      </property>
       <property name="text">
        <string>Refresh</string>
       </property>
@@ -71,6 +87,14 @@
     </item>
     <item>
      <widget class="QPushButton" name="logOutBtn">
+      <property name="font">
+       <font>
+        <family>Bahnschrift SemiBold</family>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(197, 198, 200);</string>
+      </property>
       <property name="text">
        <string>Logout</string>
       </property>
@@ -78,6 +102,14 @@
     </item>
     <item>
      <widget class="QPushButton" name="deleteUserBtn">
+      <property name="font">
+       <font>
+        <family>Bahnschrift SemiBold</family>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(197, 198, 200);</string>
+      </property>
       <property name="text">
        <string>Delete your account</string>
       </property>
@@ -85,6 +117,14 @@
     </item>
     <item>
      <widget class="QPushButton" name="changePasswordBtn">
+      <property name="font">
+       <font>
+        <family>Bahnschrift SemiBold</family>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(197, 198, 200);</string>
+      </property>
       <property name="text">
        <string>Change your password</string>
       </property>
