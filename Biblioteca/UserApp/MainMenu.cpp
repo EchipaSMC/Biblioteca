@@ -26,7 +26,7 @@ void MainMenu::on_loginBtn_clicked() {
 	if (user.GetUsername().empty() || user.GetPassword().empty())
 	{
 		QtMessageBox* warningMessage = new QtMessageBox;
-		warningMessage->SetMessage("You must fill up the blank fields!");
+		warningMessage->SetMessage("You must fill up all the blank fields!");
 		warningMessage->show();
 	}
 	else

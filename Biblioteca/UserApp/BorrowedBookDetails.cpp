@@ -1,4 +1,5 @@
 #include "BorrowedBookDetails.h"
+#include "QtMessageBox.h"
 
 BorrowedBookDetails::BorrowedBookDetails(BorrowedBooks borrowedBook, BookDetails bookDetails, QWidget* parent)
 	: QWidget(parent),
@@ -50,8 +51,24 @@ void BorrowedBookDetails::on_returnBook_clicked()
 
 void BorrowedBookDetails::on_prolongBDate_clicked()
 {
-	user.SetBookId(std::stoi(borrowedBook.getBook().getBookId()));
-	user.SetOption(prolongBorrowDate);
+	if (user.CheckMaxProlongedDate(borrowedBook))
+	{
+		user.SetBookId(std::stoi(borrowedBook.getBook().getBookId()));
+		user.SetOption(prolongBorrowDate);
+		std::this_thread::sleep_for(std::chrono::milliseconds(100));
+		for (auto& i : user.GetBorrowedBooks())
+			if (i.getBook().getBookId() == borrowedBook.getBook().getBookId())
+			{
+				borrowedBook.setReturningDate(i.getReturningDate());
+				ui.ReturnDate->setText(QString::fromStdString(borrowedBook.getReturningDate()));
+			}
+	}
+	else
+	{
+		QtMessageBox* warningMessage = new QtMessageBox;
+		warningMessage->SetMessage("You can't prolong the borrow date \nmore than 2 times!");
+		warningMessage->show();
+	}
 }
 
 void BorrowedBookDetails::loadImage(QNetworkReply* reply)

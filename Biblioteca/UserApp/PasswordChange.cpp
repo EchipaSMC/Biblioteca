@@ -16,33 +16,42 @@ PasswordChange::~PasswordChange()
 
 void PasswordChange::on_passwordChangeBtn_clicked() 
 {
-	if (ui.oldPasswordInput->text() != QString::fromStdString(user.GetPassword()))
-	{
-		QtMessageBox* errorMessage=new QtMessageBox;
-		errorMessage->SetMessage("Old password doesn't match!");
-	}
-	else
-	{
-		QString newPassword = ui.newPasswordInput->text();
-		QString passwordConfirm = ui.confirmPasswordInput->text();
+	QString confirmPasswordInput = ui.confirmPasswordInput->text();
+	QString newPasswordInput = ui.newPasswordInput->text();
+	QString oldPasswordInput = ui.oldPasswordInput->text();
 
-		if (newPassword == passwordConfirm)
+	if (!confirmPasswordInput.isEmpty() && !newPasswordInput.isEmpty() && !oldPasswordInput.isEmpty())
+	{
+		if (oldPasswordInput!= QString::fromStdString(user.GetPassword()))
 		{
-			if (user.PasswordRequirements(newPassword.toStdString()))
-			{
-				user.SetKeyword(newPassword.toStdString());
-				user.SetOption(changePassword);
-				std::this_thread::sleep_for(std::chrono::milliseconds(1000));
-				close();
-			}
+			QtMessageBox* errorMessage = new QtMessageBox;
+			errorMessage->SetMessage("Old password is wrong!");
+			errorMessage->show();
 		}
 		else
 		{
-			QtMessageBox* errorMessage = new QtMessageBox;
-			errorMessage->SetMessage("New password and confirm passwords don't match!");
+			if (newPasswordInput == confirmPasswordInput)
+			{
+				if (user.PasswordRequirements(newPasswordInput.toStdString()))
+				{
+					user.SetKeyword(newPasswordInput.toStdString());
+					user.SetOption(changePassword);
+					std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+					close();
+				}
+			}
+			else
+			{
+				QtMessageBox* errorMessage = new QtMessageBox;
+				errorMessage->SetMessage("New password and confirm passwords don't match!");
+				errorMessage->show();
+			}
 		}
 	}
-	user.SetOption(changePassword);
-
-	close();
+	else
+	{
+		QtMessageBox* errorMessage = new QtMessageBox;
+		errorMessage->SetMessage("You must fill up the blank fields!");
+		errorMessage->show();
+	}
 }

@@ -3,7 +3,7 @@
 
 User user = User();
 
-int User::option = 0;
+unsigned int User::option = 0;
 
 User::User()
 {
@@ -80,22 +80,22 @@ BookDetails User::GetBookDetails() const
 	return selectedBook;
 }
 
-int User::GetOption() const
+unsigned int User::GetOption() const
 {
 	return option;
 }
 
-void User::SetOption(const int& option)
+void User::SetOption(const unsigned int& option)
 {
 	this->option = option;
 }
 
-int User::GetBookId() const
+unsigned int User::GetBookId() const
 {
 	return bookId;
 }
 
-void User::SetBookId(const int& bookId)
+void User::SetBookId(const unsigned int& bookId)
 {
 	this->bookId = bookId;
 }
@@ -159,7 +159,7 @@ void User::LoginMenu(std::string username, std::string password)
 		user.isLoggedIn = true;
 		client.ReceiveInt(borrowedBooksSize);
 		borrowedBooks.resize(borrowedBooksSize);
-		for (int i = 0; i < borrowedBooksSize; i++)
+		for (unsigned int i = 0; i < borrowedBooksSize; i++)
 		{
 			std::string bookToAdd;
 			client.ReceiveString(bookToAdd);
@@ -197,13 +197,13 @@ void User::Logout()
 	isLoggedIn = false;
 }
 
-void User::ReturnBook(int bookToReturnId)
+void User::ReturnBook(unsigned int bookToReturnId)
 {
 	client.SendInt(returnBook);
 	client.SendString(username);
 	client.SendString(password);
 	client.SendInt(bookToReturnId);
-	int i;
+	unsigned int i;
 	for (i = 0; i < borrowedBooks.size(); i++)
 	{
 		if (std::stoi(borrowedBooks[i].getBook().getBookId()) == bookToReturnId)
@@ -214,7 +214,7 @@ void User::ReturnBook(int bookToReturnId)
 	borrowedBooks.erase(borrowedBooks.begin() + i, borrowedBooks.begin() + i + 1);
 }
 
-void User::Borrowing(int bookToBorrowId)
+void User::Borrowing(unsigned int bookToBorrowId)
 {
 	BorrowedBooks borrowedBook;
 	client.SendInt(borrowBook);
@@ -264,21 +264,11 @@ void User::SearchBooks(const std::string& keyword)
 	client.SendString(keyword);
 	client.ReceiveInt(size);
 	searchedBooks.resize(size);
-	for (int i = 0; i < searchedBooks.size(); i++)
+	for (unsigned int i = 0; i < searchedBooks.size(); i++)
 	{
 		client.ReceiveString(book);
 		searchedBooks[i] = Book(book);
 	}
-}
-
-void User::ReadBook()
-{
-	client.SendInt(readBook);
-	int IdBook;
-	std::string tags;
-	std::cin >> IdBook;
-	client.SendInt(IdBook);
-	client.ReceiveString(tags);
 }
 
 void User::ChangePassword(std::string newPassword)
@@ -293,7 +283,7 @@ void User::ChangePassword(std::string newPassword)
 	}
 }
 
-void User::CreateBookDetails(const int& bookId)
+void User::CreateBookDetails(const unsigned int& bookId)
 {
 	client.SendInt(bookDetails);
 	client.SendInt(bookId);
@@ -302,7 +292,7 @@ void User::CreateBookDetails(const int& bookId)
 	selectedBook = BookDetails(bookDetailsData);
 }
 
-void User::ProlongBorrowDate(const int& bookId, const std::string& returnDate)
+void User::ProlongBorrowDate(const unsigned int& bookId, const std::string& returnDate)
 {
 	client.SendInt(prolongBorrowDate);
 	client.SendString(username);
@@ -343,7 +333,7 @@ bool User::PasswordRequirements(std::string pw)
 	bool LowerLetter = false;
 	bool isDigit = false;
 	bool specialChar = false;
-	for (int i = 0; i < pw.length(); i++)
+	for (unsigned int i = 0; i < pw.length(); i++)
 	{
 		if (isupper(pw[i]))
 		{
@@ -499,21 +489,16 @@ bool User::ProcessData()
 	}
 	case 8:
 	{
-		ReadBook();
-		break;
-	}
-	case 9:
-	{
 		ChangePassword(keyword);
 		break;
 	}
-	case 10:
+	case 9:
 	{
 		CreateBookDetails(bookId);
 		break;
 	}
 
-	case 11:
+	case 10:
 	{
 		std::string returnDate;
 		for (auto& i : user.borrowedBooks)

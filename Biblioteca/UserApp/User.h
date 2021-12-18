@@ -18,7 +18,6 @@ enum Instructions {
 	returnBook,
 	borrowBook,
 	searchBook,
-	readBook,
 	changePassword,
 	bookDetails,
 	prolongBorrowDate
@@ -40,10 +39,10 @@ public:
 	std::vector<BorrowedBooks> GetBorrowedBooks() const;
 	std::vector<std::string> GetCurrentBookTags() const;
 	BookDetails GetBookDetails() const;
-	int GetOption() const;
-	void SetOption(const int& option);
-	int GetBookId()const;
-	void SetBookId(const int & bookId);
+	unsigned int GetOption() const;
+	void SetOption(const unsigned int& option);
+	unsigned int GetBookId()const;
+	void SetBookId(const unsigned int& bookId);
 	std::string GetKeyword()const;
 	void SetKeyword(const std::string& keyword);
 	bool GetServerError()const;
@@ -53,18 +52,6 @@ public:
 	inline void DetachThread() { clientThread.detach(); };
 
 	const bool& operator==(const User& s) const;
-
-	void RegisterMenu(std::string username, std::string password);
-	void LoginMenu(std::string username, std::string password);
-	void DeleteAccount();
-	void Logout();
-	void ReturnBook(int bookToReturnId);
-	void Borrowing(int bookToBorrowId);
-	void SearchBooks(const std::string& keyword);
-	void ReadBook();
-	void ChangePassword(std::string newPassword);
-	void CreateBookDetails(const int& bookId);
-	void ProlongBorrowDate(const int& bookId, const std::string& returnDate);
 
 	bool PasswordRequirements(std::string pw);
 	bool CheckMaxProlongedDate(const BorrowedBooks& borrowedBooks);
@@ -81,12 +68,22 @@ private:
 	TCPSocket client = TCPSocket(true);
 
 	std::thread clientThread;
-	static int option;
+	static unsigned int option;
 
 	static void ClientHandler();
 	bool ProcessData();
+	void RegisterMenu(std::string username, std::string password);
+	void LoginMenu(std::string username, std::string password);
+	void DeleteAccount();
+	void Logout();
+	void ReturnBook(unsigned int bookToReturnId);
+	void Borrowing(unsigned int bookToBorrowId);
+	void SearchBooks(const std::string& keyword);
+	void ChangePassword(std::string newPassword);
+	void CreateBookDetails(const unsigned int& bookId);
+	void ProlongBorrowDate(const unsigned int& bookId, const std::string& returnDate);
 
-	int bookId;
+	unsigned int bookId;
 	std::string keyword;
 };
 extern User user;
