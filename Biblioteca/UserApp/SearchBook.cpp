@@ -18,17 +18,6 @@ SearchBook::SearchBook(QWidget* parent)
 	setAttribute(Qt::WA_DeleteOnClose);
 }
 
-void SearchBook::on_exitBtn_clicked() {
-	close();
-}
-
-void SearchBook::on_loginBtn_clicked()
-{
-	QWidget* loginWidget = new Login;
-	loginWidget->show();
-	close();
-}
-
 void SearchBook::on_searchBtn_clicked()
 {
 	ui.listWidget->blockSignals(true);

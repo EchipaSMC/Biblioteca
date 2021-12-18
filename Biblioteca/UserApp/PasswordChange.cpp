@@ -19,7 +19,7 @@ void PasswordChange::on_passwordChangeBtn_clicked()
 	if (ui.oldPasswordInput->text() != QString::fromStdString(user.GetPassword()))
 	{
 		QtMessageBox* errorMessage=new QtMessageBox;
-		errorMessage->SetMessage("Old password doesn't match");
+		errorMessage->SetMessage("Old password doesn't match!");
 	}
 	else
 	{
@@ -39,7 +39,7 @@ void PasswordChange::on_passwordChangeBtn_clicked()
 		else
 		{
 			QtMessageBox* errorMessage = new QtMessageBox;
-			errorMessage->SetMessage("New password and confirm passwords doesn't match!");
+			errorMessage->SetMessage("New password and confirm passwords don't match!");
 		}
 	}
 	user.SetOption(changePassword);

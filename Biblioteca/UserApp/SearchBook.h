@@ -17,8 +17,6 @@ public:
 	std::string GetSearchInput();
 
 private slots:
-	void on_exitBtn_clicked();
-	void on_loginBtn_clicked();
 	void on_searchBtn_clicked();
 	void loadImage(QNetworkReply* reply);
 	void onBookListItemDoubleClicked(QListWidgetItem* item);

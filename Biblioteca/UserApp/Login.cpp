@@ -23,7 +23,7 @@ void Login::on_registerBtn_clicked()
 		if (!user.PasswordRequirements(passwordInput.toStdString()))
 		{
 			QtMessageBox* warningMessage = new QtMessageBox;
-			warningMessage->SetMessage("Please choose another password!\nIt needs to have one lowercase letter, one uppercase,\n a digit and a special character!\nIt cannot contain ' .");
+			warningMessage->SetMessage("Please choose another password!\nIt must contain at least one lowercase letter, one uppercase,\n a digit and a special character!\nIt cannot contain ' .");
 			warningMessage->show();
 		}
 		else
@@ -62,18 +62,6 @@ void Login::on_loginBtn_clicked()
 		ui.usernameInput->clear();
 		ui.passwordInput->clear();
 	}
-}
-
-void Login::on_exitBtn_clicked()
-{
-	close();
-}
-
-void Login::on_bookSearchBtn_clicked()
-{
-	QWidget* searchBookWidget = new SearchBook;
-	searchBookWidget->show();
-	close();
 }
 
 Login::~Login()

@@ -18,7 +18,6 @@ SelectedBookDetails::SelectedBookDetails(Book book, BookDetails bookDetails, QWi
 	ui.bookRating->setText(QString::fromStdString(averageRating + "/5"));
 	ui.bookLanguage->setText(QString::fromStdString(bookDetails.GetLanguageCode()));
 	ui.bookTags->setText("#" + QString::fromStdString(bookDetails.GetTags().substr(0, 160) + "...").replace(" ", " #"));
-	//ui.bookTags->updateGeometry();
 	ui.bookTags->setWordWrap(true);
 	ui.bookTags->setFixedSize(QSize(269, 81));
 	QString imageURL = QString::fromStdString(bookDetails.GetImageUrl());

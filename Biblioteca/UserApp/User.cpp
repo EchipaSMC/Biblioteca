@@ -242,13 +242,16 @@ void User::Borrowing(int bookToBorrowId)
 	borrowedBook.setReturningDate(date);
 	client.ReceiveBool(serverError);
 
-	for (auto& i : searchedBooks)
+	if (!serverError)
 	{
-		if (std::stoi(i.getBookId()) == bookId)
+		for (auto& i : searchedBooks)
 		{
-			borrowedBook.setBook(i);
-			borrowedBooks.push_back(borrowedBook);
-			break;
+			if (std::stoi(i.getBookId()) == bookId)
+			{
+				borrowedBook.setBook(i);
+				borrowedBooks.push_back(borrowedBook);
+				break;
+			}
 		}
 	}
 }
