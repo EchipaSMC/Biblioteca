@@ -18,16 +18,10 @@
     <ClCompile Include="MainServer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Ratings.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Books.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Database.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Tags.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Server.cpp">
@@ -47,13 +41,7 @@
     <ClInclude Include="Books.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Ratings.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Database.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Tags.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Server.h">

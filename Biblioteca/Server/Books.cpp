@@ -1,6 +1,9 @@
 #include "Books.h"
 
-Books::Books(const int& id, const int& bookId, const int& bestBookId, const int& workId, const int& booksCount, const std::string& isbn, const std::string& isbn13, const std::string& authors, const std::string& originalPublicationYear, const std::string& originalTitle, const std::string& title, const std::string& languageCode, const double& averageRating, const int& ratingsCount, const int& workRatingsCount, const int& workTextReviewsCount, const int& ratings1, const int& ratings2, const int& ratings3, const int& ratings4, const int& ratings5, const std::string& imageUrl, const std::string& smallImageUrl) :
+Books::Books(const unsigned int& id, const unsigned int& bookId, const unsigned int& bestBookId, const unsigned int& workId, const unsigned int& booksCount, const std::string& isbn, const std::string& isbn13, const std::string& authors,
+	const std::string& originalPublicationYear, const std::string& originalTitle, const std::string& title, const std::string& languageCode, const double& averageRating,
+	const unsigned int& ratingsCount, const unsigned int& workRatingsCount, const unsigned int& workTextReviewsCount, const unsigned int& ratings1, const unsigned int& ratings2, const unsigned int& ratings3, const unsigned int& ratings4,
+	const unsigned int& ratings5, const std::string& imageUrl, const std::string& smallImageUrl) :
 	id(id),
 	bookId(bookId),
 	bestBookId(bestBookId),
@@ -157,67 +160,67 @@ Books& Books::operator=(const Books& book)
 	return *this;
 }
 
-int Books::GetId() const
+unsigned int Books::GetId() const
 {
 	return id;
 }
 
-int Books::GetBookId() const
+unsigned int Books::GetBookId() const
 {
 	return bookId;
 }
 
-int Books::GetWorkId() const
+unsigned int Books::GetWorkId() const
 {
 	return workId;
 }
 
-int Books::GetBestBookId() const
+unsigned int Books::GetBestBookId() const
 {
 	return bestBookId;
 }
 
-int Books::GetBookCount() const
+unsigned int Books::GetBookCount() const
 {
 	return booksCount;
 }
 
-int Books::GetRatingsCount() const
+unsigned int Books::GetRatingsCount() const
 {
 	return ratingsCount;
 }
 
-int Books::GetWorkRatingsCount() const
+unsigned int Books::GetWorkRatingsCount() const
 {
 	return workRatingsCount;
 }
 
-int Books::GetWorkTextReviewsCount() const
+unsigned int Books::GetWorkTextReviewsCount() const
 {
 	return workTextReviewsCount;
 }
 
-int Books::GetRatings1() const
+unsigned int Books::GetRatings1() const
 {
 	return ratings1;
 }
 
-int Books::GetRatings2() const
+unsigned int Books::GetRatings2() const
 {
 	return ratings2;
 }
 
-int Books::GetRatings3() const
+unsigned int Books::GetRatings3() const
 {
 	return ratings3;
 }
 
-int Books::GetRatings4() const
+unsigned int Books::GetRatings4() const
 {
 	return ratings4;
 }
 
-int Books::GetRatings5() const
+unsigned int Books::GetRatings5() const
 {
 	return ratings5;
 }
@@ -271,119 +274,3 @@ std::string Books::GetOriginalPublicationYear() const
 {
 	return originalPublicationYear;
 }
-
-void Books::SetId(const int& id)
-{
-	this->id = id;
-}
-
-void Books::SetBookId(const int& bookId)
-{
-	this->bookId = bookId;
-}
-
-void Books::SetWorkId(const int& workId)
-{
-	this->workId = workId;
-}
-
-void Books::SetBestBookId(const int& bestBookId)
-{
-	this->bestBookId = bestBookId;
-}
-
-void Books::SetBookCount(const int& bookCount)
-{
-	this->booksCount = bookCount;
-}
-
-void Books::SetRatingsCount(const int& ratingsCount)
-{
-	this->ratingsCount = ratingsCount;
-}
-
-void Books::SetWorkRatingsCount(const int& workRatingsCount)
-{
-	this->workRatingsCount = workRatingsCount;
-}
-
-void Books::SetWorkTextReviewsCount(const int& workTextReviewsCount)
-{
-	this->workTextReviewsCount = workTextReviewsCount;
-}
-
-void Books::SetRatings1(const int& ratings1)
-{
-	this->ratings1 = ratings1;
-}
-
-void Books::SetRatings2(const int& ratings2)
-{
-	this->ratings2 = ratings2;
-}
-
-void Books::SetRatings3(const int& ratings3)
-{
-	this->ratings3 = ratings3;
-}
-
-void Books::SetRatings4(const int& ratings4)
-{
-	this->ratings4 = ratings4;
-}
-
-void Books::SetRatings5(const int& ratings5)
-{
-	this->ratings5 = ratings5;
-}
-
-void Books::SetAverageRating(const double& averageRating)
-{
-	this->averageRating = averageRating;
-}
-
-void Books::SetISBN(const std::string& ISBN)
-{
-	this->isbn = ISBN;
-}
-
-void Books::SetISBN13(const std::string& ISBN13)
-{
-	this->isbn13 = ISBN13;
-}
-
-void Books::SetLanguageCode(const std::string& languageCode)
-{
-	this->languageCode = languageCode;
-}
-
-void Books::SetAuthors(const std::string& authors)
-{
-	this->authors = authors;
-}
-
-void Books::SetImageURL(const std::string& imageURL)
-{
-	this->imageUrl = imageURL;
-}
-
-void Books::SetSmallImageURL(const std::string& smallImageUrl)
-{
-	this->smallImageUrl = smallImageUrl;
-}
-
-void Books::SetTitle(const std::string& title)
-{
-	this->title = title;
-}
-
-void Books::SetOriginalTitle(const std::string& originalTitle)
-{
-	this->originalTitle = originalTitle;
-}
-
-void Books::SetOriginalPublicationYear(const std::string& originalPublicationYear)
-{
-	this->originalPublicationYear = originalPublicationYear;
-}
-

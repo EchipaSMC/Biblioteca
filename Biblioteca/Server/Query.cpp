@@ -14,48 +14,42 @@ std::string Query::BooksNumOfBookSearch(const std::string& searchInput) const
 	query += "')/100 < 5 ORDER BY editdist3(word,'" + searchInput + "')); ";
 	return query;
 }
-std::string Query::BorrowedBooksSearch(const int& userIdSearch) const
+std::string Query::BorrowedBooksSearch(const unsigned int& userIdSearch) const
 {
 	std::string query = "SELECT * FROM BorrowedBooks WHERE user_id=";
 	query += std::to_string(userIdSearch);
 	return query;
 }
-std::string Query::BorrowedBooksBookAlreadyBorrowed(const int& userId, const int& bookId) const
+std::string Query::BorrowedBooksBookAlreadyBorrowed(const unsigned int& userId, const unsigned int& bookId) const
 {
 	std::string query = "SELECT COUNT(*) FROM BorrowedBooks WHERE user_id = '";
 	query += std::to_string(userId) + "' AND book_id = '" + std::to_string(bookId) + "'";
 	return query;
 }
-std::string Query::BorrowedBooksInsert(const int& userId, const int& bookId, const std::string& borrowedDate, const std::string& returningDate) const
+std::string Query::BorrowedBooksInsert(const unsigned int& userId, const unsigned int& bookId, const std::string& borrowedDate, const std::string& returningDate) const
 {
 	std::string query = "INSERT INTO BorrowedBooks (user_id,book_id,borrowed_date,returning_date)VALUES ('";
 	query += std::to_string(userId) + "'," + "'" + std::to_string(bookId) + "'," + "'" + borrowedDate + "'," + "'" + returningDate + "')";
 	return query;
 }
-std::string Query::BorrowedBooksDelete(const int& userId, const int& bookId) const
+std::string Query::BorrowedBooksDelete(const unsigned int& userId, const unsigned int& bookId) const
 {
 	std::string query = "DELETE FROM BorrowedBooks WHERE user_id = ";
 	query += std::to_string(userId) + " AND book_id = " + std::to_string(bookId);
 	return query;
 }
-std::string Query::BorrowedBooksUpdateReturnDate(const int& userId, const int& bookId, const std::string& date) const
+std::string Query::BorrowedBooksUpdateReturnDate(const unsigned int& userId, const unsigned int& bookId, const std::string& date) const
 {
 	std::string query = "UPDATE BorrowedBooks SET returning_date = '" + date + "' WHERE user_id = " + std::to_string(userId) + " AND  book_id = " + std::to_string(bookId) + ";";
 	return query;
 }
-std::string Query::BookGetBookByID(const int& bookId) const
+std::string Query::BookGetBookByID(const unsigned int& bookId) const
 {
 	std::string query = "SELECT * FROM Books WHERE id = ";
 	query += std::to_string(bookId);
 	return query;
 }
-std::string Query::RatingsGetRatings(const int& bestBookId) const
-{
-	std::string query = "SELECT book_id,user_id,rating FROM Ratings INNER JOIN Books o ON ON Ratings.book_id =o.id  WHERE Ratings.book_id = ";
-	query += std::to_string(bestBookId);
-	return query;
-}
-std::string Query::TagsGetAllTags(const int& goodReadsBookId)
+std::string Query::TagsGetAllTags(const unsigned int& goodReadsBookId)
 {
 	std::string query = "SELECT tag_name FROM Tags WHERE tag_id IN (SELECT tag_id FROM BookTags INNER JOIN Books o ON goodreads_book_id = o.best_book_id WHERE goodreads_book_id = ";
 	query += std::to_string(goodReadsBookId) + ")";
@@ -100,7 +94,7 @@ std::string Query::UserServerUsersLoginID(const std::string& username, const std
 	query += username + "' AND password ='" + password + "'";
 	return query;
 }
-std::string Query::UserChangePassword(const int& userId, const std::string& newPassword) const
+std::string Query::UserChangePassword(const unsigned int& userId, const std::string& newPassword) const
 {
 	std::string query = "UPDATE User SET password = '";
 	query += newPassword + "' WHERE user_id = " + std::to_string(userId);

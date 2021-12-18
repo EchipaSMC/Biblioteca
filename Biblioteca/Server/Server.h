@@ -1,8 +1,6 @@
 #pragma once
 #include "Books.h"
 #include "Database.h"
-#include "Ratings.h"
-#include "Tags.h"
 #include "BorrowedBooks.h"
 #include "UserServer.h"
 #include "Query.h"
@@ -21,32 +19,29 @@ private:
 	Query queryList;
 	Books book;
 	Database database;
-	Ratings ratings;
-	std::vector<Tags> tags;
 	UserServer user;
 	std::vector<BorrowedBooks> borrowedBooks;
 	TCPSocket clientConnections[100];
 	std::thread connectionThreads[100];
-	int connectionCounter = 0;
+	unsigned int connectionCounter = 0;
 
 	void PrepareVirtualTable();
 	void DropVirtualTable();
 	bool ListenForNewConnection();
 
-	bool ProcessData(const int& index);
-	void ClientHandler(const int& index);
+	bool ProcessData(const unsigned int& index);
+	void ClientHandler(const unsigned int& index);
 
-	void Register(const int& index);
-	void Login(const int& index);
-	void DeleteUser(const int& index);
-	void Logout(const int& index);
-	void ReturnBook(const int& index);
-	void BorrowBook(const int& index);
-	void SearchBook(const int& index);
-	void ReadBook(const int& index);
-	void ChangePassword(const int& index);
-	void PrepareBookDetails(const int& index);
-	void ProlongBorrowDate(const int& index);
+	void Register(const unsigned int& index);
+	void Login(const unsigned int& index);
+	void DeleteUser(const unsigned int& index);
+	void Logout(const unsigned int& index);
+	void ReturnBook(const unsigned int& index);
+	void BorrowBook(const unsigned int& index);
+	void SearchBook(const unsigned int& index);
+	void ChangePassword(const unsigned int& index);
+	void PrepareBookDetails(const unsigned int& index);
+	void ProlongBorrowDate(const unsigned int& index);
 
 	void RemoveInvalidCharacters(std::string& string);
 };

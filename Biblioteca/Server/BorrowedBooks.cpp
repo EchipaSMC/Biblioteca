@@ -19,7 +19,7 @@ BorrowedBooks::BorrowedBooks(const std::string& queryResult)
 	this->returnDate =word;
 }
 
-BorrowedBooks::BorrowedBooks(const int& userId, const int& bookId, const std::string& returnDate, const std::string& borrowDate)
+BorrowedBooks::BorrowedBooks(const unsigned int& userId, const unsigned int& bookId, const std::string& returnDate, const std::string& borrowDate)
 	:userId(userId), bookId(bookId) , returnDate(returnDate), borrowDate(borrowDate) {}
 
 BorrowedBooks::BorrowedBooks(const BorrowedBooks& borrowedBook)
@@ -40,32 +40,14 @@ BorrowedBooks& BorrowedBooks::operator=(const BorrowedBooks& borrowedBook)
 	return *this;
 }
 
-void BorrowedBooks::SetUserId(const int& userId)
-{
-	this->userId = userId;
-}
 
-void BorrowedBooks::SetBookId(const int& bookId)
-{
-	this->bookId = bookId;
-}
 
-void BorrowedBooks::SetReturnDate(const std::string& returnDate)
-{
-	this->returnDate = returnDate;
-}
-
-void BorrowedBooks::SetBorrowDate(const std::string& returnDate)
-{
-	this->borrowDate = borrowDate;
-}
-
-int BorrowedBooks::GetUserId() const
+unsigned int BorrowedBooks::GetUserId() const
 {
 	return userId;
 }
 
-int BorrowedBooks::GetBookId() const
+unsigned int BorrowedBooks::GetBookId() const
 {
 	return bookId;
 }

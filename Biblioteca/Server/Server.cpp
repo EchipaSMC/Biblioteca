@@ -34,7 +34,7 @@ void Server::DropVirtualTable()
 	database.Run(stmt.get(), Database::DumpCurrentRow);
 }
 
-bool Server::ProcessData(const int& index)
+bool Server::ProcessData(const unsigned int& index)
 {
 	int options;
 	if (!clientConnections[index].ReceiveInt(options))
@@ -69,19 +69,15 @@ bool Server::ProcessData(const int& index)
 		SearchBook(index);
 		std::cout << "Processed Search Book for user. ID = " << index << std::endl;
 		break;
-	case 8: //Read a book
-		ReadBook(index);
-		std::cout << "Processed Read Book for user. ID = " << index << std::endl;
-		break;
-	case 9: //Change Password
+	case 8: //Change Password
 		ChangePassword(index);
 		std::cout << "Processed Change Password for user. ID = " << index << std::endl;
 		break;
-	case 10: //Prepare book details;
+	case 9: //Prepare book details;
 		PrepareBookDetails(index);
 		std::cout << "Processed Book Details for user. ID = " << index << std::endl;
 		break;
-	case 11://Prolong borrow date
+	case 10://Prolong borrow date
 		ProlongBorrowDate(index);
 		std::cout << "Processed Prolong Borrow Date for user. ID = " << index << std::endl;
 		break;
@@ -91,7 +87,7 @@ bool Server::ProcessData(const int& index)
 
 }
 
-void Server::ClientHandler(const int& index)
+void Server::ClientHandler(const unsigned int& index)
 {
 	while (true)
 	{
@@ -126,7 +122,7 @@ bool Server::ListenForNewConnection()
 	}
 }
 
-void Server::Register(const int& index)
+void Server::Register(const unsigned int& index)
 {
 	bool userExists = false;
 	std::string username, password, result;
@@ -150,7 +146,7 @@ void Server::Register(const int& index)
 	Database::getResult.clear();
 }
 
-void Server::Login(const int& index)
+void Server::Login(const unsigned int& index)
 {
 	bool correctInput = false;
 	std::string username, password, result, data, bookToSend;
@@ -211,7 +207,7 @@ void Server::Login(const int& index)
 	}
 }
 
-void Server::DeleteUser(const int& index)
+void Server::DeleteUser(const unsigned int& index)
 {
 	std::string username, password, result;
 	int userId;
@@ -251,18 +247,16 @@ void Server::DeleteUser(const int& index)
 	user = UserServer();
 }
 
-void Server::Logout(const int& index)
+void Server::Logout(const unsigned int& index)
 {
 	user.SetPassword("");
 	user.SetUsername("");
 	user.SetUserId(0);
 	borrowedBooks.clear();
 	book = Books();
-	ratings = Ratings();
-	tags.clear();
 }
 
-void Server::ReturnBook(const int& index)
+void Server::ReturnBook(const unsigned int& index)
 {
 	std::string username, password, result;
 	int bookId;
@@ -283,7 +277,7 @@ void Server::ReturnBook(const int& index)
 	user = UserServer();
 }
 
-void Server::BorrowBook(const int& index)
+void Server::BorrowBook(const unsigned int& index)
 {
 	bool bookAlreadyBorrwed = false;
 	std::string username, password, result;
@@ -324,7 +318,7 @@ void Server::BorrowBook(const int& index)
 	user = UserServer();
 }
 
-void Server::SearchBook(const int& index)
+void Server::SearchBook(const unsigned int& index)
 {
 	std::string keyword, resultsFound, data, bookToSend;
 	clientConnections[index].ReceiveString(keyword);
@@ -353,39 +347,7 @@ void Server::SearchBook(const int& index)
 	Database::getResult.clear();
 }
 
-void Server::ReadBook(const int& index)
-{
-	int bookId;
-	std::string bookText, result;
-	clientConnections[index].ReceiveInt(bookId);
-
-	bookText = "This is a book about: ";
-
-	auto stmt = database.CreateStatement(database.GetDatabase(), queryList.BookGetBookByID(bookId));
-	database.Run(stmt.get(), Database::DumpCurrentRow);
-	std::getline(Database::getResult, result);
-
-	book = Books(result);
-
-	stmt = database.CreateStatement(database.GetDatabase(), queryList.TagsGetAllTags(book.GetBestBookId()));
-	database.Run(stmt.get(), Database::DumpCurrentRow);
-	while (std::getline(Database::getResult, result))
-	{
-		tags.push_back(result);
-	}
-
-	for (auto& i : tags)
-	{
-		bookText += i.GetTagName() + ", ";
-	}
-
-	clientConnections[index].SendString(bookText);
-
-	Database::getResult.str(std::string());
-	Database::getResult.clear();
-}
-
-void Server::ChangePassword(const int& index)
+void Server::ChangePassword(const unsigned int& index)
 {
 
 	std::string username, password, result;
@@ -409,7 +371,7 @@ void Server::ChangePassword(const int& index)
 	user = UserServer();
 }
 
-void Server::PrepareBookDetails(const int& index)
+void Server::PrepareBookDetails(const unsigned int& index)
 {
 	int bookId;
 	std::string result, bookDetails;
@@ -438,7 +400,7 @@ void Server::PrepareBookDetails(const int& index)
 	clientConnections[index].SendString(bookDetails);
 }
 
-void Server::ProlongBorrowDate(const int& index)
+void Server::ProlongBorrowDate(const unsigned int& index)
 {
 	std::string username, password, result;
 	clientConnections[index].ReceiveString(username);
