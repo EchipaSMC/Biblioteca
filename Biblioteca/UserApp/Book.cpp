@@ -70,32 +70,6 @@ std::string Book::getImgUrl() const
 	return imageUrl;
 }
 
-void Book::setBookId(const std::string& bookId)
-{
-	this->bookId = bookId;
-}
-
-void Book::setIsbn(const std::string& isbn)
-{
-	this->isbn = isbn;
-}
-
-void Book::setTitle(const std::string& originalTitle)
-{
-	this->originalTitle = originalTitle;
-}
-
-void Book::setAuthor(const std::string& author)
-{
-	this->author = author;
-}
-
-void Book::setImgUrl(const std::string& imageUrl)
-{
-	this->imageUrl = imageUrl;
-}
-
-
 std::ostream& operator<<(std::ostream& fo, const Book& book)
 {
 	fo << book.getBookId() << ". " << book.getTitle() << ", " << book.getAuthor() << " | " << book.getIsbn();

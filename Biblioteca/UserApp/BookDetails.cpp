@@ -1,7 +1,7 @@
 #include "BookDetails.h"
 #include <algorithm>
 
-BookDetails::BookDetails(std::string tags, float averageRating, int ratings1, int ratings2, int ratings3, int ratings4, int ratings5, std::string languageCode, std::string imageUrl) :
+BookDetails::BookDetails(const std::string& tags, const float& averageRating, const unsigned int& ratings1, const unsigned int& ratings2, const  unsigned int& ratings3, const  unsigned int& ratings4, const  unsigned int& ratings5, const std::string& languageCode, const std::string& imageUrl) :
 
 	tags(tags),
 	averageRating(averageRating),
@@ -13,10 +13,9 @@ BookDetails::BookDetails(std::string tags, float averageRating, int ratings1, in
 	languageCode(languageCode),
 	imageUrl(imageUrl)
 {
-	averageRating = std::ceilf(averageRating * 100) / 100;
 }
 
-BookDetails::BookDetails(std::string data)
+BookDetails::BookDetails(const std::string& data)
 {
 	std::stringstream getData(data);
 	std::string word;
@@ -74,27 +73,27 @@ float BookDetails::GetAverageRating() const
 	return averageRating;
 }
 
-int BookDetails::GetRatings1() const
+unsigned int BookDetails::GetRatings1() const
 {
 	return ratings1;
 }
 
-int BookDetails::GetRatings2() const
+unsigned int BookDetails::GetRatings2() const
 {
 	return ratings2;
 }
 
-int BookDetails::GetRatings3() const
+unsigned int BookDetails::GetRatings3() const
 {
 	return ratings3;
 }
 
-int BookDetails::GetRatings4() const
+unsigned int BookDetails::GetRatings4() const
 {
 	return ratings4;
 }
 
-int BookDetails::GetRatings5() const
+unsigned int BookDetails::GetRatings5() const
 {
 	return ratings5;
 }
@@ -107,49 +106,4 @@ std::string BookDetails::GetLanguageCode() const
 std::string BookDetails::GetImageUrl() const
 {
 	return imageUrl;
-}
-
-void BookDetails::SetTags(const std::string& tags)
-{
-	this->tags = tags;
-}
-
-void BookDetails::SetAverageRating(const float& averageRating)
-{
-	this->averageRating = averageRating;
-}
-
-void BookDetails::SetRatings1(const int& ratings1)
-{
-	this->ratings1 = ratings1;
-}
-
-void BookDetails::SetRatings2(const int& ratings2)
-{
-	this->ratings2 = ratings2;
-}
-
-void BookDetails::SetRatings3(const int& ratings3)
-{
-	this->ratings3 = ratings3;
-}
-
-void BookDetails::SetRatings4(const int& ratings4)
-{
-	this->ratings4 = ratings4;
-}
-
-void BookDetails::SetRatings5(const int& ratings5)
-{
-	this->ratings5 = ratings5;
-}
-
-void BookDetails::SetLanguageCode(const std::string& languageCode)
-{
-	this->languageCode = languageCode;
-}
-
-void BookDetails::SetImageUrl(const std::string imageUrl)
-{
-	this->imageUrl = imageUrl;
 }

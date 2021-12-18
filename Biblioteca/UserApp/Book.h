@@ -25,11 +25,6 @@ public:
 	std::string getAuthor() const;
 	std::string getImgUrl() const;
 
-	void setBookId(const std::string& bookId);
-	void setIsbn(const std::string& isbn);
-	void setTitle(const std::string& originalTitle);
-	void setAuthor(const std::string& author);
-	void setImgUrl(const std::string& bookId);
 	friend std::ostream& operator<<(std::ostream& fo, const Book& book);
 
 };

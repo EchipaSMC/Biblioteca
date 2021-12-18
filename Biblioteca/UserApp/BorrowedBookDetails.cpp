@@ -20,7 +20,6 @@ BorrowedBookDetails::BorrowedBookDetails(BorrowedBooks borrowedBook, BookDetails
 	ui.bookLanguage->setText(QString::fromStdString(bookDetails.GetLanguageCode()));
 	ui.bookTags->setText("#" + QString::fromStdString(bookDetails.GetTags().substr(0, 160) + "...").replace(" ", " #"));
 
-	//ui.bookTags->updateGeometry();
 	ui.bookTags->setWordWrap(true);
 	ui.bookTags->setFixedSize(QSize(269, 81));
 	QString imageURL = QString::fromStdString(bookDetails.GetImageUrl());
@@ -59,13 +58,11 @@ void BorrowedBookDetails::loadImage(QNetworkReply* reply)
 {
 	QPixmap bookCoverImage;
 	bookCoverImage.loadFromData(reply->readAll());
-	//ui.label->setPixmap(bookCoverImage);
 	ui.bookImage->setPixmap(bookCoverImage);
 
 	int w = ui.bookImage->width();
 	int h = ui.bookImage->height();
 
-	// set a scaled pixmap to a w x h window keeping its aspect ratio 
 	ui.bookImage->setPixmap(bookCoverImage.scaled(w, h, Qt::KeepAspectRatio));
 
 }
