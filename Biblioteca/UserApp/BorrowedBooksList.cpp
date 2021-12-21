@@ -21,15 +21,11 @@ BorrowedBooksList::BorrowedBooksList(QWidget* parent)
 
 void BorrowedBooksList::loadImage(QNetworkReply* reply)
 {
-	static int currentTitleAndAuthor = 0;
 	QPixmap bookCoverImage;
 	bookCoverImage.loadFromData(reply->readAll());
-	QListWidgetItem* item = new QListWidgetItem(bookCoverImage, titleAndAuthor[currentTitleAndAuthor]);
+	QListWidgetItem* item = new QListWidgetItem(bookCoverImage, titleAndAuthor[requests[reply]]);
 	item->setSizeHint(QSize(100, 150));
 	ui.borrowedBooksList->addItem(item);
-	currentTitleAndAuthor++;
-	if (currentTitleAndAuthor == titleAndAuthor.size())
-		currentTitleAndAuthor -= titleAndAuthor.size();
 	reply->deleteLater();
 }
 
@@ -75,12 +71,13 @@ void BorrowedBooksList::loadBooks()
 	ui.borrowedBooksList->blockSignals(false);
 	std::vector<BorrowedBooks> borrowedBooks = user.GetBorrowedBooks(); //= send input to server and receive a vector (of books) containing all the books matching the search input
 	titleAndAuthor.clear();
+	requests.clear();
 	if (borrowedBooks.size())
 	{
 		Book borrowedBook;
-		for (auto& book : borrowedBooks)
+		for (int i=0;i< borrowedBooks.size();i++)
 		{
-			borrowedBook = book.getBook();
+			borrowedBook = borrowedBooks[i].getBook();
 			QString imageURL = QString::fromStdString(borrowedBook.getImgUrl());
 
 			if (imageURL.indexOf("https") == 0)
@@ -91,8 +88,7 @@ void BorrowedBooksList::loadBooks()
 
 			QUrl imageNoSecureURL = imageURL;
 			QNetworkRequest request(imageNoSecureURL);
-			nam->get(request);
-			std::this_thread::sleep_for(std::chrono::milliseconds(30));
+			requests.insert(nam->get(request), i);
 		}
 	}
 	else

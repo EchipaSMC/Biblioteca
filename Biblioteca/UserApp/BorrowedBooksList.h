@@ -30,4 +30,5 @@ private:
 	QNetworkAccessManager* nam;
 	Ui::BorrowedBooksList ui;
 	std::vector<QString> titleAndAuthor;
+	QMap<QNetworkReply*, int> requests;
 };

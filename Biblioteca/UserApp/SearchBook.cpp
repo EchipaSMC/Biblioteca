@@ -34,23 +34,23 @@ void SearchBook::on_searchBtn_clicked()
 		user.SetOption(searchBook);
 		std::this_thread::sleep_for(std::chrono::milliseconds(1000));
 		std::vector<Book> searchResult = user.GetSearchedBooks();
-
+		
 		if (searchResult.size())
 		{
+			requests.clear();
 			titleAndAuthor.clear();
-			for (auto& book : searchResult)
+			for (int i=0;i<searchResult.size();i++)
 			{
-				QString imageURL = QString::fromStdString(book.getImgUrl());
+				QString imageURL = QString::fromStdString(searchResult[i].getImgUrl());
 
 				if (imageURL.indexOf("https") == 0)
 				{
 					imageURL.remove(4, 1);
 				}
-				titleAndAuthor.push_back(QString(QString::fromStdString(book.getTitle() + " - " + book.getAuthor())));
+				titleAndAuthor.push_back(QString(QString::fromStdString(searchResult[i].getTitle() + " - " + searchResult[i].getAuthor())));
 				QUrl imageNoSecureURL = imageURL;
 				QNetworkRequest request(imageNoSecureURL);
-				nam->get(request);
-				std::this_thread::sleep_for(std::chrono::milliseconds(20));
+				requests.insert(nam->get(request), i);
 			}
 		}
 		else
@@ -70,16 +70,12 @@ void SearchBook::on_searchBtn_clicked()
 
 void SearchBook::loadImage(QNetworkReply* reply)
 {
-	static int currentTitleAndAuthor = 0;
 	QPixmap bookCoverImage;
 	bookCoverImage.loadFromData(reply->readAll());
-	QListWidgetItem* item = new QListWidgetItem(bookCoverImage, titleAndAuthor[currentTitleAndAuthor]);
+	QListWidgetItem* item = new QListWidgetItem(bookCoverImage,titleAndAuthor[requests[reply]]);
 	item->setSizeHint(QSize(100, 150));
 	//item->setBackgroundColor(QColor(251, 206, 79));
 	ui.listWidget->addItem(item);
-	currentTitleAndAuthor++;
-	if (currentTitleAndAuthor == titleAndAuthor.size())
-		currentTitleAndAuthor -= titleAndAuthor.size();
 	reply->deleteLater();
 }
 

@@ -2,6 +2,7 @@
 
 const SOCKET TCPSocket::badSocket = INVALID_SOCKET;
 SOCKET TCPSocket::listenSocket = INVALID_SOCKET;
+bool TCPSocket::listenSocketGenerated = false;
 
 struct WinsockInitializer
 {
@@ -182,17 +183,21 @@ bool TCPSocket::SendString(const std::string& value)
 
 bool TCPSocket::Listen()
 {
-	//Bind socket
-	if (bind(listenSocket, result->ai_addr, (int)result->ai_addrlen) == SOCKET_ERROR) {
-		std::cerr << "Bind failed with error: " << WSAGetLastError() << std::endl;
+	if (!TCPSocket::listenSocketGenerated)
+		//Bind socket
+	{
+		if (bind(listenSocket, result->ai_addr, (int)result->ai_addrlen) == SOCKET_ERROR) {
+			std::cerr << "Bind failed with error: " << WSAGetLastError() << std::endl;
+			freeaddrinfo(result);
+			return false;
+		}
 		freeaddrinfo(result);
-		return false;
-	}
-	freeaddrinfo(result);
-	//Listen for incomin connection requests on the created socket
-	if (listen(listenSocket, SOMAXCONN) == SOCKET_ERROR) {
-		std::cerr << "Listen failed with error: " << WSAGetLastError() << std::endl;
-		return false;
+		//Listen for incomin connection requests on the created socket
+		if (listen(listenSocket, SOMAXCONN) == SOCKET_ERROR) {
+			std::cerr << "Listen failed with error: " << WSAGetLastError() << std::endl;
+			return false;
+		}
+		TCPSocket::listenSocketGenerated = true;
 	}
 	return true;
 }

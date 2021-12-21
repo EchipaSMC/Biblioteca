@@ -24,6 +24,7 @@ private:
 	addrinfo* result;
 	addrinfo* ptr = NULL;
 	addrinfo hints;
+	static bool listenSocketGenerated;
 public:
 	TCPSocket(bool isClient = false);
 	~TCPSocket();
