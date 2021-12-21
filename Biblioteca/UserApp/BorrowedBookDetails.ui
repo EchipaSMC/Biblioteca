@@ -107,7 +107,7 @@
      <widget class="QLabel" name="bookTitle">
       <property name="font">
        <font>
-        <pointsize>16</pointsize>
+        <pointsize>10</pointsize>
        </font>
       </property>
       <property name="styleSheet">
@@ -118,6 +118,9 @@
       </property>
       <property name="alignment">
        <set>Qt::AlignCenter</set>
+      </property>
+      <property name="wordWrap">
+       <bool>true</bool>
       </property>
       <property name="indent">
        <number>5</number>
@@ -128,7 +131,7 @@
      <widget class="QLabel" name="bookAuthor">
       <property name="font">
        <font>
-        <pointsize>16</pointsize>
+        <pointsize>10</pointsize>
        </font>
       </property>
       <property name="styleSheet">
@@ -139,6 +142,9 @@
       </property>
       <property name="alignment">
        <set>Qt::AlignCenter</set>
+      </property>
+      <property name="wordWrap">
+       <bool>true</bool>
       </property>
       <property name="indent">
        <number>5</number>
