@@ -38,6 +38,9 @@ void PasswordChange::on_passwordChangeBtn_clicked()
 					user.SetOption(changePassword);
 					std::this_thread::sleep_for(std::chrono::milliseconds(1000));
 					close();
+					QtMessageBox* errorMessage = new QtMessageBox;
+					errorMessage->SetMessage("Password successfully changed!");
+					errorMessage->show();
 				}
 			}
 			else

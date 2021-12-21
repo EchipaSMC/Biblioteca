@@ -62,5 +62,8 @@ void MainMenu::on_deleteUserBtn_clicked()
 {
 	user.SetOption(deleteAccount);
 	ui.tabWidget->setTabVisible(ui.tabWidget->indexOf(ui.login), true);
+	QtMessageBox* warningMessage = new QtMessageBox;
+	warningMessage->SetMessage("Your account has been deleted!");
+	warningMessage->show();
 	ui.tabWidget->setTabVisible(ui.tabWidget->indexOf(ui.borrowedBookList), false);
 }

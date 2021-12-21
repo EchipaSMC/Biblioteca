@@ -47,6 +47,10 @@ void BorrowedBookDetails::on_returnBook_clicked()
 {
 	user.SetBookId(std::stoi(borrowedBook.getBook().getBookId()));
 	user.SetOption(returnBook);
+
+	QtMessageBox* warningMessage = new QtMessageBox;
+	warningMessage->SetMessage("The book has been returned!");
+	warningMessage->show();
 }
 
 void BorrowedBookDetails::on_prolongBDate_clicked()
@@ -61,6 +65,10 @@ void BorrowedBookDetails::on_prolongBDate_clicked()
 			{
 				borrowedBook.setReturningDate(i.getReturningDate());
 				ui.ReturnDate->setText(QString::fromStdString(borrowedBook.getReturningDate()));
+
+				QtMessageBox* warningMessage = new QtMessageBox;
+				warningMessage->SetMessage("Return date has been prolonged!");
+				warningMessage->show();
 			}
 	}
 	else
